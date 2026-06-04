@@ -74,20 +74,21 @@ export function removeEntry(channelName: string, id: string): boolean {
 }
 
 /**
- * Updates a single entry's solution text and sets its verification stamp.
+ * Updates a single entry's problem, solution, and verification stamp.
  * @param channelName - The Slack channel name identifying which knowledge base to update.
  * @param id - The entry ID to patch.
- * @param patch - The new solution text and verification metadata to apply.
+ * @param patch - Fields to update: optional problem text, required solution text, and verification metadata.
  * @returns `true` if the entry was found and updated, `false` if it did not exist.
  */
 export function patchEntry(
   channelName: string,
   id: string,
-  patch: { solution: string; verification: EntryVerification }
+  patch: { problem?: string; solution: string; verification: EntryVerification }
 ): boolean {
   const kb = load(channelName);
   const entry = kb.entries.find(e => e.id === id);
   if (!entry) return false;
+  if (patch.problem) entry.problem = patch.problem;
   entry.solution = patch.solution;
   entry.verification = patch.verification;
   entry.confidence = 'high';

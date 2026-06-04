@@ -235,18 +235,19 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
   }
 
   /**
-   * Submits a solution edit and verification stamp for an entry via PATCH, then refreshes.
+   * Submits a problem/solution edit and verification stamp for an entry via PATCH, then refreshes.
    * @param id - The entry ID to patch.
+   * @param problem - The updated problem text.
    * @param solution - The updated solution text.
    * @param verifierName - The admin's name to record on the verification.
    */
-  async function handleVerify(id: string, solution: string, verifierName: string) {
+  async function handleVerify(id: string, problem: string, solution: string, verifierName: string) {
     setSavingId(id);
     try {
       const res = await fetch(`/api/knowledge/${selectedChannel}/${encodeURIComponent(id)}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ solution, verifiedBy: verifierName }),
+        body: JSON.stringify({ problem, solution, verifiedBy: verifierName }),
       });
       if (!res.ok) throw new Error('Failed to save');
       setEditingEntry(null);
@@ -463,7 +464,7 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
         <VerifyModal
           entry={editingEntry}
           saving={savingId === editingEntry.id}
-          onSubmit={(solution, verifierName) => void handleVerify(editingEntry.id, solution, verifierName)}
+          onSubmit={(problem, solution, verifierName) => void handleVerify(editingEntry.id, problem, solution, verifierName)}
           onClose={() => setEditingEntry(null)}
         />
       )}

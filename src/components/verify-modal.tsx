@@ -4,25 +4,26 @@ import type { KnowledgeEntry } from '../types';
 export interface VerifyModalProps {
   entry: KnowledgeEntry;
   saving: boolean;
-  onSubmit: (solution: string, verifierName: string) => void;
+  onSubmit: (problem: string, solution: string, verifierName: string) => void;
   onClose: () => void;
 }
 
 /**
- * Modal dialog for editing an entry's solution text and submitting an admin verification.
+ * Modal dialog for editing an entry's problem and solution text and submitting an admin verification.
  * @param entry - The knowledge entry being verified/edited.
  * @param saving - Whether a save request is in flight (disables the Submit button).
- * @param onSubmit - Called with the final solution text and the admin's name on form submit.
+ * @param onSubmit - Called with the final problem text, solution text, and the admin's name on form submit.
  * @param onClose - Called when the modal should be dismissed.
  */
 export function VerifyModal({ entry, saving, onSubmit, onClose }: VerifyModalProps) {
+  const [problem, setProblem] = useState(entry.problem);
   const [solution, setSolution] = useState(entry.solution);
   const [verifierName, setVerifierName] = useState('');
   const [modalError, setModalError] = useState<string | null>(null);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const problemRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    textareaRef.current?.focus();
+    problemRef.current?.focus();
     function handleKey(e: KeyboardEvent) {
       if (e.key === 'Escape') onClose();
     }
@@ -32,31 +33,41 @@ export function VerifyModal({ entry, saving, onSubmit, onClose }: VerifyModalPro
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!problem.trim()) { setModalError('Problem text cannot be empty.'); return; }
     if (!solution.trim()) { setModalError('Solution text cannot be empty.'); return; }
     if (!verifierName.trim()) { setModalError('Please enter your name.'); return; }
     setModalError(null);
-    onSubmit(solution.trim(), verifierName.trim());
+    onSubmit(problem.trim(), solution.trim(), verifierName.trim());
   }
+
+  const isValid = problem.trim() && solution.trim() && verifierName.trim();
 
   return (
     <div className="modal-backdrop" onClick={onClose}>
       <div className="modal-panel" onClick={e => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <div>
-          <p style={{ fontSize: 11, fontWeight: 700, color: '#9DA0B2', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 6px' }}>
-            Edit &amp; Verify Solution
-          </p>
-          <p id="modal-title" style={{ fontSize: 15, fontWeight: 700, color: '#0A0A0A', margin: 0, lineHeight: 1.4,
-            display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' as const, overflow: 'hidden' }}>
-            {entry.problem}
+          <p id="modal-title" style={{ fontSize: 11, fontWeight: 700, color: '#9DA0B2', textTransform: 'uppercase', letterSpacing: '0.06em', margin: 0 }}>
+            Edit &amp; Verify
           </p>
         </div>
 
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <div>
+            <label className="label" htmlFor="modal-problem">Problem</label>
+            <textarea
+              id="modal-problem"
+              ref={problemRef}
+              className="input"
+              value={problem}
+              onChange={e => setProblem(e.target.value)}
+              style={{ minHeight: 72, resize: 'vertical', fontFamily: 'var(--font-sans)', lineHeight: 1.6 }}
+            />
+          </div>
+
+          <div>
             <label className="label" htmlFor="modal-solution">Solution</label>
             <textarea
               id="modal-solution"
-              ref={textareaRef}
               className="input"
               value={solution}
               onChange={e => setSolution(e.target.value)}
@@ -84,7 +95,7 @@ export function VerifyModal({ entry, saving, onSubmit, onClose }: VerifyModalPro
             <button type="button" className="btn btn-secondary" style={{ height: 36, fontSize: 13 }} onClick={onClose} disabled={saving}>
               Cancel
             </button>
-            <button type="submit" className="btn btn-primary" style={{ height: 36, fontSize: 13 }} disabled={saving || !solution.trim() || !verifierName.trim()}>
+            <button type="submit" className="btn btn-primary" style={{ height: 36, fontSize: 13 }} disabled={saving || !isValid}>
               {saving ? 'Saving…' : 'Submit'}
             </button>
           </div>
