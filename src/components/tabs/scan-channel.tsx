@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { ProgressStepper, StatusBanner } from '../ui';
-import type { ScanRequest, ScanResponse } from '../../types';
-import { ComboboxInput } from '../../ui/input';
-import type { ComboboxOption } from '../../ui/input';
+import { useEffect, useRef, useState } from 'react';
 import channelList from '../../../lib/data/slack-channels.json';
 import { scanChannel } from '../../lib/api';
+import type { ScanRequest, ScanResponse } from '../../types';
+import { ProgressStepper, StatusBanner } from '../ui';
+import type { ComboboxOption } from '../ui/input';
+import { ComboboxInput } from '../ui/input';
 
 interface SlackChannel {
   id: string;
@@ -18,6 +18,16 @@ interface SlackChannel {
  */
 function today(): string {
   return new Date().toISOString().slice(0, 10);
+}
+
+/**
+ * Returns yesterday's date as an ISO 8601 date string (YYYY-MM-DD).
+ * @returns Yesterday's date in YYYY-MM-DD format.
+ */
+function yesterday(): string {
+  const d = new Date();
+  d.setDate(d.getDate() - 1);
+  return d.toISOString().slice(0, 10);
 }
 
 const SCAN_STEPS = [
@@ -43,7 +53,8 @@ const channelOptions: ComboboxOption[] = (channelList as SlackChannel[]).map(c =
 export function ScanChannel() {
   const [channelId, setChannelId] = useState('');
   const [query, setQuery] = useState('');
-  const [startDate, setStartDate] = useState(today());
+  const [startDate, setStartDate] = useState(yesterday());
+  const [endDate, setEndDate] = useState(today());
   const [phase, setPhase] = useState<'idle' | 'scanning' | 'done' | 'error'>('idle');
   const [currentStep, setCurrentStep] = useState(-1);
   const [result, setResult] = useState<ScanResponse | null>(null);
@@ -100,6 +111,7 @@ export function ScanChannel() {
 
     const body: ScanRequest = { channelId: channelId.trim() };
     if (startDate) body.startDate = startDate;
+    if (endDate) body.endDate = endDate;
     scanMutation.mutate(body);
   }
 
@@ -141,6 +153,16 @@ export function ScanChannel() {
                 type="date"
                 value={startDate}
                 onChange={e => setStartDate(e.target.value)}
+                disabled={scanning}
+              />
+            </div>
+            <div>
+              <label className="block text-[13px] font-bold text-fg-strong mb-[6px]">End date</label>
+              <input
+                className={`${inputCls} w-auto`}
+                type="date"
+                value={endDate}
+                onChange={e => setEndDate(e.target.value)}
                 disabled={scanning}
               />
             </div>

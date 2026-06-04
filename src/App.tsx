@@ -8,9 +8,9 @@ import { fetchStats } from './lib/api';
 type Tab = 'scan' | 'lookup' | 'kb';
 
 const TABS: { id: Tab; label: string }[] = [
-  { id: 'scan',   label: 'Scan channel'   },
-  { id: 'lookup', label: 'Look up thread' },
-  { id: 'kb',     label: 'Knowledge base' },
+  { id: 'scan',   label: 'Build Knowledge' },
+  { id: 'lookup', label: 'Find Answer'     },
+  { id: 'kb',     label: 'Browse'          },
 ];
 
 /**
@@ -35,9 +35,8 @@ function App() {
             style={{ filter: 'brightness(0) invert(1)' }}
           />
           <div className="flex items-baseline">
-            <span className="text-base font-bold text-white tracking-tight">Slack AI</span>
-            <span className="text-base font-light text-content-70 mx-[5px]">·</span>
-            <span className="text-base font-normal text-content-36">Knowledge Extractor</span>
+            <span className="text-base font-bold text-white tracking-tight">Fool</span>
+            <span className="text-base font-black text-primary-24 tracking-tight">Proof</span>
           </div>
         </div>
         <div className="flex items-center gap-[7px] bg-white/6 border border-white/10 rounded-full px-[14px] py-[5px] shrink-0">

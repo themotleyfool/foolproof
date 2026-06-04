@@ -10,19 +10,23 @@ const router = Router();
  * POST /api/scan
  * Scans a Slack channel for threaded conversations and extracts problem/solution pairs
  * into the knowledge base. Skips threads already present in the knowledge base.
- * @body {ScanRequest} - `channelId` (required), `startDate` (optional ISO date string).
+ * @body {ScanRequest} - `channelId` (required), `startDate` and `endDate` (optional ISO date strings).
  * @returns {ScanResponse} - Summary of threads scanned, entries added, and entries skipped.
  */
 router.post('/', async (req, res) => {
-  const { channelId, startDate } = req.body as ScanRequest;
+  const { channelId, startDate, endDate } = req.body as ScanRequest;
   const start = Date.now();
 
   const oldest = startDate ? String(new Date(startDate).getTime() / 1000) : undefined;
+  // Add one day to endDate so the end of that day is included (Slack's `latest` is exclusive)
+  const latest = endDate
+    ? String((new Date(endDate).getTime() + 86_400_000) / 1000)
+    : undefined;
 
   try {
     const channelName = await slack.getChannelName(channelId);
     await slack.joinChannelIfNeeded(channelId);
-    const messages = await slack.fetchAllMessages(channelId, oldest);
+    const messages = await slack.fetchAllMessages(channelId, oldest, latest);
     const threaded = messages.filter(m => (m.reply_count ?? 0) > 0);
 
     const existingKb = kb.load(channelName);

@@ -37,11 +37,13 @@ export async function joinChannelIfNeeded(channelId: string): Promise<void> {
  * Fetches all messages from a channel, paginating through the full history.
  * @param channelId - The Slack channel ID to fetch messages from.
  * @param oldest - Optional Unix timestamp string; only fetch messages after this time.
+ * @param latest - Optional Unix timestamp string; only fetch messages before this time.
  * @returns Array of all messages in the channel, oldest first.
  */
 export async function fetchAllMessages(
   channelId: string,
-  oldest?: string
+  oldest?: string,
+  latest?: string
 ): Promise<SlackMessage[]> {
   const messages: SlackMessage[] = [];
   let cursor: string | undefined;
@@ -51,6 +53,7 @@ export async function fetchAllMessages(
       limit: 200,
       cursor,
       ...(oldest !== undefined && { oldest }),
+      ...(latest !== undefined && { latest }),
     });
     for (const msg of res.messages ?? []) {
       if (msg.ts && msg.text) {

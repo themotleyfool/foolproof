@@ -2,12 +2,12 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import { deleteEntry, fetchChannels, fetchEntries, patchEntry } from '../../lib/api';
 import type { KnowledgeEntry } from '../../types';
-import { ComboboxInput } from '../../ui/input';
 import { EntryCard } from '../entry-card';
 import { ConfirmModal } from '../modals/confirm-modal';
 import { EntryDetailModal } from '../modals/entry-detail-modal';
 import { VerifyModal } from '../modals/verify-modal';
 import { EmptyState, SkeletonCard, StatusBanner } from '../ui';
+import { ComboboxInput } from '../ui/input';
 
 const inputCls = 'w-full border border-border-subtle rounded-[4px] py-[9px] px-3 text-sm font-medium text-fg-strong bg-white outline-none transition-[border-color,box-shadow] duration-[120ms] focus:border-primary-100 focus:[box-shadow:0_0_0_3px_#EBEDF9] placeholder:text-fg-faint disabled:bg-primary-4 disabled:opacity-65 disabled:cursor-not-allowed';
 

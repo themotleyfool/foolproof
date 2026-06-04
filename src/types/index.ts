@@ -42,6 +42,7 @@ export interface KnowledgeBase {
 export interface ScanRequest {
   channelId: string;
   startDate?: string; // ISO 8601 date string, e.g. "2024-03-01"
+  endDate?: string;   // ISO 8601 date string, e.g. "2024-03-02"
 }
 
 export interface ScanResponse {
