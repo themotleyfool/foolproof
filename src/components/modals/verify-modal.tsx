@@ -42,44 +42,50 @@ export function VerifyModal({ entry, saving, onSubmit, onClose }: VerifyModalPro
 
   const isValid = problem.trim() && solution.trim() && verifierName.trim();
 
+  const inputCls = 'w-full border border-border-subtle rounded-[4px] py-[9px] px-3 text-sm font-medium text-fg-strong bg-white outline-none transition-[border-color,box-shadow] duration-[120ms] focus:border-primary-100 focus:[box-shadow:0_0_0_3px_#EBEDF9] placeholder:text-fg-faint disabled:bg-primary-4 disabled:opacity-65 disabled:cursor-not-allowed';
+
   return (
-    <div className="modal-backdrop" onClick={onClose}>
-      <div className="modal-panel" onClick={e => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div className="fixed inset-0 bg-[rgba(2,10,56,0.45)] z-[100] flex items-center justify-center p-6 animate-fade-in-up" onClick={onClose}>
+      <div
+        className="bg-white rounded-xl shadow-modal max-w-[560px] w-full p-6 flex flex-col gap-4"
+        onClick={e => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+      >
         <div>
-          <p id="modal-title" style={{ fontSize: 11, fontWeight: 700, color: '#9DA0B2', textTransform: 'uppercase', letterSpacing: '0.06em', margin: 0 }}>
+          <p id="modal-title" className="text-[11px] font-bold text-content-36 uppercase tracking-[0.06em] m-0">
             Edit &amp; Verify
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           <div>
-            <label className="label" htmlFor="modal-problem">Problem</label>
+            <label className="block text-[13px] font-bold text-fg-strong mb-[6px]" htmlFor="modal-problem">Problem</label>
             <textarea
               id="modal-problem"
               ref={problemRef}
-              className="input"
+              className={`${inputCls} min-h-[72px] resize-y leading-[1.6]`}
               value={problem}
               onChange={e => setProblem(e.target.value)}
-              style={{ minHeight: 72, resize: 'vertical', fontFamily: 'var(--font-sans)', lineHeight: 1.6 }}
             />
           </div>
 
           <div>
-            <label className="label" htmlFor="modal-solution">Solution</label>
+            <label className="block text-[13px] font-bold text-fg-strong mb-[6px]" htmlFor="modal-solution">Solution</label>
             <textarea
               id="modal-solution"
-              className="input"
+              className={`${inputCls} min-h-[140px] resize-y leading-[1.6]`}
               value={solution}
               onChange={e => setSolution(e.target.value)}
-              style={{ minHeight: 140, resize: 'vertical', fontFamily: 'var(--font-sans)', lineHeight: 1.6 }}
             />
           </div>
 
           <div>
-            <label className="label" htmlFor="modal-verifier">Your name</label>
+            <label className="block text-[13px] font-bold text-fg-strong mb-[6px]" htmlFor="modal-verifier">Your name</label>
             <input
               id="modal-verifier"
-              className="input"
+              className={inputCls}
               value={verifierName}
               onChange={e => setVerifierName(e.target.value)}
               placeholder="e.g. Jane Smith"
@@ -88,14 +94,23 @@ export function VerifyModal({ entry, saving, onSubmit, onClose }: VerifyModalPro
           </div>
 
           {modalError && (
-            <p style={{ fontSize: 13, color: '#C41520', margin: 0 }}>{modalError}</p>
+            <p className="text-[13px] text-[#C41520] m-0">{modalError}</p>
           )}
 
-          <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
-            <button type="button" className="btn btn-secondary" style={{ height: 36, fontSize: 13 }} onClick={onClose} disabled={saving}>
+          <div className="flex gap-2 justify-end">
+            <button
+              type="button"
+              className="h-9 px-3 rounded-[8px] border border-primary-24 bg-white text-[13px] font-bold text-primary-100 cursor-pointer inline-flex items-center outline-none transition-colors duration-[120ms] hover:bg-primary-8 disabled:cursor-not-allowed"
+              onClick={onClose}
+              disabled={saving}
+            >
               Cancel
             </button>
-            <button type="submit" className="btn btn-primary" style={{ height: 36, fontSize: 13 }} disabled={saving || !isValid}>
+            <button
+              type="submit"
+              className="h-9 px-3 rounded-[8px] border-0 bg-primary-100 text-[13px] font-bold text-white cursor-pointer inline-flex items-center outline-none transition-colors duration-[120ms] hover:bg-primary-120 disabled:bg-primary-24 disabled:cursor-not-allowed"
+              disabled={saving || !isValid}
+            >
               {saving ? 'Saving…' : 'Submit'}
             </button>
           </div>

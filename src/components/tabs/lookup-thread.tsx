@@ -44,21 +44,23 @@ export function LookupThread() {
     }
   }
 
+  const inputCls = 'w-full border border-border-subtle rounded-[4px] py-[9px] px-3 text-sm font-medium text-fg-strong bg-white outline-none transition-[border-color,box-shadow] duration-[120ms] focus:border-primary-100 focus:[box-shadow:0_0_0_3px_#EBEDF9] placeholder:text-fg-faint disabled:bg-primary-4 disabled:opacity-65 disabled:cursor-not-allowed';
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+    <div className="flex flex-col gap-4">
       {/* Form card */}
-      <div className="card card-pad">
-        <div style={{ marginBottom: 20 }}>
-          <h3 style={{ fontSize: 18, fontWeight: 900, color: '#0A0A0A', margin: '0 0 4px' }}>Look up thread</h3>
-          <p style={{ fontSize: 14, color: '#6F6F6F', margin: 0, lineHeight: 1.6 }}>
+      <div className="bg-white border border-divider rounded-[8px] shadow-card p-6">
+        <div className="mb-5">
+          <h3 className="text-lg font-black text-fg-strong m-0 mb-1">Look up thread</h3>
+          <p className="text-sm text-fg-muted m-0 leading-[1.6]">
             Paste a Slack message permalink to get an AI-suggested solution based on the knowledge base.
           </p>
         </div>
         <form onSubmit={handleSubmit}>
-          <div style={{ marginBottom: 16 }}>
-            <label className="label">Slack message URL</label>
+          <div className="mb-4">
+            <label className="block text-[13px] font-bold text-fg-strong mb-[6px]">Slack message URL</label>
             <input
-              className="input"
+              className={inputCls}
               type="url"
               value={url}
               onChange={e => setUrl(e.target.value)}
@@ -66,9 +68,16 @@ export function LookupThread() {
               disabled={loading}
             />
           </div>
-          <button className="btn btn-primary" type="submit" disabled={loading || !url.trim()}>
+          <button
+            className="h-10 px-5 rounded-[8px] border-0 text-sm font-bold text-white cursor-pointer inline-flex items-center gap-[7px] outline-none transition-colors duration-[120ms] bg-primary-100 hover:bg-primary-120 disabled:bg-primary-24 disabled:cursor-not-allowed"
+            type="submit"
+            disabled={loading || !url.trim()}
+          >
             {loading ? (
-              <><div className="spinner" style={{ width: 14, height: 14, borderWidth: 2 }} />Looking up…</>
+              <>
+                <div className="w-[14px] h-[14px] rounded-full border-2 border-primary-16 border-t-primary-100 [animation:spin_0.7s_linear_infinite]" />
+                Looking up…
+              </>
             ) : 'Look up thread'}
           </button>
         </form>
@@ -76,9 +85,9 @@ export function LookupThread() {
 
       {/* Loading state */}
       {loading && (
-        <div className="card card-pad animate-in" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div className="spinner" />
-          <span style={{ fontSize: 14, color: '#515151' }}>Fetching thread and generating solution…</span>
+        <div className="bg-white border border-divider rounded-[8px] shadow-card p-6 animate-fade-in-up flex items-center gap-3">
+          <div className="w-[18px] h-[18px] rounded-full border-2 border-primary-16 border-t-primary-100 shrink-0 [animation:spin_0.7s_linear_infinite]" />
+          <span className="text-sm text-fg-default">Fetching thread and generating solution…</span>
         </div>
       )}
 
@@ -86,45 +95,45 @@ export function LookupThread() {
       {data && (
         <>
           {/* Section divider */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '2px 0' }}>
-            <span style={{ fontSize: 11, fontWeight: 700, color: '#C2C4CF', textTransform: 'uppercase', letterSpacing: '0.1em', flexShrink: 0 }}>
+          <div className="flex items-center gap-[10px] py-[2px]">
+            <span className="text-[11px] font-bold text-content-24 uppercase tracking-[0.1em] shrink-0">
               Results
             </span>
-            <div style={{ flex: 1, height: 1, background: '#EBEBEF' }} />
+            <div className="flex-1 h-px bg-divider" />
           </div>
 
           {/* Thread context card */}
-          <div className="card animate-in" style={{ overflow: 'hidden' }}>
-            <div style={{ padding: '10px 16px', background: '#F5F5F7', borderBottom: '1px solid #EBEBEF', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <div className="bg-white border border-divider rounded-[8px] shadow-card animate-fade-in-up overflow-hidden">
+            <div className="px-4 py-[10px] bg-content-4 border-b border-divider flex items-center justify-between">
+              <div className="flex items-center gap-[6px]">
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                   <path d="M1 1h10v8H7l-3 2V9H1V1z" stroke="#80849B" strokeWidth="1.2" strokeLinejoin="round"/>
                 </svg>
-                <span style={{ fontSize: 11, fontWeight: 700, color: '#80849B', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                <span className="text-[11px] font-bold text-content-50 uppercase tracking-[0.08em]">
                   Thread context
                 </span>
               </div>
-              <span style={{ fontSize: 12, fontWeight: 700, color: '#0522BA', background: '#EBEDF9', border: '1px solid #D7DCF4', borderRadius: 999, padding: '2px 10px' }}>
+              <span className="text-xs font-bold text-primary-100 bg-primary-8 border border-primary-16 rounded-full px-[10px] py-[2px]">
                 #{data.thread.channelName}
               </span>
             </div>
-            <div style={{ padding: '14px 16px' }}>
-              <div style={{ borderLeft: '3px solid #D7DCF4', paddingLeft: 12 }}>
-                <p style={{ fontSize: 14, color: '#0A0A0A', margin: 0, lineHeight: 1.65 }}>
+            <div className="px-4 py-[14px]">
+              <div className="border-l-[3px] border-border-subtle pl-3">
+                <p className="text-sm text-fg-strong m-0 leading-[1.65]">
                   {data.thread.parentMessage.text}
                 </p>
                 {data.thread.parentMessage.userName && (
-                  <span style={{ fontSize: 12, color: '#9DA0B2', fontWeight: 600, marginTop: 5, display: 'block' }}>
+                  <span className="text-xs text-content-36 font-semibold mt-[5px] block">
                     @{data.thread.parentMessage.userName}
                   </span>
                 )}
               </div>
               {data.thread.replies.length > 0 && (
-                <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginTop: 10, paddingTop: 10, borderTop: '1px solid #F5F5F7' }}>
+                <div className="flex items-center gap-[5px] mt-[10px] pt-[10px] border-t border-content-4">
                   <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
                     <path d="M10 1H2a1 1 0 00-1 1v6a1 1 0 001 1h1v2l3-2h4a1 1 0 001-1V2a1 1 0 00-1-1z" stroke="#C2C4CF" strokeWidth="1.2" strokeLinejoin="round"/>
                   </svg>
-                  <span style={{ fontSize: 12, color: '#9DA0B2', fontWeight: 600 }}>
+                  <span className="text-xs text-content-36 font-semibold">
                     {data.thread.replies.length} {data.thread.replies.length === 1 ? 'reply' : 'replies'}
                   </span>
                 </div>
@@ -133,21 +142,20 @@ export function LookupThread() {
           </div>
 
           {/* Suggested solution card */}
-          <div className="card animate-in" style={{ overflow: 'hidden', border: '1px solid #C3CAEE' }}>
-            <div style={{ padding: '12px 16px', background: '#F5F6FC', borderBottom: '1px solid #D7DCF4', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <div className="bg-white border border-primary-24 rounded-[8px] shadow-card animate-fade-in-up overflow-hidden">
+            <div className="px-4 py-3 bg-primary-4 border-b border-primary-16 flex items-center justify-between">
+              <div className="flex items-center gap-[6px]">
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                   <path d="M6 1l1.2 3.6H11L8.4 6.8l1 3.2L6 8.2 2.6 10l1-3.2L1 4.6h3.8L6 1z" stroke="#0522BA" strokeWidth="1.1" strokeLinejoin="round"/>
                 </svg>
-                <span style={{ fontSize: 11, fontWeight: 700, color: '#0522BA', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                <span className="text-[11px] font-bold text-primary-100 uppercase tracking-[0.08em]">
                   Suggested solution
                 </span>
               </div>
               <button
                 type="button"
                 onClick={handleCopy}
-                className="btn btn-ghost"
-                style={{ height: 28, fontSize: 12, display: 'flex', alignItems: 'center', gap: 5, color: copied ? '#178217' : '#80849B', padding: '0 8px', borderRadius: 4 }}
+                className={`h-7 px-2 rounded-[4px] border-0 bg-transparent text-xs cursor-pointer flex items-center gap-[5px] font-medium transition-colors duration-[120ms] ${copied ? 'text-green-80' : 'text-content-50 hover:bg-primary-4'}`}
               >
                 {copied ? (
                   <>
@@ -167,10 +175,10 @@ export function LookupThread() {
                 )}
               </button>
             </div>
-            <div style={{ display: 'flex' }}>
-              <div style={{ width: 3, background: '#0522BA', flexShrink: 0 }} />
-              <div style={{ padding: 16, flex: 1 }}>
-                <p style={{ fontSize: 14, color: '#0A0A0A', margin: 0, lineHeight: 1.8, whiteSpace: 'pre-wrap', fontFamily: 'var(--font-sans)' }}>
+            <div className="flex">
+              <div className="w-[3px] bg-primary-100 shrink-0" />
+              <div className="p-4 flex-1">
+                <p className="text-sm text-fg-strong m-0 leading-[1.8] whitespace-pre-wrap">
                   {data.suggestedSolution}
                 </p>
               </div>
@@ -179,33 +187,36 @@ export function LookupThread() {
 
           {/* Related entries accordion */}
           {data.relatedEntries.length > 0 && (
-            <div className="card animate-in" style={{ overflow: 'hidden' }}>
+            <div className="bg-white border border-divider rounded-[8px] shadow-card animate-fade-in-up overflow-hidden">
               <button
                 type="button"
                 onClick={() => setRelatedOpen(o => !o)}
-                style={{ width: '100%', padding: '12px 16px', background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontFamily: 'var(--font-sans)' }}
+                className="w-full px-4 py-3 bg-transparent border-0 cursor-pointer flex items-center justify-between"
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <div className="flex items-center gap-[6px]">
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                     <rect x="1" y="1" width="4" height="4" rx="0.5" stroke="#80849B" strokeWidth="1.2"/>
                     <rect x="7" y="1" width="4" height="4" rx="0.5" stroke="#80849B" strokeWidth="1.2"/>
                     <rect x="1" y="7" width="4" height="4" rx="0.5" stroke="#80849B" strokeWidth="1.2"/>
                     <rect x="7" y="7" width="4" height="4" rx="0.5" stroke="#80849B" strokeWidth="1.2"/>
                   </svg>
-                  <span style={{ fontSize: 11, fontWeight: 700, color: '#80849B', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                  <span className="text-[11px] font-bold text-content-50 uppercase tracking-[0.08em]">
                     Related entries
                   </span>
-                  <span style={{ fontSize: 11, fontWeight: 700, background: '#EBEDF9', color: '#0522BA', borderRadius: 99, padding: '1px 7px', marginLeft: 2 }}>
+                  <span className="text-[11px] font-bold bg-primary-8 text-primary-100 rounded-full px-[7px] py-[1px] ml-[2px]">
                     {data.relatedEntries.length}
                   </span>
                 </div>
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ transform: relatedOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s', flexShrink: 0 }}>
+                <svg
+                  width="12" height="12" viewBox="0 0 12 12" fill="none"
+                  className={`shrink-0 transition-transform duration-200 ${relatedOpen ? 'rotate-180' : ''}`}
+                >
                   <path d="M2.5 4.5L6 8l3.5-3.5" stroke="#80849B" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </button>
 
               {relatedOpen && (
-                <div style={{ borderTop: '1px solid #EBEBEF', padding: 12, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <div className="border-t border-divider p-3 flex flex-col gap-2">
                   {data.relatedEntries.map(entry => (
                     <EntryCard key={entry.id} entry={entry} />
                   ))}

@@ -9,6 +9,8 @@ import { EntryDetailModal } from '../modals/entry-detail-modal';
 import { VerifyModal } from '../modals/verify-modal';
 import { EmptyState, SkeletonCard, StatusBanner } from '../ui';
 
+const inputCls = 'w-full border border-border-subtle rounded-[4px] py-[9px] px-3 text-sm font-medium text-fg-strong bg-white outline-none transition-[border-color,box-shadow] duration-[120ms] focus:border-primary-100 focus:[box-shadow:0_0_0_3px_#EBEDF9] placeholder:text-fg-faint disabled:bg-primary-4 disabled:opacity-65 disabled:cursor-not-allowed';
+
 /**
  * Tab panel for browsing, filtering, and deleting knowledge base entries across channels.
  * Supports filtering by channel, tag, and free-text search, and shows expandable raw messages.
@@ -188,7 +190,7 @@ export function KnowledgeBasePanel() {
 
   if (channelsLoading) {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <div className="flex flex-col gap-[10px]">
         {[1, 2, 3].map(i => <SkeletonCard key={i} />)}
       </div>
     );
@@ -196,7 +198,7 @@ export function KnowledgeBasePanel() {
 
   if (channels.length === 0) {
     return (
-      <div className="card">
+      <div className="bg-white border border-divider rounded-[8px] shadow-card">
         <EmptyState
           icon={
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -212,22 +214,22 @@ export function KnowledgeBasePanel() {
 
   return (
     <>
-      <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+      <div className="flex gap-4 items-start">
         {/* Channel sidebar */}
-        <div className="card" style={{ width: 200, flexShrink: 0, position: 'sticky', top: 28, alignSelf: 'flex-start', overflow: 'hidden' }}>
+        <div className="bg-white border border-divider rounded-[8px] shadow-card w-[200px] shrink-0 sticky top-7 self-start overflow-hidden">
           {/* Header */}
-          <div style={{ padding: '11px 14px', borderBottom: '1px solid #EBEBEF', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <span style={{ fontSize: 11, fontWeight: 700, color: '#9DA0B2', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+          <div className="px-[14px] py-[11px] border-b border-divider flex items-center justify-between">
+            <span className="text-[11px] font-bold text-content-36 uppercase tracking-[0.08em]">
               Channels
             </span>
-            <span style={{ fontSize: 11, fontWeight: 700, background: '#EBEDF9', color: '#0522BA', borderRadius: 99, padding: '1px 7px' }}>
+            <span className="text-[11px] font-bold bg-primary-8 text-primary-100 rounded-full px-[7px] py-[1px]">
               {channels.length}
             </span>
           </div>
 
           {/* Search */}
-          <div style={{ padding: '7px 10px', borderBottom: '1px solid #EBEBEF', display: 'flex', alignItems: 'center', gap: 7 }}>
-            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" style={{ flexShrink: 0 }}>
+          <div className="px-[10px] py-[7px] border-b border-divider flex items-center gap-[7px]">
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" className="shrink-0">
               <circle cx="5" cy="5" r="4" stroke="#C2C4CF" strokeWidth="1.3"/>
               <path d="M10 10L8 8" stroke="#C2C4CF" strokeWidth="1.3" strokeLinecap="round"/>
             </svg>
@@ -235,13 +237,13 @@ export function KnowledgeBasePanel() {
               value={channelSearch}
               onChange={e => setChannelSearch(e.target.value)}
               placeholder="Search…"
-              style={{ flex: 1, border: 'none', outline: 'none', fontSize: 13, color: '#0A0A0A', background: 'transparent', fontFamily: 'var(--font-sans)', minWidth: 0 }}
+              className="flex-1 border-0 outline-none text-[13px] text-fg-strong bg-transparent min-w-0 placeholder:text-content-36"
             />
             {channelSearch && (
               <button
                 type="button"
                 onClick={() => setChannelSearch('')}
-                style={{ border: 'none', background: 'none', cursor: 'pointer', padding: 0, color: '#C2C4CF', display: 'flex', alignItems: 'center', flexShrink: 0 }}
+                className="border-0 bg-transparent cursor-pointer p-0 text-content-24 flex items-center shrink-0"
               >
                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
                   <path d="M1 1l8 8M9 1L1 9" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
@@ -251,16 +253,20 @@ export function KnowledgeBasePanel() {
           </div>
 
           {/* Channel list */}
-          <div style={{ overflowY: 'auto', maxHeight: 'calc(100vh - 260px)' }}>
+          <div className="overflow-y-auto max-h-[calc(100vh-260px)]">
             {filteredChannels.length === 0 ? (
-              <p style={{ fontSize: 13, color: '#9DA0B2', padding: '12px 14px', margin: 0 }}>No channels found</p>
+              <p className="text-[13px] text-content-36 px-[14px] py-3 m-0">No channels found</p>
             ) : filteredChannels.map(ch => (
               <button
                 key={ch}
-                className={'kb-channel-btn' + (effectiveChannel === ch ? ' active' : '')}
+                className={`w-full px-[14px] py-2 border-0 border-b border-content-4 last:border-b-0 bg-transparent text-[13px] text-left cursor-pointer flex items-center gap-1 transition-colors duration-[120ms] hover:bg-primary-4 ${
+                  effectiveChannel === ch
+                    ? 'bg-primary-8 text-primary-100 font-bold'
+                    : 'font-medium text-fg-default'
+                }`}
                 onClick={() => selectChannel(ch)}
               >
-                <span className="kb-channel-hash" style={{ color: '#C2C4CF', fontWeight: 400, fontSize: 12, flexShrink: 0 }}>#</span>
+                <span className={`font-normal text-xs shrink-0 ${effectiveChannel === ch ? 'text-primary-24' : 'text-content-24'}`}>#</span>
                 {ch}
               </button>
             ))}
@@ -268,10 +274,10 @@ export function KnowledgeBasePanel() {
         </div>
 
         {/* Main content */}
-        <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 14 }}>
+        <div className="flex-1 min-w-0 flex flex-col gap-[14px]">
           {/* Filter card */}
-          <div className="card card-pad">
-            <form onSubmit={handleSearch} style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+          <div className="bg-white border border-divider rounded-[8px] shadow-card p-6">
+            <form onSubmit={handleSearch} className="flex gap-2 items-center flex-wrap">
               <ComboboxInput
                 id="tag"
                 options={tagOptions}
@@ -282,17 +288,26 @@ export function KnowledgeBasePanel() {
                 placeholder="Filter by tag"
                 style={{ width: 154 }}
               />
-              <div style={{ flex: 1, minWidth: 180 }}>
+              <div className="flex-1 min-w-[180px]">
                 <input
-                  className="input"
+                  className={inputCls}
                   value={draftQuery}
                   onChange={e => setDraftQuery(e.target.value)}
                   placeholder="Search problems and solutions"
                 />
               </div>
-              <button type="submit" className="btn btn-primary" style={{ flexShrink: 0 }}>Search</button>
+              <button
+                type="submit"
+                className="h-10 px-5 rounded-[8px] border-0 bg-primary-100 text-sm font-bold text-white cursor-pointer inline-flex items-center outline-none transition-colors duration-[120ms] hover:bg-primary-120 shrink-0"
+              >
+                Search
+              </button>
               {(activeTag || activeQuery) && (
-                <button type="button" className="btn btn-secondary" style={{ height: 40 }} onClick={handleClear}>
+                <button
+                  type="button"
+                  className="h-10 px-5 rounded-[8px] border border-primary-24 bg-white text-sm font-bold text-primary-100 cursor-pointer inline-flex items-center outline-none transition-colors duration-[120ms] hover:bg-primary-8"
+                  onClick={handleClear}
+                >
                   Clear
                 </button>
               )}
@@ -301,12 +316,12 @@ export function KnowledgeBasePanel() {
 
           {/* Results count */}
           {!loading && entriesData && (
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <p style={{ fontSize: 13, color: '#6F6F6F', margin: 0 }}>
-                <strong style={{ color: '#0A0A0A' }}>{entries.length}</strong>{' '}
+            <div className="flex items-center justify-between">
+              <p className="text-[13px] text-fg-muted m-0">
+                <strong className="text-fg-strong">{entries.length}</strong>{' '}
                 {entries.length === 1 ? 'entry' : 'entries'}
-                {effectiveChannel && <> in <strong style={{ color: '#0A0A0A' }}>#{effectiveChannel}</strong></>}
-                {(activeTag || activeQuery) && <span style={{ color: '#9DA0B2' }}> · filtered</span>}
+                {effectiveChannel && <> in <strong className="text-fg-strong">#{effectiveChannel}</strong></>}
+                {(activeTag || activeQuery) && <span className="text-content-36"> · filtered</span>}
               </p>
             </div>
           )}
@@ -314,14 +329,14 @@ export function KnowledgeBasePanel() {
           {error && <StatusBanner type="error" message={error} />}
 
           {loading && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <div className="flex flex-col gap-[10px]">
               {[1, 2].map(i => <SkeletonCard key={i} />)}
             </div>
           )}
 
           {/* Empty filtered state */}
           {!loading && entriesData && entries.length === 0 && (
-            <div className="card">
+            <div className="bg-white border border-divider rounded-[8px] shadow-card">
               <EmptyState
                 icon={
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -332,7 +347,10 @@ export function KnowledgeBasePanel() {
                 title="No matching entries"
                 description="Try adjusting your filters or search query."
                 action={
-                  <button className="btn btn-secondary" style={{ height: 36, fontSize: 13 }} onClick={handleClear}>
+                  <button
+                    className="h-9 px-3 rounded-[8px] border border-primary-24 bg-white text-[13px] font-bold text-primary-100 cursor-pointer inline-flex items-center outline-none transition-colors duration-[120ms] hover:bg-primary-8"
+                    onClick={handleClear}
+                  >
                     Clear filters
                   </button>
                 }

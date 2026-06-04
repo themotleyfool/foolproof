@@ -154,22 +154,19 @@ export function ComboboxInput({
     }
   }
 
+  const wrapperCls = `flex items-center p-0 w-full border rounded-[4px] bg-white transition-[border-color,box-shadow] duration-[120ms] ${
+    focused
+      ? 'border-primary-100 [box-shadow:0_0_0_3px_#EBEDF9]'
+      : 'border-border-subtle'
+  } ${disabled ? 'bg-primary-4 opacity-65 cursor-not-allowed' : 'cursor-text'}`;
+
   return (
     <div ref={wrapperRef} style={{ position: 'relative', ...style }}>
-      <div
-        className="input"
-        style={{
-          display: 'flex', alignItems: 'center', padding: 0,
-          cursor: disabled ? 'not-allowed' : 'text',
-          ...(focused ? { borderColor: 'var(--mf-primary-100)', boxShadow: '0 0 0 3px var(--mf-primary-8)' } : {}),
-          ...(disabled ? { background: 'var(--mf-primary-4)', opacity: 0.65 } : {}),
-        }}
-      >
+      <div className={wrapperCls}>
         {prefix && (
-          <span style={{
-            padding: '0 4px 0 12px', color: 'var(--fg-faint)',
-            fontSize: 14, fontWeight: 500, userSelect: 'none', pointerEvents: 'none', flexShrink: 0,
-          }}>{prefix}</span>
+          <span className="pl-3 pr-1 text-sm font-medium text-fg-faint select-none pointer-events-none shrink-0">
+            {prefix}
+          </span>
         )}
         <input
           role="combobox"
@@ -186,17 +183,13 @@ export function ComboboxInput({
           placeholder={placeholder}
           disabled={disabled}
           autoComplete="off"
-          style={{
-            flex: 1, border: 'none', outline: 'none', background: 'transparent',
-            padding: prefix ? '9px 12px 9px 0' : '9px 12px',
-            font: '500 14px var(--font-sans)', color: 'var(--fg-strong)',
-          }}
+          className={`flex-1 border-none outline-none bg-transparent text-sm font-medium text-fg-strong placeholder:text-fg-faint ${prefix ? 'py-[9px] pr-3 pl-0' : 'py-[9px] px-3'}`}
         />
         {onClear && value && (
           <button
             type="button"
             onClick={onClear}
-            style={{ border: 'none', background: 'none', cursor: 'pointer', padding: '0 8px', color: '#9DA0B2', flexShrink: 0, lineHeight: 1 }}
+            className="border-none bg-transparent cursor-pointer px-2 text-content-36 shrink-0 leading-none flex items-center"
           >
             <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
               <path d="M2 2l6 6M8 2l-6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
@@ -210,13 +203,7 @@ export function ComboboxInput({
           id={listboxId}
           role="listbox"
           ref={listRef}
-          style={{
-            position: 'absolute', top: 'calc(100% + 4px)', left: 0, right: 0, zIndex: 100,
-            background: '#fff', border: '1px solid var(--mf-border-subtle)',
-            borderRadius: 'var(--radius-sm)', boxShadow: 'var(--shadow-md)',
-            maxHeight: 260, overflowY: 'auto',
-            margin: 0, padding: 0, listStyle: 'none',
-          }}
+          className="absolute top-[calc(100%+4px)] left-0 right-0 z-[100] bg-white border border-border-subtle rounded-[8px] shadow-card max-h-[260px] overflow-y-auto m-0 p-0 list-none"
         >
           {suggestions.map((option, i) => (
             <li
@@ -226,18 +213,12 @@ export function ComboboxInput({
               aria-selected={i === activeIndex}
               onMouseDown={() => handleSelect(option)}
               onMouseEnter={() => setActiveIndex(i)}
-              style={{
-                display: 'flex', alignItems: 'center', gap: 8,
-                padding: '9px 12px', cursor: 'pointer',
-                borderBottom: i < suggestions.length - 1 ? '1px solid var(--mf-divider)' : 'none',
-                font: '500 14px var(--font-sans)', color: 'var(--fg-strong)',
-                background: i === activeIndex ? 'var(--mf-primary-8)' : 'transparent',
-              }}
+              className={`flex items-center gap-2 py-[9px] px-3 cursor-pointer text-sm font-medium text-fg-strong border-b border-b-divider last:border-b-0 ${i === activeIndex ? 'bg-primary-8' : 'bg-transparent'}`}
             >
-              {prefix && <span style={{ color: 'var(--fg-faint)', flexShrink: 0 }}>{prefix}</span>}
-              <span style={{ flex: 1 }}>{option.label}</span>
+              {prefix && <span className="text-fg-faint shrink-0">{prefix}</span>}
+              <span className="flex-1">{option.label}</span>
               {option.hint && (
-                <span style={{ fontSize: 11, color: 'var(--fg-faint)', fontFamily: 'var(--font-mono)', flexShrink: 0 }}>
+                <span className="text-[11px] text-fg-faint font-mono shrink-0">
                   {option.hint}
                 </span>
               )}

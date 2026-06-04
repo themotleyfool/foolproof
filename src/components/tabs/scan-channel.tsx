@@ -105,21 +105,23 @@ export function ScanChannel() {
 
   const scanning = phase === 'scanning';
 
+  const inputCls = 'w-full border border-border-subtle rounded-[4px] py-[9px] px-3 text-sm font-medium text-fg-strong bg-white outline-none transition-[border-color,box-shadow] duration-[120ms] focus:border-primary-100 focus:[box-shadow:0_0_0_3px_#EBEDF9] placeholder:text-fg-faint disabled:bg-primary-4 disabled:opacity-65 disabled:cursor-not-allowed';
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+    <div className="flex flex-col gap-4">
       {/* Form card */}
-      <div className="card card-pad">
-        <div style={{ marginBottom: 20 }}>
-          <h3 style={{ fontSize: 18, fontWeight: 900, color: '#0A0A0A', margin: '0 0 4px' }}>Scan channel</h3>
-          <p style={{ fontSize: 14, color: '#6F6F6F', margin: 0, lineHeight: 1.6 }}>
+      <div className="bg-white border border-divider rounded-[8px] shadow-card p-6">
+        <div className="mb-5">
+          <h3 className="text-lg font-black text-fg-strong m-0 mb-1">Scan channel</h3>
+          <p className="text-sm text-fg-muted m-0 leading-[1.6]">
             Fetch threads from a Slack channel and extract problem/solution pairs into the knowledge base using Claude AI.
           </p>
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div style={{ display: 'flex', gap: 12, alignItems: 'flex-end', marginBottom: 20 }}>
-            <div style={{ flex: 1 }}>
-              <label className="label">Channel</label>
+          <div className="flex gap-3 items-end mb-5">
+            <div className="flex-1">
+              <label className="block text-[13px] font-bold text-fg-strong mb-[6px]">Channel</label>
               <ComboboxInput
                 id="channel"
                 options={channelOptions}
@@ -133,25 +135,24 @@ export function ScanChannel() {
               />
             </div>
             <div>
-              <label className="label">Start date</label>
+              <label className="block text-[13px] font-bold text-fg-strong mb-[6px]">Start date</label>
               <input
-                className="input"
+                className={`${inputCls} w-auto`}
                 type="date"
                 value={startDate}
                 onChange={e => setStartDate(e.target.value)}
                 disabled={scanning}
-                style={{ width: 'auto' }}
               />
             </div>
           </div>
           <button
             type="submit"
-            className="btn btn-primary"
+            className="h-10 px-5 rounded-[8px] border-0 text-sm font-bold text-white cursor-pointer inline-flex items-center gap-[7px] outline-none transition-colors duration-[120ms] bg-primary-100 hover:bg-primary-120 disabled:bg-primary-24 disabled:cursor-not-allowed"
             disabled={scanning || !channelId.trim()}
           >
             {scanning ? (
               <>
-                <div className="spinner" style={{ width: 14, height: 14, borderWidth: 2 }} />
+                <div className="w-[14px] h-[14px] rounded-full border-2 border-primary-16 border-t-primary-100 [animation:spin_0.7s_linear_infinite]" />
                 Scanning…
               </>
             ) : 'Scan channel'}
@@ -161,17 +162,17 @@ export function ScanChannel() {
 
       {/* Progress card */}
       {(scanning || phase === 'done') && (
-        <div className="card card-pad animate-in">
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
+        <div className="bg-white border border-divider rounded-[8px] shadow-card p-6 animate-fade-in-up">
+          <div className="flex items-center gap-2 mb-5">
             {scanning ? (
-              <div className="spinner" style={{ width: 16, height: 16 }} />
+              <div className="w-4 h-4 rounded-full border-2 border-primary-16 border-t-primary-100 [animation:spin_0.7s_linear_infinite]" />
             ) : (
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <circle cx="8" cy="8" r="7" fill="#43B02A"/>
                 <path d="M5 8l2.2 2.2L11 5.8" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             )}
-            <span style={{ fontSize: 13, fontWeight: 700, color: scanning ? '#515151' : '#178217', textTransform: 'uppercase', letterSpacing: '0.07em' }}>
+            <span className={`text-[13px] font-bold uppercase tracking-[0.07em] ${scanning ? 'text-fg-default' : 'text-green-80'}`}>
               {scanning ? 'In progress' : 'Scan complete'}
             </span>
           </div>
@@ -181,26 +182,26 @@ export function ScanChannel() {
 
       {/* Results card */}
       {phase === 'done' && result && (
-        <div className="card card-pad animate-in" style={{ background: '#EEF7EE', borderColor: 'rgba(67,176,42,0.22)' }}>
-          <p style={{ fontSize: 14, fontWeight: 700, color: '#178217', margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: 6 }}>
+        <div className="bg-green-4 border border-[rgba(67,176,42,0.22)] rounded-[8px] shadow-card p-6 animate-fade-in-up">
+          <p className="text-sm font-bold text-green-80 m-0 mb-4 flex items-center gap-[6px]">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
               <circle cx="7" cy="7" r="6.5" fill="#43B02A"/>
               <path d="M4.2 7l2.2 2.2L9.8 5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
             #{result.channelName} scanned successfully
           </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10 }}>
+          <div className="grid grid-cols-4 gap-[10px]">
             {[
               { label: 'Threads scanned', value: result.threadsScanned, accent: false },
               { label: 'Entries added',   value: result.entriesAdded,   accent: true  },
               { label: 'Skipped',         value: result.entriesSkipped, accent: false },
               { label: 'Duration',        value: `${(result.durationMs / 1000).toFixed(1)}s`, accent: false },
             ].map(stat => (
-              <div key={stat.label} style={{ background: 'white', borderRadius: 8, border: '1px solid rgba(67,176,42,0.2)', padding: '12px 14px' }}>
-                <div style={{ fontSize: 26, fontWeight: 900, color: stat.accent ? '#178217' : '#0A0A0A', lineHeight: 1.1 }}>
+              <div key={stat.label} className="bg-white rounded-[8px] border border-[rgba(67,176,42,0.2)] px-[14px] py-3">
+                <div className={`text-[26px] font-black leading-[1.1] ${stat.accent ? 'text-green-80' : 'text-fg-strong'}`}>
                   {stat.value}
                 </div>
-                <div style={{ fontSize: 12, color: '#6F6F6F', marginTop: 3, lineHeight: 1.4 }}>
+                <div className="text-xs text-fg-muted mt-[3px] leading-[1.4]">
                   {stat.label}
                 </div>
               </div>

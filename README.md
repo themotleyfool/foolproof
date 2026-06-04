@@ -1,6 +1,6 @@
-# Slack AI Knowledge Tool
+# FoolProof
 
-A local dev tool that scans public Slack channels to extract problem/solution pairs using Claude, stores them in a knowledge base, and lets you look up solutions by pasting a Slack permalink.
+A local dev tool that scans public Slack channels, uses Claude to extract problem/solution pairs into a knowledge base, and lets you find solutions via text search or by pasting a Slack thread URL for an AI-generated answer informed by past findings.
 
 ---
 
@@ -10,7 +10,7 @@ The Slack app and API keys are already created. Credentials are stored in 1Passw
 
 > **1Password link:** `<PLACEHOLDER>`
 
-The Slack app name is [Identity Services Helper](https://api.slack.com/apps/A0B87TMUS4W).
+The Slack app name is [FoolProof](https://api.slack.com/apps/A0B87TMUS4W).
 
 1. Copy `.env.example` to `.env`:
    ```bash

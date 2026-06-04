@@ -23,8 +23,7 @@ function SlackLinkIcon({ href }: { href: string }) {
       rel="noopener noreferrer"
       title="Open in Slack"
       onClick={e => e.stopPropagation()}
-      style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: '#9DA0B2', flexShrink: 0, lineHeight: 1, textDecoration: 'none' }}
-      className="slack-link-icon"
+      className="inline-flex items-center justify-center text-content-36 shrink-0 leading-none no-underline opacity-60 transition-[opacity,color] duration-[120ms] hover:opacity-100 hover:text-[#4A154B]"
     >
       <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
         <path d="M5 2H2a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V7" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
@@ -58,30 +57,29 @@ export function EntryDetailModal({ entry, workspaceUrl, onClose, onEdit, onDelet
   const threadUrl = workspaceUrl ? slackLink(workspaceUrl, entry.channelId, entry.threadTs) : null;
 
   return (
-    <div className="modal-backdrop" onClick={onClose}>
+    <div className="fixed inset-0 bg-[rgba(2,10,56,0.45)] z-[100] flex items-center justify-center p-6 animate-fade-in-up" onClick={onClose}>
       <div
-        className="modal-panel"
+        className="bg-white rounded-xl shadow-modal max-w-[680px] w-full p-0 max-h-[85vh] flex flex-col overflow-hidden"
         onClick={e => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
         aria-labelledby="entry-detail-title"
-        style={{ maxWidth: 680, padding: 0, maxHeight: '85vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}
       >
         {/* Header */}
-        <div style={{ padding: '13px 20px', borderBottom: '1px solid #EBEBEF', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ fontSize: 12, fontWeight: 700, color: '#0522BA', background: '#EBEDF9', border: '1px solid #D7DCF4', borderRadius: 999, padding: '2px 10px' }}>
+        <div className="px-5 py-[13px] border-b border-divider flex items-center justify-between shrink-0">
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold text-primary-100 bg-primary-8 border border-primary-16 rounded-full px-[10px] py-[2px]">
               #{entry.channelName}
             </span>
             {entry.verification ? (
-              <span className="badge badge-verified" title={`Verified by ${entry.verification.verifiedBy}`}>
+              <span className="inline-flex items-center gap-1 text-[11px] font-bold py-[2px] px-[7px] rounded-full border border-[#A3E4C1] bg-[#E6FAF0] text-[#1A7F4B] whitespace-nowrap tracking-[0.02em]" title={`Verified by ${entry.verification.verifiedBy}`}>
                 <svg width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true">
                   <path d="M1.5 4.5L3.5 6.5L7.5 2.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
                 Verified
               </span>
             ) : (
-              <span className="badge badge-needs-review">
+              <span className="inline-flex items-center gap-1 text-[11px] font-bold py-[2px] px-[7px] rounded-full border border-[#F5D48A] bg-[#FFF8E6] text-[#92620C] whitespace-nowrap tracking-[0.02em]">
                 <svg width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true">
                   <circle cx="4.5" cy="4.5" r="4" stroke="currentColor" strokeWidth="1.2"/>
                   <path d="M4.5 2.5v2.25l1.25 1" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
@@ -94,7 +92,7 @@ export function EntryDetailModal({ entry, workspaceUrl, onClose, onEdit, onDelet
             type="button"
             onClick={onClose}
             aria-label="Close"
-            style={{ width: 28, height: 28, border: 'none', background: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 6, color: '#80849B', flexShrink: 0 }}
+            className="w-7 h-7 border-0 bg-transparent cursor-pointer flex items-center justify-center rounded-[6px] text-content-50 shrink-0 hover:bg-content-4 transition-colors duration-[120ms]"
           >
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
               <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
@@ -103,46 +101,46 @@ export function EntryDetailModal({ entry, workspaceUrl, onClose, onEdit, onDelet
         </div>
 
         {/* Scrollable body */}
-        <div style={{ flex: 1, overflowY: 'auto', padding: '20px' }}>
+        <div className="flex-1 overflow-y-auto p-5">
           {/* Problem */}
-          <div style={{ marginBottom: 18 }}>
-            <p style={{ fontSize: 11, fontWeight: 700, color: '#9DA0B2', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 7px' }}>
+          <div className="mb-[18px]">
+            <p className="text-[11px] font-bold text-content-36 uppercase tracking-[0.08em] m-0 mb-[7px]">
               Problem
             </p>
-            <p id="entry-detail-title" style={{ fontSize: 15, fontWeight: 700, color: '#0A0A0A', margin: 0, lineHeight: 1.45 }}>
+            <p id="entry-detail-title" className="text-[15px] font-bold text-fg-strong m-0 leading-[1.45]">
               {entry.problem}
             </p>
           </div>
 
           {/* Solution */}
-          <div style={{ marginBottom: 20 }}>
-            <p style={{ fontSize: 11, fontWeight: 700, color: '#9DA0B2', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 7px' }}>
+          <div className="mb-5">
+            <p className="text-[11px] font-bold text-content-36 uppercase tracking-[0.08em] m-0 mb-[7px]">
               Solution
             </p>
-            <div style={{ display: 'flex' }}>
-              <div style={{ width: 3, background: '#0522BA', borderRadius: 2, flexShrink: 0 }} />
-              <p style={{ fontSize: 14, color: '#0A0A0A', margin: 0, paddingLeft: 14, lineHeight: 1.75, whiteSpace: 'pre-wrap', fontFamily: 'var(--font-sans)' }}>
+            <div className="flex">
+              <div className="w-[3px] bg-primary-100 rounded-[2px] shrink-0" />
+              <p className="text-sm text-fg-strong m-0 pl-[14px] leading-[1.75] whitespace-pre-wrap">
                 {entry.solution}
               </p>
             </div>
           </div>
 
           {/* Metadata row */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', paddingBottom: 14, marginBottom: 14, borderBottom: '1px solid #EBEBEF' }}>
+          <div className="flex items-center gap-2 flex-wrap pb-[14px] mb-[14px] border-b border-divider">
             {!entry.verification && <ConfidenceMeter level={entry.confidence} />}
-            {!entry.verification && <div style={{ width: 1, height: 12, background: '#EBEBEF', flexShrink: 0 }} />}
-            <span style={{ fontSize: 12, color: '#9DA0B2', fontWeight: 500 }}>Scanned {date}</span>
+            {!entry.verification && <div className="w-px h-3 bg-divider shrink-0" />}
+            <span className="text-xs text-content-36 font-medium">Scanned {date}</span>
             {entry.verification && (
               <>
-                <div style={{ width: 1, height: 12, background: '#EBEBEF', flexShrink: 0 }} />
-                <span style={{ fontSize: 12, color: '#9DA0B2', fontWeight: 500 }}>
-                  Verified by <strong style={{ color: '#515151' }}>{entry.verification.verifiedBy}</strong>
+                <div className="w-px h-3 bg-divider shrink-0" />
+                <span className="text-xs text-content-36 font-medium">
+                  Verified by <strong className="text-fg-default">{entry.verification.verifiedBy}</strong>
                   {' · '}{new Date(entry.verification.verifiedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                 </span>
               </>
             )}
             {threadUrl && (
-              <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center' }}>
+              <div className="ml-auto flex items-center">
                 <SlackLinkIcon href={threadUrl} />
               </div>
             )}
@@ -150,7 +148,7 @@ export function EntryDetailModal({ entry, workspaceUrl, onClose, onEdit, onDelet
 
           {/* Tags */}
           {entry.tags.length > 0 && (
-            <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginBottom: 20 }}>
+            <div className="flex gap-[5px] flex-wrap mb-5">
               {entry.tags.map(t => <TagChip key={t} label={t} />)}
             </div>
           )}
@@ -161,34 +159,37 @@ export function EntryDetailModal({ entry, workspaceUrl, onClose, onEdit, onDelet
               <button
                 type="button"
                 onClick={() => setMessagesOpen(o => !o)}
-                style={{ width: '100%', border: 'none', background: 'none', cursor: 'pointer', padding: '6px 0', display: 'flex', alignItems: 'center', gap: 7, fontFamily: 'var(--font-sans)', marginBottom: 8 }}
+                className="w-full border-0 bg-transparent cursor-pointer py-[6px] px-0 flex items-center gap-[7px] mb-2"
               >
-                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{ transform: messagesOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s', flexShrink: 0 }}>
+                <svg
+                  width="10" height="10" viewBox="0 0 10 10" fill="none"
+                  className={`shrink-0 transition-transform duration-200 ${messagesOpen ? 'rotate-180' : ''}`}
+                >
                   <path d="M1.5 3.5L5 7l3.5-3.5" stroke="#80849B" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-                <span style={{ fontSize: 11, fontWeight: 700, color: '#80849B', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                <span className="text-[11px] font-bold text-content-50 uppercase tracking-[0.08em]">
                   Thread messages
                 </span>
-                <span style={{ fontSize: 11, fontWeight: 700, background: '#EBEDF9', color: '#0522BA', borderRadius: 99, padding: '1px 7px' }}>
+                <span className="text-[11px] font-bold bg-primary-8 text-primary-100 rounded-full px-[7px] py-[1px]">
                   {entry.rawMessages.length}
                 </span>
               </button>
 
               {messagesOpen && (
-                <div style={{ background: '#F5F6FC', borderRadius: 6, overflow: 'hidden', border: '1px solid #EBEDF9' }}>
+                <div className="bg-primary-4 rounded-[6px] overflow-hidden border border-primary-8">
                   {entry.rawMessages.map((msg, i) => (
                     <div
                       key={msg.ts}
-                      style={{ padding: '9px 12px', borderBottom: i < entry.rawMessages.length - 1 ? '1px solid #EBEDF9' : 'none', display: 'flex', gap: 10, alignItems: 'flex-start' }}
+                      className={`px-3 py-[9px] flex gap-[10px] items-start ${i < entry.rawMessages.length - 1 ? 'border-b border-primary-8' : ''}`}
                     >
-                      <div style={{ width: 26, height: 26, borderRadius: '50%', background: '#EBEDF9', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 10, fontWeight: 700, color: '#80849B' }}>
+                      <div className="w-[26px] h-[26px] rounded-full bg-primary-8 flex items-center justify-center shrink-0 text-[10px] font-bold text-content-50">
                         {(msg.userName ?? msg.user).charAt(0).toUpperCase()}
                       </div>
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ marginBottom: 2 }}>
-                          <span style={{ fontSize: 12, fontWeight: 700, color: '#373D5B' }}>{msg.userName ?? msg.user}</span>
+                      <div className="flex-1 min-w-0">
+                        <div className="mb-[2px]">
+                          <span className="text-xs font-bold text-[#373D5B]">{msg.userName ?? msg.user}</span>
                         </div>
-                        <p style={{ fontSize: 13, color: '#515151', margin: 0, lineHeight: 1.55 }}>{msg.text}</p>
+                        <p className="text-[13px] text-fg-default m-0 leading-[1.55]">{msg.text}</p>
                       </div>
                       {workspaceUrl && (
                         <SlackLinkIcon href={slackLink(workspaceUrl, entry.channelId, msg.ts, entry.threadTs)} />
@@ -202,22 +203,30 @@ export function EntryDetailModal({ entry, workspaceUrl, onClose, onEdit, onDelet
         </div>
 
         {/* Footer */}
-        <div style={{ padding: '13px 20px', borderTop: '1px solid #EBEBEF', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0, gap: 8 }}>
+        <div className="px-5 py-[13px] border-t border-divider flex items-center justify-between shrink-0 gap-2">
           <button
             type="button"
             onClick={onDelete}
-            style={{ height: 36, padding: '0 12px', border: 'none', background: 'none', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 13, fontWeight: 700, color: '#E31C28', fontFamily: 'var(--font-sans)', borderRadius: 6 }}
+            className="h-9 px-3 border-0 bg-transparent cursor-pointer inline-flex items-center gap-[6px] text-[13px] font-bold text-red-50 rounded-[6px] hover:bg-red-4 transition-colors duration-[120ms]"
           >
             <svg width="11" height="12" viewBox="0 0 11 12" fill="none">
               <path d="M1 3h9M3.5 3V1.5h4V3M2 3l.6 7.5h5.8L9 3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
             Delete
           </button>
-          <div style={{ display: 'flex', gap: 8 }}>
-            <button type="button" className="btn btn-secondary" style={{ height: 36, fontSize: 13 }} onClick={onClose}>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              className="h-9 px-3 rounded-[8px] border border-primary-24 bg-white text-[13px] font-bold text-primary-100 cursor-pointer inline-flex items-center outline-none transition-colors duration-[120ms] hover:bg-primary-8"
+              onClick={onClose}
+            >
               Close
             </button>
-            <button type="button" className="btn btn-primary" style={{ height: 36, fontSize: 13 }} onClick={onEdit}>
+            <button
+              type="button"
+              className="h-9 px-3 rounded-[8px] border-0 bg-primary-100 text-[13px] font-bold text-white cursor-pointer inline-flex items-center outline-none transition-colors duration-[120ms] hover:bg-primary-120"
+              onClick={onEdit}
+            >
               Edit &amp; Verify
             </button>
           </div>

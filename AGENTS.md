@@ -55,7 +55,7 @@ src/
   hooks/
     use-api.ts              # Typed fetch wrapper
   types/index.ts            # Shared TypeScript interfaces (used by both src/ and server/)
-  index.css                 # Design system tokens and component styles
+  index.css                 # Tailwind v4 import + @theme design tokens + @layer base resets
 ```
 
 ## Documentation
@@ -83,7 +83,7 @@ async function resolveUserName(userId: string): Promise<string>
 
 **Slack permalinks** follow the format `https://{workspace}.slack.com/archives/{channelId}/p{ts_no_dot}`. The workspace URL comes from `VITE_SLACK_WORKSPACE_URL` in `.env` (a `VITE_` prefix makes it available to the frontend at build time).
 
-**Styling** uses a custom design system defined in `src/index.css` — CSS custom properties for tokens, utility classes for components (`card`, `btn`, `input`, `label`, etc.). Do not introduce Tailwind utility classes; the design system replaces them.
+**Styling** uses Tailwind CSS v4 with a custom design system. Brand colors, fonts, shadows, and animations are defined as `@theme` variables in `src/index.css` (e.g. `--color-primary-100`, `--shadow-card`). Use Tailwind utility classes directly in JSX for all styling — do not add custom CSS classes. The `@tailwindcss/vite` plugin is already wired into `vite.config.ts`.
 
 ## Environment variables
 

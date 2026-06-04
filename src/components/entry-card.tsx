@@ -14,8 +14,7 @@ function SlackLinkIcon({ href }: { href: string }) {
       rel="noopener noreferrer"
       title="Open in Slack"
       onClick={e => e.stopPropagation()}
-      style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: '#9DA0B2', flexShrink: 0, lineHeight: 1, textDecoration: 'none' }}
-      className="slack-link-icon"
+      className="inline-flex items-center justify-center text-content-36 shrink-0 leading-none no-underline opacity-60 transition-[opacity,color] duration-[120ms] hover:opacity-100 hover:text-[#4A154B]"
     >
       <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
         <path d="M5 2H2a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V7" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
@@ -73,7 +72,7 @@ export function EntryCard({
 
   return (
     <div
-      className="entry-card animate-in"
+      className="group relative bg-white border border-divider rounded-[8px] px-4 py-[14px] transition-shadow duration-[120ms] hover:shadow-card animate-fade-in-up"
       onClick={onClick}
       style={{
         opacity: deleting ? 0 : 1,
@@ -83,10 +82,10 @@ export function EntryCard({
       }}
     >
       {hasActions && (
-        <div style={{ position: 'absolute', top: 12, right: 12, display: 'flex', gap: 4 }}>
+        <div className="absolute top-3 right-3 flex gap-1">
           {onEdit && (
             <button
-              className="entry-action-btn"
+              className="w-6 h-6 border-0 bg-transparent text-content-24 cursor-pointer flex items-center justify-center rounded-[4px] transition-all duration-[120ms] opacity-0 group-hover:opacity-100 shrink-0 hover:bg-primary-8 hover:text-primary-100"
               onClick={e => { e.stopPropagation(); onEdit(entry); }}
               title="Edit & verify solution"
             >
@@ -97,7 +96,7 @@ export function EntryCard({
           )}
           {onDelete && (
             <button
-              className="entry-action-btn entry-action-btn--delete"
+              className="w-6 h-6 border-0 bg-transparent text-content-24 cursor-pointer flex items-center justify-center rounded-[4px] transition-all duration-[120ms] opacity-0 group-hover:opacity-100 shrink-0 hover:bg-red-4 hover:text-red-50"
               onClick={e => { e.stopPropagation(); onDelete(entry); }}
               title="Delete entry"
             >
@@ -109,24 +108,23 @@ export function EntryCard({
         </div>
       )}
 
-      <p style={{ fontSize: 14, fontWeight: 700, color: '#0A0A0A', margin: `0 ${hasActions ? 48 : 0}px 6px 0`, lineHeight: 1.4 }}>
+      <p
+        className="text-sm font-bold text-fg-strong leading-[1.4] mt-0 mb-[6px]"
+        style={{ marginRight: hasActions ? 48 : 0 }}
+      >
         {entry.problem}
       </p>
 
-      <p style={{
-        fontSize: 13,
-        color: '#515151',
-        margin: '0 0 10px',
-        lineHeight: 1.6,
-        ...(clampSolution ? { display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' as const, overflow: 'hidden' } : {}),
-      }}>
+      <p
+        className={`text-[13px] text-fg-default mt-0 mb-[10px] leading-[1.6] ${clampSolution ? 'line-clamp-2' : ''}`}
+      >
         {entry.solution}
       </p>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+      <div className="flex items-center gap-2 flex-wrap">
         {entry.tags.length > 0 && (
           <div
-            style={{ display: 'flex', gap: 4, flexWrap: 'wrap', flex: 1 }}
+            className="flex gap-1 flex-wrap flex-1"
             onClick={onTagClick ? e => e.stopPropagation() : undefined}
           >
             {entry.tags.map(t => (
@@ -141,7 +139,7 @@ export function EntryCard({
         }
         {workspaceUrl && (
           <>
-            <span style={{ fontSize: 11, color: '#9DA0B2', fontWeight: 500, whiteSpace: 'nowrap' }}>
+            <span className="text-[11px] text-content-36 font-medium whitespace-nowrap">
               {formatDate(entry.scannedAt)}
             </span>
             <SlackLinkIcon href={slackLink(workspaceUrl, entry.channelId, entry.threadTs)} />

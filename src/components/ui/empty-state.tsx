@@ -14,13 +14,13 @@ export function EmptyState({ icon, title, description, action }: {
   action?: ReactNode;
 }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '48px 24px', textAlign: 'center', gap: 12 }}>
-      <div style={{ width: 48, height: 48, borderRadius: '50%', background: '#F5F6FC', border: '1px solid #EBEDF9', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#C3CAEE', marginBottom: 4 }}>
+    <div className="flex flex-col items-center py-12 px-6 text-center gap-3">
+      <div className="w-12 h-12 rounded-full bg-primary-4 border border-primary-8 flex items-center justify-center text-primary-24 mb-1">
         {icon}
       </div>
-      <p style={{ fontSize: 16, fontWeight: 900, color: '#0A0A0A', margin: 0 }}>{title}</p>
-      <p style={{ fontSize: 14, color: '#6F6F6F', margin: 0, maxWidth: 340, lineHeight: 1.6 }}>{description}</p>
-      {action && <div style={{ marginTop: 8 }}>{action}</div>}
+      <p className="text-base font-black text-fg-strong m-0">{title}</p>
+      <p className="text-sm text-fg-muted m-0 max-w-[340px] leading-[1.6]">{description}</p>
+      {action && <div className="mt-2">{action}</div>}
     </div>
   );
 }

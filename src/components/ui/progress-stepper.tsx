@@ -7,41 +7,44 @@ interface Step { label: string; }
  */
 export function ProgressStepper({ steps, currentStep }: { steps: Step[]; currentStep: number }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+    <div className="flex flex-col gap-0">
       {steps.map((step, i) => {
         const isDone   = i < currentStep;
         const isActive = i === currentStep;
         const isLast   = i === steps.length - 1;
         return (
-          <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: 22, flexShrink: 0 }}>
-              <div style={{
-                width: 22, height: 22, borderRadius: '50%',
-                display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-                background: isDone ? '#43B02A' : isActive ? '#0522BA' : '#F5F5F7',
-                border: `2px solid ${isDone ? '#43B02A' : isActive ? '#0522BA' : '#EBEBEF'}`,
-                transition: 'all 0.3s ease',
-              }}>
+          <div key={i} className="flex items-start gap-3">
+            <div className="flex flex-col items-center w-[22px] shrink-0">
+              <div
+                className={`w-[22px] h-[22px] rounded-full flex items-center justify-center shrink-0 border-2 transition-all duration-300 ${
+                  isDone   ? 'bg-green-50 border-green-50' :
+                  isActive ? 'bg-primary-100 border-primary-100' :
+                             'bg-content-4 border-content-8'
+                }`}
+              >
                 {isDone && (
                   <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
                     <path d="M1 4L3.5 6.5L9 1" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 )}
                 {isActive && (
-                  <div style={{ width: 7, height: 7, borderRadius: '50%', background: 'white', animation: 'pulse-dot 1s ease-in-out infinite' }} />
+                  <div className="w-[7px] h-[7px] rounded-full bg-white animate-pulse-dot" />
                 )}
               </div>
               {!isLast && (
-                <div style={{ width: 2, height: 26, background: isDone ? '#43B02A' : '#EBEBEF', borderRadius: 1, transition: 'background 0.4s ease 0.15s' }} />
+                <div
+                  className={`w-[2px] h-[26px] rounded-[1px] transition-colors duration-[400ms] delay-150 ${isDone ? 'bg-green-50' : 'bg-content-8'}`}
+                />
               )}
             </div>
-            <div style={{ paddingTop: 2, paddingBottom: isLast ? 0 : 26 }}>
-              <span style={{
-                fontSize: 14, lineHeight: '22px',
-                fontWeight: isActive ? 700 : isDone ? 500 : 400,
-                color: isDone ? '#178217' : isActive ? '#0A0A0A' : '#9DA0B2',
-                transition: 'color 0.3s',
-              }}>
+            <div className={`pt-[2px] ${isLast ? '' : 'pb-[26px]'}`}>
+              <span
+                className={`text-sm leading-[22px] transition-colors duration-300 ${
+                  isDone   ? 'font-medium text-green-80' :
+                  isActive ? 'font-bold text-fg-strong' :
+                             'font-normal text-content-36'
+                }`}
+              >
                 {isDone ? '✓ ' : ''}{step.label}
               </span>
             </div>
