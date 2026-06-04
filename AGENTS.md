@@ -33,10 +33,25 @@ server/
 src/
   App.tsx                   # Tab shell + header stats
   components/
-    scan-channel.tsx        # "Scan channel" tab
-    lookup-thread.tsx       # "Look up thread" tab
-    knowledge-base-panel.tsx # "Knowledge base" tab
-    shared.tsx              # Reusable UI primitives (TagChip, ConfidenceMeter, etc.)
+    tabs/
+      scan-channel.tsx      # "Scan channel" tab
+      lookup-thread.tsx     # "Look up thread" tab
+      knowledge-base-panel.tsx # "Knowledge base" tab
+    modals/
+      confirm-modal.tsx     # Generic confirmation dialog
+      entry-detail-modal.tsx # Full-detail view for a knowledge entry
+      verify-modal.tsx      # Edit & verify a knowledge entry
+    ui/
+      index.ts              # Barrel re-export for all UI primitives
+      confidence-meter.tsx  # Three-segment confidence indicator
+      empty-state.tsx       # Centered empty state with icon and action
+      needs-review-badge.tsx # Amber "needs review" badge
+      progress-stepper.tsx  # Vertical step progress indicator
+      skeleton-card.tsx     # Loading placeholder card
+      status-banner.tsx     # Success/error/info banner
+      tag-chip.tsx          # Pill-shaped tag label
+      verified-badge.tsx    # Green "verified" badge
+    entry-card.tsx          # Reusable knowledge entry card
   hooks/
     use-api.ts              # Typed fetch wrapper
   types/index.ts            # Shared TypeScript interfaces (used by both src/ and server/)

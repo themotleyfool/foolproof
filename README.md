@@ -87,7 +87,7 @@ The app runs the React frontend (Vite) and Express backend concurrently. The fro
 
 ## Architecture
 
-- **Frontend:** React 19 + TypeScript + Vite + Tailwind v4 (`src/`)
+- **Frontend:** React 19 + TypeScript + Vite + TanStack Query + Tailwind v4 (`src/`)
 - **Backend:** Express + TypeScript via `tsx` (`server/`)
 - **Knowledge base:** JSON files at `lib/knowledge-bases/{channel-name}.json`
 
@@ -102,3 +102,6 @@ The app runs the React frontend (Vite) and Express backend concurrently. The fro
 | `server/routes/lookup.ts` | `POST /api/lookup` — look up by permalink |
 | `server/routes/knowledge.ts` | `GET/DELETE /api/knowledge` |
 | `src/types/index.ts` | Shared types |
+| `src/components/tabs/` | Top-level tab panel components |
+| `src/components/modals/` | Modal dialog components |
+| `src/components/ui/` | Generic, stateless UI primitives |
