@@ -3,6 +3,23 @@ import type { SlackMessage, SlackThread } from '../../src/types/index.js';
 
 const client = new WebClient(process.env.SLACK_BOT_TOKEN);
 
+const userNameCache = new Map<string, string>();
+
+async function resolveUserName(userId: string): Promise<string> {
+  if (!userId) return '';
+  const cached = userNameCache.get(userId);
+  if (cached !== undefined) return cached;
+  try {
+    const res = await client.users.info({ user: userId });
+    const name = res.user?.profile?.display_name || res.user?.real_name || userId;
+    userNameCache.set(userId, name);
+    return name;
+  } catch (err) {
+    console.warn(`[slack] users.info failed for ${userId}:`, err instanceof Error ? err.message : err);
+    return userId;
+  }
+}
+
 export async function joinChannelIfNeeded(channelId: string): Promise<void> {
   await client.conversations.join({ channel: channelId });
 }
@@ -58,6 +75,12 @@ export async function fetchThread(channelId: string, threadTs: string): Promise<
     }
     cursor = res.response_metadata?.next_cursor ?? undefined;
   } while (cursor);
+
+  const uniqueUserIds = [...new Set(messages.map(m => m.user).filter(Boolean))];
+  await Promise.all(uniqueUserIds.map(resolveUserName));
+  for (const msg of messages) {
+    msg.userName = userNameCache.get(msg.user) ?? msg.user;
+  }
 
   const [parent, ...replies] = messages;
   const channelName = await getChannelName(channelId);

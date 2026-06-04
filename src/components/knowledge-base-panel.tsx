@@ -372,10 +372,10 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
                     {entry.rawMessages.map((msg, i) => (
                       <div key={msg.ts} style={{ padding: '8px 12px', borderBottom: i < entry.rawMessages.length - 1 ? '1px solid #EBEDF9' : 'none', display: 'flex', gap: 10, alignItems: 'flex-start' }}>
                         <div style={{ width: 24, height: 24, borderRadius: '50%', background: '#EBEDF9', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 10, fontWeight: 700, color: '#80849B' }}>
-                          {msg.user.charAt(0).toUpperCase()}
+                          {(msg.userName ?? msg.user).charAt(0).toUpperCase()}
                         </div>
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <span style={{ fontSize: 11, fontWeight: 700, color: '#373D5B', marginRight: 6 }}>{msg.user}</span>
+                          <span style={{ fontSize: 11, fontWeight: 700, color: '#373D5B', marginRight: 6 }}>{msg.userName ?? msg.user}</span>
                           <span style={{ fontSize: 12, color: '#515151', lineHeight: 1.5 }}>{msg.text}</span>
                         </div>
                         {workspaceUrl && (

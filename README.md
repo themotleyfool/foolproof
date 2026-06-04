@@ -35,6 +35,7 @@ Follow these steps if you need to create the Slack app and API keys from scratch
    - `channels:history`
    - `channels:read`
    - `channels:join`
+   - `users:read`
 4. Click **Install to Workspace** and authorize the app.
 
 ### 2. Retrieve Bot User OAuth Token

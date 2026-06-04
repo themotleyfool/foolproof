@@ -1,6 +1,7 @@
 export interface SlackMessage {
   ts: string;
   user: string;
+  userName?: string;
   text: string;
   thread_ts?: string;
   reply_count?: number;
