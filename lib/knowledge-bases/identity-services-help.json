@@ -1,12 +1,12 @@
 {
   "version": 1,
-  "lastUpdated": "2026-06-04T18:56:51.032Z",
+  "lastUpdated": "2026-06-04T19:12:27.648Z",
   "entries": [
     {
       "channelId": "CK9GZ4KCL",
       "channelName": "identity-services-help",
       "threadTs": "1780407415.732859",
-      "problem": "A new SA member was unable to set their password. Their account information was not fully loaded in Legacy Admin, preventing the support agent from sending a password reset link.",
+      "problem": "AA new SA member was unable to set their password. Their account information was not fully loaded in Legacy Admin, preventing the support agent from sending a password reset link.",
       "solution": "An admin fixed the account on the backend (exact steps unspecified), after which the member was able to perform a password reset, or a reset link could be sent via the Legacy Admin member page.",
       "rawMessages": [
         {
@@ -39,7 +39,11 @@
       ],
       "confidence": "high",
       "id": "CK9GZ4KCL-1780407415.732859",
-      "scannedAt": "2026-06-04T18:56:34.556Z"
+      "scannedAt": "2026-06-04T18:56:34.556Z",
+      "verification": {
+        "verifiedBy": "Timothy",
+        "verifiedAt": "2026-06-04T19:12:27.646Z"
+      }
     },
     {
       "channelId": "CK9GZ4KCL",

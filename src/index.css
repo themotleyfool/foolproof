@@ -217,6 +217,19 @@ button, input, select, textarea { font-family: var(--font-sans); }
 .tag-chip.clickable:hover { background: var(--mf-primary-16); }
 .tag-chip.active-tag      { background: var(--mf-primary-100); color: #fff; border-color: var(--mf-primary-100); }
 
+/* ── KB channel sidebar ──────────────────────────────────────────────── */
+.kb-channel-btn {
+  width: 100%; padding: 8px 14px; border: none; border-bottom: 1px solid var(--mf-content-4);
+  background: transparent; color: var(--fg-default);
+  font: 500 13px var(--font-sans); text-align: left; cursor: pointer;
+  display: flex; align-items: center; gap: 4px;
+  transition: background var(--dur-fast), color var(--dur-fast);
+}
+.kb-channel-btn:last-child { border-bottom: none; }
+.kb-channel-btn:hover { background: var(--mf-primary-4); }
+.kb-channel-btn.active { background: var(--mf-primary-8); color: var(--mf-primary-100); font-weight: 700; }
+.kb-channel-btn.active .kb-channel-hash { color: var(--mf-primary-24); }
+
 /* ── Entry cards ─────────────────────────────────────────────────────── */
 .entry-card {
   background: #fff; border: 1px solid var(--mf-divider);

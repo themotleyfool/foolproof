@@ -10,6 +10,8 @@ The Slack app and API keys are already created. Credentials are stored in 1Passw
 
 > **1Password link:** `<PLACEHOLDER>`
 
+The Slack app name is [Identity Services Helper](https://api.slack.com/apps/A0B87TMUS4W).
+
 1. Copy `.env.example` to `.env`:
    ```bash
    cp .env.example .env
