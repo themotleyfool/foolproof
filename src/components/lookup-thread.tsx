@@ -3,12 +3,20 @@ import { useApi } from '../hooks/use-api';
 import { ConfidenceMeter, TagChip, StatusBanner } from './shared';
 import type { LookupRequest, LookupResponse } from '../types';
 
+/**
+ * Tab panel for looking up a Slack thread by permalink and getting an AI-suggested solution.
+ * Displays the thread summary, suggested solution, and related knowledge base entries.
+ */
 export function LookupThread() {
   const [url, setUrl] = useState('');
   const [copied, setCopied] = useState(false);
   const [relatedOpen, setRelatedOpen] = useState(false);
   const { execute, data, loading, error } = useApi<LookupResponse, LookupRequest>('/api/lookup');
 
+  /**
+   * Handles form submission, submitting the Slack URL to the lookup API.
+   * @param e - The form submit event.
+   */
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!url.trim() || loading) return;
@@ -16,6 +24,9 @@ export function LookupThread() {
     await execute({ slackUrl: url.trim() });
   }
 
+  /**
+   * Copies the suggested solution text to the clipboard and shows a brief confirmation.
+   */
   async function handleCopy() {
     if (!data) return;
     try {

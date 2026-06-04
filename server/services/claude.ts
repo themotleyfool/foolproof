@@ -7,6 +7,13 @@ const client = new OpenAI({
 });
 const MODEL = process.env.LLM_MODEL ?? 'anthropic/claude-sonnet-4-6';
 
+/**
+ * Analyzes a Slack thread and extracts a problem/solution pair for the knowledge base.
+ * Returns null if the thread does not contain a clear problem and resolution
+ * (e.g. casual chat, announcements, or unresolved questions).
+ * @param thread - The Slack thread to analyze, including the parent message and all replies.
+ * @returns An extracted entry (without id or scannedAt), or null if not applicable.
+ */
 export async function extractKnowledge(
   thread: SlackThread
 ): Promise<Omit<KnowledgeEntry, 'id' | 'scannedAt'> | null> {
@@ -67,6 +74,12 @@ Confidence: high = solution confirmed resolved; medium = likely helped; low = sp
   }
 }
 
+/**
+ * Suggests a solution for a Slack thread by querying the knowledge base for similar past issues.
+ * @param thread - The current Slack thread to generate a suggestion for.
+ * @param kb - The knowledge base to search for related entries.
+ * @returns An object with the suggested solution text and any related knowledge base entries.
+ */
 export async function suggestSolution(
   thread: SlackThread,
   kb: KnowledgeBase

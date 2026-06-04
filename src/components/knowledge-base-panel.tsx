@@ -7,6 +7,15 @@ interface KbResponse {
   total: number;
 }
 
+/**
+ * Builds a Slack deep link URL for a message or thread.
+ * For replies, appends thread_ts and cid query params so Slack opens the message in-thread.
+ * @param workspaceUrl - The base workspace URL (e.g. "https://fool.slack.com/").
+ * @param channelId - The Slack channel ID.
+ * @param ts - The timestamp of the specific message to link to.
+ * @param threadTs - The parent thread timestamp; omit or pass the same value as ts for the root message.
+ * @returns A full Slack permalink URL.
+ */
 function slackLink(workspaceUrl: string, channelId: string, ts: string, threadTs?: string): string {
   const pTs = 'p' + ts.replace('.', '');
   const base = `${workspaceUrl}archives/${channelId}/${pTs}`;
@@ -15,6 +24,10 @@ function slackLink(workspaceUrl: string, channelId: string, ts: string, threadTs
     : base;
 }
 
+/**
+ * An icon-only anchor that opens a Slack permalink in a new tab.
+ * @param href - The Slack deep link URL to navigate to.
+ */
 function SlackLinkIcon({ href }: { href: string }) {
   return (
     <a
@@ -34,6 +47,11 @@ function SlackLinkIcon({ href }: { href: string }) {
   );
 }
 
+/**
+ * Tab panel for browsing, filtering, and deleting knowledge base entries across channels.
+ * Supports filtering by channel, tag, and free-text search, and shows expandable raw messages.
+ * @param onDelete - Optional callback invoked after an entry is successfully deleted.
+ */
 export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
   const [channels, setChannels] = useState<string[]>([]);
   const [selectedChannel, setSelectedChannel] = useState('');
@@ -52,6 +70,9 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
   const tagRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    /**
+     * Fetches the list of channels that have a knowledge base and selects the first one.
+     */
     async function loadChannels() {
       try {
         const res = await fetch('/api/knowledge');
@@ -80,6 +101,10 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
   }, [selectedChannel]);
 
   useEffect(() => {
+    /**
+     * Closes the tag dropdown when a click occurs outside the tag input container.
+     * @param e - The mousedown event from the document listener.
+     */
     function handleClickOutside(e: MouseEvent) {
       if (tagRef.current && !tagRef.current.contains(e.target as Node)) {
         setTagOpen(false);
@@ -89,6 +114,10 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  /**
+   * Fetches all unique tags from a channel's knowledge base for the tag filter dropdown.
+   * @param channel - The channel name to load tags for.
+   */
   async function fetchAllTags(channel: string) {
     try {
       const res = await fetch(`/api/knowledge/${channel}`);
@@ -101,6 +130,12 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
     }
   }
 
+  /**
+   * Fetches knowledge base entries for a channel, applying optional tag and text filters.
+   * @param channel - The channel name to load entries for.
+   * @param tg - Tag filter value; pass an empty string to skip.
+   * @param q - Text search query; pass an empty string to skip.
+   */
   async function fetchEntries(channel: string, tg: string, q: string) {
     setLoading(true);
     setError(null);
@@ -120,29 +155,47 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
     }
   }
 
+  /**
+   * Handles search form submission, re-fetching entries with the current tag and query filters.
+   * @param e - The form submit event.
+   */
   async function handleSearch(e: React.FormEvent) {
     e.preventDefault();
     if (selectedChannel) await fetchEntries(selectedChannel, tag, query);
   }
 
+  /**
+   * Selects a tag from the dropdown, updating both the active filter and the input display value.
+   * @param t - The tag string to select.
+   */
   function selectTag(t: string) {
     setTag(t);
     setTagSearch(t);
     setTagOpen(false);
   }
 
+  /**
+   * Clears the active tag filter and resets the tag search input and dropdown state.
+   */
   function clearTag() {
     setTag('');
     setTagSearch('');
     setTagOpen(false);
   }
 
+  /**
+   * Clears all active filters (tag and text query) and re-fetches the unfiltered entry list.
+   */
   function handleClear() {
     clearTag();
     setQuery('');
     if (selectedChannel) void fetchEntries(selectedChannel, '', '');
   }
 
+  /**
+   * Toggles the expanded state of a knowledge entry's raw message list.
+   * @param id - The entry ID to expand or collapse.
+   */
   function toggleExpand(id: string) {
     setExpandedIds(prev => {
       const next = new Set(prev);
@@ -151,6 +204,10 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
     });
   }
 
+  /**
+   * Animates an entry out, deletes it via the API, then refreshes the entry list.
+   * @param id - The entry ID to delete.
+   */
   async function handleDelete(id: string) {
     setDeletingId(id);
     await new Promise(res => setTimeout(res, 300));
@@ -164,6 +221,11 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
     }
   }
 
+  /**
+   * Formats an ISO 8601 timestamp as a short human-readable date (e.g. "Jun 4, 2026").
+   * @param iso - An ISO 8601 date string.
+   * @returns A localized short date string.
+   */
   function formatDate(iso: string) {
     return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
   }

@@ -1,6 +1,12 @@
 import { useState } from 'react';
 import type { ApiError } from '../types';
 
+/**
+ * Generic hook for making typed API requests with loading and error state.
+ * @param url - The API endpoint URL to send requests to.
+ * @param method - The HTTP method to use (default: 'POST').
+ * @returns An object with `execute`, `data`, `loading`, `error`, and `reset`.
+ */
 export function useApi<TResponse, TBody = unknown>(
   url: string,
   method: 'GET' | 'POST' | 'DELETE' = 'POST'
@@ -9,6 +15,11 @@ export function useApi<TResponse, TBody = unknown>(
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  /**
+   * Sends a request to the configured endpoint and updates state with the result.
+   * @param body - Optional request body, serialized as JSON.
+   * @returns The parsed response on success, or null on failure.
+   */
   async function execute(body?: TBody): Promise<TResponse | null> {
     setLoading(true);
     setError(null);
@@ -33,6 +44,9 @@ export function useApi<TResponse, TBody = unknown>(
     }
   }
 
+  /**
+   * Resets data, error, and loading state back to their initial values.
+   */
   function reset() {
     setData(null);
     setError(null);

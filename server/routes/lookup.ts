@@ -6,6 +6,13 @@ import * as slack from '../services/slack.js';
 
 const router = Router();
 
+/**
+ * POST /api/lookup
+ * Fetches a Slack thread by permalink and returns an AI-suggested solution
+ * based on the channel's knowledge base.
+ * @body {LookupRequest} - `slackUrl` — a Slack message permalink.
+ * @returns {LookupResponse} - The fetched thread, suggested solution, and related KB entries.
+ */
 router.post('/', async (req, res) => {
   const { slackUrl } = req.body as LookupRequest;
 

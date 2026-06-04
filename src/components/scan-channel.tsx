@@ -2,6 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import { ProgressStepper, StatusBanner } from './shared';
 import type { ScanRequest, ScanResponse } from '../types';
 
+/**
+ * Returns today's date as an ISO 8601 date string (YYYY-MM-DD).
+ * @returns Today's date in YYYY-MM-DD format.
+ */
 function today(): string {
   return new Date().toISOString().slice(0, 10);
 }
@@ -16,6 +20,11 @@ const SCAN_STEPS = [
 // Cumulative delays (ms) to reach steps 1, 2, 3 while API call runs
 const STEP_DELAYS = [900, 2500, 5500];
 
+/**
+ * Tab panel for scanning a Slack channel and extracting knowledge base entries.
+ * Displays a progress stepper during the scan and a results summary on completion.
+ * @param onScanComplete - Optional callback invoked after a successful scan.
+ */
 export function ScanChannel({ onScanComplete }: { onScanComplete?: () => void }) {
   const [channelId, setChannelId] = useState('');
   const [startDate, setStartDate] = useState(today());
@@ -27,11 +36,19 @@ export function ScanChannel({ onScanComplete }: { onScanComplete?: () => void })
 
   useEffect(() => () => { timersRef.current.forEach(clearTimeout); }, []);
 
+  /**
+   * Cancels all pending step-advance timers and clears the ref array.
+   */
   function clearTimers() {
     timersRef.current.forEach(clearTimeout);
     timersRef.current = [];
   }
 
+  /**
+   * Handles form submission: starts the scan, advances the progress stepper
+   * on a timer, and updates state when the API call resolves.
+   * @param e - The form submit event.
+   */
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!channelId.trim() || phase === 'scanning') return;

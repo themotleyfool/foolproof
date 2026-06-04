@@ -16,6 +16,8 @@ Vite proxies `/api/*` to `localhost:3001`, so all frontend fetches use `/api/...
 ## Directory structure
 
 ```
+data/                       # Static data files (e.g. Slack channels)
+scripts/                    # One-off scripts (e.g. for seeding data or testing API calls)
 server/
   index.ts                  # Express entry point
   routes/
@@ -38,6 +40,19 @@ src/
   types/index.ts            # Shared TypeScript interfaces (used by both src/ and server/)
   index.css                 # Design system tokens and component styles
 knowledge-bases/            # Runtime-generated JSON files, one per channel (gitignored)
+```
+
+## Documentation
+
+Every function, React component, and hook must have a JSDoc docstring. Include a one-line summary, `@param` tags for each parameter, and a `@returns` tag where applicable. Example:
+
+```ts
+/**
+ * Resolves a Slack user ID to a display name, with in-memory caching.
+ * @param userId - The Slack user ID (e.g. "U01CX34UDLK").
+ * @returns The user's display name, or the raw ID if resolution fails.
+ */
+async function resolveUserName(userId: string): Promise<string>
 ```
 
 ## Key conventions

@@ -16,12 +16,19 @@ interface HeaderStats {
   channelsCount: number;
 }
 
+/**
+ * Root application component. Renders the header, tab navigation, and the active tab panel.
+ * Fetches and displays aggregate knowledge base stats (entry count, channel count) in the header.
+ */
 function App() {
   const [activeTab, setActiveTab] = useState<Tab>('scan');
   const [stats, setStats] = useState<HeaderStats>({ entriesCount: 0, channelsCount: 0 });
   const [statsKey, setStatsKey] = useState(0);
 
   useEffect(() => {
+    /**
+     * Fetches total entry and channel counts from the knowledge API and updates header stats.
+     */
     async function loadStats() {
       try {
         const res = await fetch('/api/knowledge');
@@ -50,6 +57,9 @@ function App() {
     void loadStats();
   }, [statsKey]);
 
+  /**
+   * Triggers a re-fetch of header stats by incrementing the stats key used as a useEffect dependency.
+   */
   function refreshStats() {
     setStatsKey(k => k + 1);
   }

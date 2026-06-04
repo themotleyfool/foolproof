@@ -1,5 +1,9 @@
 import type { KnowledgeEntry } from '../types';
 
+/**
+ * Displays a three-segment confidence indicator with a color-coded label.
+ * @param level - The confidence level to render: 'high', 'medium', or 'low'.
+ */
 export function ConfidenceMeter({ level }: { level: KnowledgeEntry['confidence'] }) {
   const cfg = {
     high:   { filled: 3, color: '#178217', label: 'High' },
@@ -23,6 +27,12 @@ export function ConfidenceMeter({ level }: { level: KnowledgeEntry['confidence']
   );
 }
 
+/**
+ * Renders a small pill-shaped tag label, optionally styled as active and clickable.
+ * @param label - The text to display inside the chip.
+ * @param active - Whether to apply the active (highlighted) style.
+ * @param onClick - Optional click handler; makes the chip interactive when provided.
+ */
 export function TagChip({ label, active, onClick }: { label: string; active?: boolean; onClick?: () => void }) {
   return (
     <span
@@ -34,6 +44,11 @@ export function TagChip({ label, active, onClick }: { label: string; active?: bo
   );
 }
 
+/**
+ * Displays a colored banner with an icon for success, error, or info messages.
+ * @param type - The severity level, which controls the color and icon.
+ * @param message - The message text to display.
+ */
 export function StatusBanner({ type, message }: { type: 'success' | 'error' | 'info'; message: string }) {
   const cls = { success: 'banner-success', error: 'banner-error', info: 'banner-info' } as const;
   const icon = {
@@ -64,6 +79,9 @@ export function StatusBanner({ type, message }: { type: 'success' | 'error' | 'i
   );
 }
 
+/**
+ * Renders an animated placeholder card shown while knowledge base entries are loading.
+ */
 export function SkeletonCard() {
   return (
     <div className="card" style={{ padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -84,6 +102,11 @@ export function SkeletonCard() {
 
 interface Step { label: string; }
 
+/**
+ * Renders a vertical step-by-step progress indicator with done, active, and pending states.
+ * @param steps - Ordered list of step definitions, each with a label.
+ * @param currentStep - Zero-based index of the currently active step; steps before it are shown as done.
+ */
 export function ProgressStepper({ steps, currentStep }: { steps: Step[]; currentStep: number }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
@@ -131,6 +154,13 @@ export function ProgressStepper({ steps, currentStep }: { steps: Step[]; current
   );
 }
 
+/**
+ * Renders a centered empty state with an icon, title, description, and optional action.
+ * @param icon - An SVG or React node to display as the empty state illustration.
+ * @param title - The primary heading text.
+ * @param description - Supporting text shown below the title.
+ * @param action - Optional interactive element (e.g. a button) rendered below the description.
+ */
 export function EmptyState({ icon, title, description, action }: {
   icon: React.ReactNode;
   title: string;

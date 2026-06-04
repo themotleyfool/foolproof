@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "concurrently -n \"vite,server\" -c \"cyan,yellow\" \"vite\" \"npm run server:dev\"",
+    "fetch-channels": "tsx scripts/fetch-channels.ts",
     "server:dev": "nodemon --watch server --ext ts --exec 'tsx server/index.ts'",
     "build": "tsc -b && vite build",
     "lint": "eslint .",

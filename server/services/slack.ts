@@ -5,6 +5,11 @@ const client = new WebClient(process.env.SLACK_BOT_TOKEN);
 
 const userNameCache = new Map<string, string>();
 
+/**
+ * Resolves a Slack user ID to a display name, with in-memory caching.
+ * @param userId - The Slack user ID (e.g. "U01CX34UDLK").
+ * @returns The user's display name, or the raw ID if resolution fails.
+ */
 async function resolveUserName(userId: string): Promise<string> {
   if (!userId) return '';
   const cached = userNameCache.get(userId);
@@ -20,10 +25,20 @@ async function resolveUserName(userId: string): Promise<string> {
   }
 }
 
+/**
+ * Joins a Slack channel if the bot is not already a member. Idempotent.
+ * @param channelId - The Slack channel ID to join.
+ */
 export async function joinChannelIfNeeded(channelId: string): Promise<void> {
   await client.conversations.join({ channel: channelId });
 }
 
+/**
+ * Fetches all messages from a channel, paginating through the full history.
+ * @param channelId - The Slack channel ID to fetch messages from.
+ * @param oldest - Optional Unix timestamp string; only fetch messages after this time.
+ * @returns Array of all messages in the channel, oldest first.
+ */
 export async function fetchAllMessages(
   channelId: string,
   oldest?: string
@@ -53,6 +68,12 @@ export async function fetchAllMessages(
   return messages;
 }
 
+/**
+ * Fetches all messages in a thread and resolves user IDs to display names.
+ * @param channelId - The Slack channel ID containing the thread.
+ * @param threadTs - The timestamp of the parent message that starts the thread.
+ * @returns A SlackThread with the parent message, replies, and resolved usernames.
+ */
 export async function fetchThread(channelId: string, threadTs: string): Promise<SlackThread> {
   const messages: SlackMessage[] = [];
   let cursor: string | undefined;
@@ -87,10 +108,13 @@ export async function fetchThread(channelId: string, threadTs: string): Promise<
   return { parentMessage: parent, replies, channelId, channelName };
 }
 
-// Parses both permalink formats:
-//   https://<ws>.slack.com/archives/<channelId>/p<ts_nodot>
-//   https://<ws>.slack.com/archives/<channelId>/p<ts_nodot>?thread_ts=...&cid=...
-// The 'p' prefix omits the decimal: p1717000000123456 → 1717000000.123456
+/**
+ * Parses a Slack message permalink into its channel ID and thread timestamp.
+ * Handles both plain and threaded permalink formats.
+ * @param slackUrl - A Slack permalink (e.g. "https://ws.slack.com/archives/C123/p1717000000123456").
+ * @returns An object with `channelId` and `threadTs` (dot-separated timestamp).
+ * @throws Error if the URL does not match the expected Slack permalink format.
+ */
 export function parseThreadUrl(slackUrl: string): { channelId: string; threadTs: string } {
   const match = slackUrl.match(/\/archives\/([A-Z0-9]+)\/p(\d+)/i);
   if (!match) throw new Error('Invalid Slack URL');
@@ -100,6 +124,11 @@ export function parseThreadUrl(slackUrl: string): { channelId: string; threadTs:
   return { channelId, threadTs };
 }
 
+/**
+ * Fetches the human-readable name of a Slack channel.
+ * @param channelId - The Slack channel ID to look up.
+ * @returns The channel name, or the channel ID as a fallback if unavailable.
+ */
 export async function getChannelName(channelId: string): Promise<string> {
   const res = await client.conversations.info({ channel: channelId });
   return res.channel?.name ?? channelId;

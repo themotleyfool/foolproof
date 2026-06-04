@@ -1,0 +1,5306 @@
+[
+  {
+    "id": "C01JLJBB3CZ",
+    "name": "_fool_polygon"
+  },
+  {
+    "id": "C01H33FAYAG",
+    "name": "100-bagger-event"
+  },
+  {
+    "id": "C03GUQMNTMY",
+    "name": "10x-analyst-portfolio"
+  },
+  {
+    "id": "C02QDNRCKLG",
+    "name": "12-6-special-broadcast"
+  },
+  {
+    "id": "C01FG2R43RR",
+    "name": "2_scoops_of_django_book_club"
+  },
+  {
+    "id": "C040V2DDZPD",
+    "name": "2025_virtualcon"
+  },
+  {
+    "id": "C0110D7J770",
+    "name": "24-7-reviews"
+  },
+  {
+    "id": "C08D1NDSK51",
+    "name": "2fa-mystocks"
+  },
+  {
+    "id": "C04PY4PB9",
+    "name": "360-feedback-help"
+  },
+  {
+    "id": "C24L7U51D",
+    "name": "401k-funds"
+  },
+  {
+    "id": "C0308A52CR3",
+    "name": "5280"
+  },
+  {
+    "id": "CH6DK87ED",
+    "name": "5280bathrooms"
+  },
+  {
+    "id": "CQBAHDRTP",
+    "name": "5280giving"
+  },
+  {
+    "id": "CJHRRN761",
+    "name": "5280llcbingo"
+  },
+  {
+    "id": "CH5M9KZN1",
+    "name": "5280marchmadness"
+  },
+  {
+    "id": "C08RCEBTPH6",
+    "name": "5amjoel"
+  },
+  {
+    "id": "C7NMUBA20",
+    "name": "aaahp_preservation"
+  },
+  {
+    "id": "C03BFDMMG23",
+    "name": "account-management"
+  },
+  {
+    "id": "C06GFRF6JJZ",
+    "name": "accountabingo"
+  },
+  {
+    "id": "C016LUHPP7T",
+    "name": "accredited-investing"
+  },
+  {
+    "id": "C02P7LG93PU",
+    "name": "acquisitiontech-api-enhancements"
+  },
+  {
+    "id": "C015DRV029X",
+    "name": "acquisitiontech-zenhub"
+  },
+  {
+    "id": "C0FH87UEQ",
+    "name": "ad-tech"
+  },
+  {
+    "id": "C02ES8NMFL4",
+    "name": "adamzaptest"
+  },
+  {
+    "id": "C0821VB4VTJ",
+    "name": "adaptive-forecasting-migration"
+  },
+  {
+    "id": "C04E0S5MS3U",
+    "name": "advisor-notes-help"
+  },
+  {
+    "id": "C09JR1C4DAT",
+    "name": "aeqium-help"
+  },
+  {
+    "id": "C019UHGRLFN",
+    "name": "affiliates-build"
+  },
+  {
+    "id": "C0AP2UV1B4N",
+    "name": "ahrefs-reporting-net-new"
+  },
+  {
+    "id": "CH8BETV4L",
+    "name": "ai_trailblazers"
+  },
+  {
+    "id": "C08NKLG1BNH",
+    "name": "ai-acquisition"
+  },
+  {
+    "id": "C09KCRKBES2",
+    "name": "ai-content-alerts-high"
+  },
+  {
+    "id": "C06PWTQ78K1",
+    "name": "ai-content-alerts-medium"
+  },
+  {
+    "id": "C060HN36NAW",
+    "name": "ai-deployments"
+  },
+  {
+    "id": "C09AQ5AK9J7",
+    "name": "ai-foolcom-content-status"
+  },
+  {
+    "id": "C05LEAZ5M8U",
+    "name": "ai-help"
+  },
+  {
+    "id": "C071EFMNASY",
+    "name": "ai-playbook-usersnap"
+  },
+  {
+    "id": "C07JE9U2MEC",
+    "name": "ai-prompts-in-tech"
+  },
+  {
+    "id": "C07EGHZ1LKH",
+    "name": "ai-screener-setup"
+  },
+  {
+    "id": "C08G6M3CNHJ",
+    "name": "aiball-usersnap"
+  },
+  {
+    "id": "CRBC7L3LP",
+    "name": "airtable-help"
+  },
+  {
+    "id": "C08JR7HC9BN",
+    "name": "alerts-free-sanity"
+  },
+  {
+    "id": "C0B7PJDRMLM",
+    "name": "alerts-grado-dashboards"
+  },
+  {
+    "id": "C0A9Q81Q33L",
+    "name": "alerts-grado-dev-content"
+  },
+  {
+    "id": "C0AAJH7LEHE",
+    "name": "alerts-grado-dev-scoring"
+  },
+  {
+    "id": "C0A9Q83CHRQ",
+    "name": "alerts-grado-prod-content"
+  },
+  {
+    "id": "C0A9TRVJ5BN",
+    "name": "alerts-grado-prod-scoring"
+  },
+  {
+    "id": "C0B6HTSRJTX",
+    "name": "alerts-grado-staging-content"
+  },
+  {
+    "id": "C0B6QTPE1DJ",
+    "name": "alerts-grado-staging-scoring"
+  },
+  {
+    "id": "C0873E75VQB",
+    "name": "alerts-premium-sanity"
+  },
+  {
+    "id": "C8R1QHKHQ",
+    "name": "all-contractors"
+  },
+  {
+    "id": "CN40GQ39Q",
+    "name": "all-fool-it-news"
+  },
+  {
+    "id": "C08NDSWRPM3",
+    "name": "all-fool-news"
+  },
+  {
+    "id": "C1DCHLD9R",
+    "name": "all-jard-news"
+  },
+  {
+    "id": "C06J0NAG3T8",
+    "name": "all-things-mobile"
+  },
+  {
+    "id": "C051NE02Z7F",
+    "name": "allocator-usersnap"
+  },
+  {
+    "id": "C04PE219F24",
+    "name": "am_vrt-planning-and-tracking"
+  },
+  {
+    "id": "C01KWDH54QP",
+    "name": "amex_deal"
+  },
+  {
+    "id": "C04CQNB6GTF",
+    "name": "anaconda-getting-the-boot"
+  },
+  {
+    "id": "C0B6D0135P1",
+    "name": "angels-well-wishes"
+  },
+  {
+    "id": "C01220VUBL2",
+    "name": "animal-crossing"
+  },
+  {
+    "id": "C031PSWH7TJ",
+    "name": "annual_reports_lists"
+  },
+  {
+    "id": "C05PLL8D26N",
+    "name": "anytime-feedback"
+  },
+  {
+    "id": "C09H45M2VK3",
+    "name": "app-store-collaboration"
+  },
+  {
+    "id": "C01SZRZNV0S",
+    "name": "april-awards-voting"
+  },
+  {
+    "id": "C097BJZCKPV",
+    "name": "apx-alerts"
+  },
+  {
+    "id": "C061L1U12H1",
+    "name": "architecture-discussions"
+  },
+  {
+    "id": "C02R4PY1V47",
+    "name": "artificial-intelligence-rmp"
+  },
+  {
+    "id": "CAMFKDR8F",
+    "name": "askforaraiseday"
+  },
+  {
+    "id": "C0B4BBDED",
+    "name": "athena-logs"
+  },
+  {
+    "id": "C011UG0G2SW",
+    "name": "attribution_team"
+  },
+  {
+    "id": "C07K03QT74H",
+    "name": "au_ai_automated_editorial_summaries"
+  },
+  {
+    "id": "C7DB7L84X",
+    "name": "au_ai_product"
+  },
+  {
+    "id": "C07T9EW6W3Z",
+    "name": "au_ai_use_cases"
+  },
+  {
+    "id": "C038AD7P9MW",
+    "name": "au_cloud_disruptors_informal"
+  },
+  {
+    "id": "C019W6ULT88",
+    "name": "au_copywriting"
+  },
+  {
+    "id": "C0385B47269",
+    "name": "au_digital_explorers_reopen_april22"
+  },
+  {
+    "id": "C02LCHA99TK",
+    "name": "au_digital-explorers_nov21"
+  },
+  {
+    "id": "C03HBPSB4AK",
+    "name": "au_everlasting_income_reopen_june"
+  },
+  {
+    "id": "CCPRR6788",
+    "name": "au_external"
+  },
+  {
+    "id": "C03JG6UUAPJ",
+    "name": "au_farmers_product_"
+  },
+  {
+    "id": "C08HENMMHGD",
+    "name": "au_fe_reports_marketing_investors"
+  },
+  {
+    "id": "C07KUBV49P1",
+    "name": "au_footy_talk"
+  },
+  {
+    "id": "C08F9FNUW86",
+    "name": "au_footy_tipping"
+  },
+  {
+    "id": "C08B3BT5ZNV",
+    "name": "au_goldpass_february2025"
+  },
+  {
+    "id": "C0A15AJFTRQ",
+    "name": "au_itag_article_generator"
+  },
+  {
+    "id": "CJWBG2EVB",
+    "name": "au_marketing2023"
+  },
+  {
+    "id": "C7H5FM6AG",
+    "name": "au_marketpass"
+  },
+  {
+    "id": "CMUGYTBLN",
+    "name": "au_member_services"
+  },
+  {
+    "id": "C09G0Q0DANM",
+    "name": "au_northstar_reopen_oct2025"
+  },
+  {
+    "id": "C06JWLXNQTU",
+    "name": "au_platinum_early_renewals_february04"
+  },
+  {
+    "id": "CAVJ9U4MQ",
+    "name": "au_pro_june_18"
+  },
+  {
+    "id": "C016E5503C2",
+    "name": "au_shootingstars_product"
+  },
+  {
+    "id": "C088VKMQD7Y",
+    "name": "au_stripe_ms"
+  },
+  {
+    "id": "C081F2SGDV4",
+    "name": "au_thecapitalclub_team"
+  },
+  {
+    "id": "C02FCQTBB7W",
+    "name": "au-contractor-managers"
+  },
+  {
+    "id": "C02GLNK6806",
+    "name": "au-contractors"
+  },
+  {
+    "id": "CT87DD0HJ",
+    "name": "au-front-end-acquisition"
+  },
+  {
+    "id": "C03PKKSUPLL",
+    "name": "au-marketing-university"
+  },
+  {
+    "id": "C03UUF1ELKS",
+    "name": "au-sunday-wrap-email"
+  },
+  {
+    "id": "C07N7BVJ24R",
+    "name": "automated-url-validation-and-caching"
+  },
+  {
+    "id": "C0A2CUEU4HG",
+    "name": "automation-and-ai-requests-alerts"
+  },
+  {
+    "id": "C01B9UR9VB6",
+    "name": "automation-planning"
+  },
+  {
+    "id": "C07B8H1EV63",
+    "name": "aws_support_elise_le"
+  },
+  {
+    "id": "C04UNB87733",
+    "name": "aws-account-team"
+  },
+  {
+    "id": "C04BYFGKVC0",
+    "name": "aws-alerts"
+  },
+  {
+    "id": "C05ENGLSK4Y",
+    "name": "aws-billboard-redirects"
+  },
+  {
+    "id": "C04B8QCJQ90",
+    "name": "aws-dataops-alerts"
+  },
+  {
+    "id": "C01PT4B5LF3",
+    "name": "aws-help"
+  },
+  {
+    "id": "C063N6MD1TM",
+    "name": "aws-quants-sandbox-scaffolding"
+  },
+  {
+    "id": "C08SD1WGH55",
+    "name": "aws-sip-detections"
+  },
+  {
+    "id": "C04GL026K3K",
+    "name": "aws-support"
+  },
+  {
+    "id": "C07C3VBT96C",
+    "name": "aws-wiz-patching"
+  },
+  {
+    "id": "C05A4QYNFPY",
+    "name": "axure"
+  },
+  {
+    "id": "C04MT3S1H7Y",
+    "name": "back-end-services"
+  },
+  {
+    "id": "C02Q5J44N9M",
+    "name": "backstage_dashboard_vids"
+  },
+  {
+    "id": "C03GYVDQPMF",
+    "name": "backstage-advisor-notes"
+  },
+  {
+    "id": "C02EY4LQKMK",
+    "name": "backstage-content-coordination"
+  },
+  {
+    "id": "C029H1J6BC0",
+    "name": "backstage-member-services"
+  },
+  {
+    "id": "C02UQBEC83C",
+    "name": "backstage-portfolio-weekly"
+  },
+  {
+    "id": "C02CWKSKC78",
+    "name": "backstage-video-introductions"
+  },
+  {
+    "id": "C01BF2EEFT8",
+    "name": "bad-broker"
+  },
+  {
+    "id": "C03EA3UC599",
+    "name": "bank-issuer-tile-project"
+  },
+  {
+    "id": "C052PQ9UX4N",
+    "name": "base_product_definition"
+  },
+  {
+    "id": "C08597HFS",
+    "name": "be-marketing-alerts"
+  },
+  {
+    "id": "C0AD6DMQ6LV",
+    "name": "become-user"
+  },
+  {
+    "id": "C02MWTLE1",
+    "name": "benefits-info"
+  },
+  {
+    "id": "C03ABL4NKFT",
+    "name": "best_gif_2022"
+  },
+  {
+    "id": "C06U4TS3BKJ",
+    "name": "best-gif-2024"
+  },
+  {
+    "id": "C08UL2DNX7V",
+    "name": "bi_contractor_panels"
+  },
+  {
+    "id": "C02EMLZ8CCW",
+    "name": "bi_critical_job_status"
+  },
+  {
+    "id": "C039S6SLWLE",
+    "name": "bi-book-study"
+  },
+  {
+    "id": "C02D75GC8S3",
+    "name": "bi-fire-lane"
+  },
+  {
+    "id": "C0355G7QHPY",
+    "name": "bi-team-jira-tickets"
+  },
+  {
+    "id": "C060C5U6RSP",
+    "name": "bigip-decommission"
+  },
+  {
+    "id": "C04DS0LCJ",
+    "name": "bigquery"
+  },
+  {
+    "id": "C01Q20H0HC0",
+    "name": "bitcoinmfliveday"
+  },
+  {
+    "id": "CPBCPQ9BK",
+    "name": "bizintel_learning"
+  },
+  {
+    "id": "C07BL1AUCJZ",
+    "name": "bizintel-alerts"
+  },
+  {
+    "id": "C03QB5GGLBC",
+    "name": "boast-submissions"
+  },
+  {
+    "id": "C05N4TS5K2A",
+    "name": "bogo-plus"
+  },
+  {
+    "id": "C09PUEAPE3W",
+    "name": "bonnies-airtable-testing"
+  },
+  {
+    "id": "C06CEQQ5RSS",
+    "name": "book-sooner-safer-happier"
+  },
+  {
+    "id": "C0AGTU3P8MB",
+    "name": "bot-mitigation"
+  },
+  {
+    "id": "C0JUH2P9D",
+    "name": "bounty"
+  },
+  {
+    "id": "C0327TC7APN",
+    "name": "bounty-foolevents"
+  },
+  {
+    "id": "C01U8J6K79U",
+    "name": "bounty-project"
+  },
+  {
+    "id": "C02KADM42",
+    "name": "brandland"
+  },
+  {
+    "id": "C08HRD83476",
+    "name": "brandon-youtube"
+  },
+  {
+    "id": "C0ABPSF96FQ",
+    "name": "braze-ai-decisioning-studio"
+  },
+  {
+    "id": "C07FYE1DRHQ",
+    "name": "breakfast-news"
+  },
+  {
+    "id": "C07RB3DQGK0",
+    "name": "breakfast-news-foolish-fun-questions"
+  },
+  {
+    "id": "C06A699PBB8",
+    "name": "brendan-wow"
+  },
+  {
+    "id": "C049V6GNQ8Y",
+    "name": "brightcove-contract-discussion"
+  },
+  {
+    "id": "C0369J0491B",
+    "name": "brightcove-video-platform-team"
+  },
+  {
+    "id": "C01RDELRETS",
+    "name": "browserstack-users"
+  },
+  {
+    "id": "CGP5Y338D",
+    "name": "buzziscoming"
+  },
+  {
+    "id": "C1F4V5DRR",
+    "name": "ca_external"
+  },
+  {
+    "id": "CRHBG3ERX",
+    "name": "ca_freelancer_lists"
+  },
+  {
+    "id": "C038HJBLK1Q",
+    "name": "ca-contractors"
+  },
+  {
+    "id": "C07V8JTDKFX",
+    "name": "ca-frontend"
+  },
+  {
+    "id": "C07TFLH1X2R",
+    "name": "ca-irl"
+  },
+  {
+    "id": "C02N7B8VDC0",
+    "name": "cabin_brown4"
+  },
+  {
+    "id": "C02MHQKAZ26",
+    "name": "cabin_forest1"
+  },
+  {
+    "id": "C02M9ED4QQP",
+    "name": "cabin_royal4"
+  },
+  {
+    "id": "C02ME0V8P7Z",
+    "name": "cabin_stone1"
+  },
+  {
+    "id": "C02M6Q10JCX",
+    "name": "cabin_stone5"
+  },
+  {
+    "id": "C02MAV69Y6A",
+    "name": "cabin_yellow4"
+  },
+  {
+    "id": "C02MFLULEKX",
+    "name": "cabin-red2"
+  },
+  {
+    "id": "C0SRJADEJ",
+    "name": "calcutta"
+  },
+  {
+    "id": "C0AQYBCSS5R",
+    "name": "campaign-support-backoffice"
+  },
+  {
+    "id": "CCFC8RNAJ",
+    "name": "capitaldiscoverysummit"
+  },
+  {
+    "id": "C06V214CL8G",
+    "name": "caps_userhelp"
+  },
+  {
+    "id": "C0AD66DDJNM",
+    "name": "caps-feedback"
+  },
+  {
+    "id": "CMVCCDQ2K",
+    "name": "ccp-eh"
+  },
+  {
+    "id": "C016SGGSWS1",
+    "name": "ccpa-rollout"
+  },
+  {
+    "id": "CCVE151M3",
+    "name": "central-va"
+  },
+  {
+    "id": "C09A4D6G29L",
+    "name": "challenge-3"
+  },
+  {
+    "id": "C09A2NHCEJW",
+    "name": "challenge-4"
+  },
+  {
+    "id": "C09A4DB9QJ2",
+    "name": "challenge-6"
+  },
+  {
+    "id": "C099XAPGQP9",
+    "name": "challenge-8"
+  },
+  {
+    "id": "C0305SK91HR",
+    "name": "chameleon-slack-alerts"
+  },
+  {
+    "id": "C04PTS50M9U",
+    "name": "channels_biz_updates"
+  },
+  {
+    "id": "C054GSGGJF8",
+    "name": "channels-paidsearch"
+  },
+  {
+    "id": "C0634T8K44S",
+    "name": "charthop-help"
+  },
+  {
+    "id": "C011FH1HR7Y",
+    "name": "chattahuddle"
+  },
+  {
+    "id": "CQHQG4FA4",
+    "name": "chattalooza"
+  },
+  {
+    "id": "C0A00KZP3SS",
+    "name": "chevon-test"
+  },
+  {
+    "id": "C09G8UQ5DHS",
+    "name": "claude_code_chat"
+  },
+  {
+    "id": "C0AKG3973KK",
+    "name": "claude-ai-access-alerts"
+  },
+  {
+    "id": "C0932802PPY",
+    "name": "cloud-platform-alerts"
+  },
+  {
+    "id": "C0400ABRJ9L",
+    "name": "cloudflare-alerts"
+  },
+  {
+    "id": "C05PZCNJL65",
+    "name": "cloudops-critical-alerts"
+  },
+  {
+    "id": "C08N2CLK5V4",
+    "name": "cloudops-database-notifications"
+  },
+  {
+    "id": "C08DNCTUYP9",
+    "name": "cloudops-db-work"
+  },
+  {
+    "id": "C04P43P89A4",
+    "name": "cloudops-help"
+  },
+  {
+    "id": "C060LT74QR2",
+    "name": "cloudops-learning"
+  },
+  {
+    "id": "C05PP74SZ7W",
+    "name": "cloudops-low-alerts"
+  },
+  {
+    "id": "C05PHS0DDRT",
+    "name": "cloudops-medium-alerts"
+  },
+  {
+    "id": "C08N3KX877Y",
+    "name": "cloudops-pr-review"
+  },
+  {
+    "id": "C093YBB126S",
+    "name": "cloudops-sql-alerts"
+  },
+  {
+    "id": "C0941CV562X",
+    "name": "cloudops-striim-alerts"
+  },
+  {
+    "id": "C014K45G8D6",
+    "name": "cloudops-team"
+  },
+  {
+    "id": "C05VDJX1BPC",
+    "name": "cloudops-tickets"
+  },
+  {
+    "id": "C08205M07U2",
+    "name": "cloudops-watchdog"
+  },
+  {
+    "id": "C03RGUCS0Q1",
+    "name": "clube-português"
+  },
+  {
+    "id": "C019V0VGML0",
+    "name": "cms-help"
+  },
+  {
+    "id": "CUJAZC9FH",
+    "name": "cms-payments"
+  },
+  {
+    "id": "C058ULRHSGH",
+    "name": "cms-sanity-help"
+  },
+  {
+    "id": "C1JV2E04S",
+    "name": "code_and_coffee"
+  },
+  {
+    "id": "CH25KF4BW",
+    "name": "comeandgetit"
+  },
+  {
+    "id": "C0A47CQ52T0",
+    "name": "comic-book-collectors-club"
+  },
+  {
+    "id": "C09S22ZJM8B",
+    "name": "comments-issues"
+  },
+  {
+    "id": "C0AUZLSRMC4",
+    "name": "comments-pod"
+  },
+  {
+    "id": "C02A8C3AF",
+    "name": "commerce"
+  },
+  {
+    "id": "CDWDSPK1P",
+    "name": "commerce-alerts"
+  },
+  {
+    "id": "C05CPCPAHE1",
+    "name": "commerce-batch-account-update-logs"
+  },
+  {
+    "id": "C040AQK2ZBJ",
+    "name": "commerce-batch-logs"
+  },
+  {
+    "id": "C045F0YBJ",
+    "name": "commerce-help"
+  },
+  {
+    "id": "C039WUZTC",
+    "name": "commerce-job-log"
+  },
+  {
+    "id": "C076ZLDT24B",
+    "name": "commerce-levels-member-transition-status-test"
+  },
+  {
+    "id": "CGS29CZPZ",
+    "name": "commerce-options"
+  },
+  {
+    "id": "C04S18AUW",
+    "name": "commerce-order-log"
+  },
+  {
+    "id": "C098TA5099U",
+    "name": "commerce-rebill-job-status-log"
+  },
+  {
+    "id": "C01Q88NRMNE",
+    "name": "commerce-rebill-log"
+  },
+  {
+    "id": "C01LUQ3S4H4",
+    "name": "commerce-self-service-log"
+  },
+  {
+    "id": "CULA0ANKS",
+    "name": "commerce-slack-testing"
+  },
+  {
+    "id": "C02C6R7RPB9",
+    "name": "commerce-warnings"
+  },
+  {
+    "id": "C03FX0Z44MV",
+    "name": "community-analytics"
+  },
+  {
+    "id": "C0B6MRQ9DMX",
+    "name": "community-gateway-build"
+  },
+  {
+    "id": "C9137SDR6",
+    "name": "community-modernize"
+  },
+  {
+    "id": "C03GHF3K540",
+    "name": "company-page-project"
+  },
+  {
+    "id": "C02N2CL5G",
+    "name": "competitors"
+  },
+  {
+    "id": "C066EU92FQT",
+    "name": "compsub"
+  },
+  {
+    "id": "CTQPH6X33",
+    "name": "concierge-updates"
+  },
+  {
+    "id": "CAYSPDC00",
+    "name": "conscious-capitalism"
+  },
+  {
+    "id": "C03K7BLHL15",
+    "name": "consenter-center-eb-py38"
+  },
+  {
+    "id": "C06DBUNB18S",
+    "name": "consenter-center-replacement"
+  },
+  {
+    "id": "C0B46JZLUEL",
+    "name": "content-automations-agents"
+  },
+  {
+    "id": "CKJPBLALF",
+    "name": "content-deployments"
+  },
+  {
+    "id": "C01575TEMNG",
+    "name": "content-pitches"
+  },
+  {
+    "id": "C05NHGSAULR",
+    "name": "content-sanity-deployments"
+  },
+  {
+    "id": "C07GRHPG00J",
+    "name": "content-strategy-requirements"
+  },
+  {
+    "id": "C017MR876FL",
+    "name": "content-tech-alerts"
+  },
+  {
+    "id": "C017GM830RL",
+    "name": "content-tech-bots"
+  },
+  {
+    "id": "C060MK53L21",
+    "name": "content-tech-epic2features"
+  },
+  {
+    "id": "C1RB4F96Y",
+    "name": "content-tech-help"
+  },
+  {
+    "id": "C96GVG2SK",
+    "name": "contractor_db_connect"
+  },
+  {
+    "id": "C016GB353U6",
+    "name": "contractor_diversity_hiring"
+  },
+  {
+    "id": "C02GADGEZ0V",
+    "name": "contractor_guideline_doc_review"
+  },
+  {
+    "id": "C035TJZNUPQ",
+    "name": "contractor-clubhouse"
+  },
+  {
+    "id": "C0B47CGKKUZ",
+    "name": "contractor-device-support"
+  },
+  {
+    "id": "C02UG1LM141",
+    "name": "contractor-managers"
+  },
+  {
+    "id": "C08QY59NR54",
+    "name": "contractors-charthop-help"
+  },
+  {
+    "id": "C51CAF011",
+    "name": "core-alerts"
+  },
+  {
+    "id": "CVD8JEEBG",
+    "name": "covid_mygameplan"
+  },
+  {
+    "id": "C0101V9J9TK",
+    "name": "covid_news"
+  },
+  {
+    "id": "CVC8JHNTZ",
+    "name": "covid_stockup"
+  },
+  {
+    "id": "C023U9KH6TA",
+    "name": "crypto_seo"
+  },
+  {
+    "id": "C0376MV798A",
+    "name": "crypto-consensus-crew"
+  },
+  {
+    "id": "C02LTTW9W14",
+    "name": "crypto-writers"
+  },
+  {
+    "id": "C07TQ9ND63A",
+    "name": "cryptoball-usersnap"
+  },
+  {
+    "id": "C8H73RZHC",
+    "name": "cryptocurrencies"
+  },
+  {
+    "id": "C04BT8NJ3K2",
+    "name": "csk-test"
+  },
+  {
+    "id": "CJ9RWPVAT",
+    "name": "csr_new_zd_form"
+  },
+  {
+    "id": "CFY1KTJEL",
+    "name": "culturalfools"
+  },
+  {
+    "id": "C020T299AMC",
+    "name": "culture_ideas"
+  },
+  {
+    "id": "C0B2E5LJ5RS",
+    "name": "culture-amp-2025-2026_renewal_june-17--2026"
+  },
+  {
+    "id": "C0B4FJZD1L0",
+    "name": "culture-amp-2025-2026-renewal"
+  },
+  {
+    "id": "C07SLJGADPH",
+    "name": "cursor_chat"
+  },
+  {
+    "id": "C048TA14VUJ",
+    "name": "cvent-looza-support"
+  },
+  {
+    "id": "C02MVSQCY8H",
+    "name": "cyan_new_managers"
+  },
+  {
+    "id": "C018ESXRN0M",
+    "name": "cybersecurity_911"
+  },
+  {
+    "id": "C04Q44S8M",
+    "name": "cybersecurity_news"
+  },
+  {
+    "id": "C28LFF2MP",
+    "name": "damodaran-foolz"
+  },
+  {
+    "id": "C02FBAG54CD",
+    "name": "data-engineers-level-up"
+  },
+  {
+    "id": "C024X1KJZ0T",
+    "name": "data-grip-users"
+  },
+  {
+    "id": "C01NHAAQ880",
+    "name": "data-infra"
+  },
+  {
+    "id": "C02E4ARU8NN",
+    "name": "data-pipeline-ii-alerts"
+  },
+  {
+    "id": "C09KHNCR7JP",
+    "name": "data-pr-channel"
+  },
+  {
+    "id": "C04DC7GQV",
+    "name": "data-team-help"
+  },
+  {
+    "id": "C0AN6SHHBF0",
+    "name": "data-team-stakeholder-space"
+  },
+  {
+    "id": "C07KRH5LX2S",
+    "name": "databaseball-techies"
+  },
+  {
+    "id": "C081LEJHCCQ",
+    "name": "databases_usersnap"
+  },
+  {
+    "id": "C0A5UM0DHP1",
+    "name": "david-books-snrbdb-launch"
+  },
+  {
+    "id": "C0261RS1A5S",
+    "name": "db-task-logs"
+  },
+  {
+    "id": "C032CER0J81",
+    "name": "dcd_github_team"
+  },
+  {
+    "id": "C035X2DJX41",
+    "name": "de-jira-tickets"
+  },
+  {
+    "id": "C02GM0G73QC",
+    "name": "de-lambda-migration"
+  },
+  {
+    "id": "C06KNF604G1",
+    "name": "demo-ai"
+  },
+  {
+    "id": "C078004DM7V",
+    "name": "demo-broker-sync"
+  },
+  {
+    "id": "C0291V6SPJL",
+    "name": "design-system-talk"
+  },
+  {
+    "id": "C0202RAN0AC",
+    "name": "dev-contractor-workflow"
+  },
+  {
+    "id": "C03C38NUE1Z",
+    "name": "dev-design-inspo"
+  },
+  {
+    "id": "C02CTJCC2",
+    "name": "developers"
+  },
+  {
+    "id": "C0824DV2H8T",
+    "name": "devpanel-lol1"
+  },
+  {
+    "id": "C0820C36KK6",
+    "name": "devpanel-lol2"
+  },
+  {
+    "id": "C082M5KC002",
+    "name": "devpanel-lol6"
+  },
+  {
+    "id": "C081QN70B46",
+    "name": "devpanel-mh-test"
+  },
+  {
+    "id": "C01197Q1WHM",
+    "name": "directmail_prospects_and_formers"
+  },
+  {
+    "id": "C01N6SA3FED",
+    "name": "discovery-content-ops"
+  },
+  {
+    "id": "CTXGYN7L0",
+    "name": "discuss-5280weather"
+  },
+  {
+    "id": "C070W3P0TA5",
+    "name": "discuss-ai-concerns"
+  },
+  {
+    "id": "C04U9CRF3E0",
+    "name": "discuss-ai-innovation"
+  },
+  {
+    "id": "C033H2Y7DJ8",
+    "name": "dividends_show"
+  },
+  {
+    "id": "C7L414BPG",
+    "name": "django-upgrade"
+  },
+  {
+    "id": "C037BTMRD7C",
+    "name": "djangocon-us-2022"
+  },
+  {
+    "id": "C1RECEPLJ",
+    "name": "docker"
+  },
+  {
+    "id": "C097DPSF8",
+    "name": "docupeak-users"
+  },
+  {
+    "id": "C9RBDUGLC",
+    "name": "dotnet-platform"
+  },
+  {
+    "id": "C018MU963DG",
+    "name": "dpt-deploy-logs"
+  },
+  {
+    "id": "CD9HQJUGH",
+    "name": "dpt-pg-logalerts-dev"
+  },
+  {
+    "id": "CF2647VHV",
+    "name": "dpt-pg-logalerts-lab"
+  },
+  {
+    "id": "CDY1Y9FEX",
+    "name": "dpt-pg-logalerts-preview"
+  },
+  {
+    "id": "CDABPCE0M",
+    "name": "dpt-pg-logalerts-staging"
+  },
+  {
+    "id": "C01J97MLB8D",
+    "name": "dri_cart_distribution"
+  },
+  {
+    "id": "C08G2R1PVLY",
+    "name": "dsar-collaborators"
+  },
+  {
+    "id": "CDU5YPA01",
+    "name": "dubs-alerts"
+  },
+  {
+    "id": "C02P1KFLR6U",
+    "name": "dubs-article-test"
+  },
+  {
+    "id": "C46D0GZ4Z",
+    "name": "dubs-build"
+  },
+  {
+    "id": "C0AR8L5DBQC",
+    "name": "dubs-foolcom-updates"
+  },
+  {
+    "id": "C01JRR9NAGG",
+    "name": "dungeons-and-dividends"
+  },
+  {
+    "id": "C08RDQUM55Y",
+    "name": "duo-vibes"
+  },
+  {
+    "id": "C0AQF1PFAN9",
+    "name": "dynamic-entitlements"
+  },
+  {
+    "id": "C08GZUHNZH6",
+    "name": "editorial_alerts_channel"
+  },
+  {
+    "id": "C247N9WUF",
+    "name": "editorialbluppers"
+  },
+  {
+    "id": "C02T995ACEM",
+    "name": "editors-alice"
+  },
+  {
+    "id": "CP116MR1T",
+    "name": "elasticsearch"
+  },
+  {
+    "id": "C0193C09QPJ",
+    "name": "elevate"
+  },
+  {
+    "id": "C1MH997B3",
+    "name": "email_qa_notification"
+  },
+  {
+    "id": "C04CRBEPUUV",
+    "name": "email-ops-alerts"
+  },
+  {
+    "id": "C02EE5P0HUJ",
+    "name": "emailops-l45-emailstatus"
+  },
+  {
+    "id": "C028Y2ZFK7C",
+    "name": "emailops-milli-communication-central"
+  },
+  {
+    "id": "C02QUHBA4Q0",
+    "name": "emailops-specialoffers-communication-central"
+  },
+  {
+    "id": "C025M1ZQL",
+    "name": "engineering-alerts"
+  },
+  {
+    "id": "CS7HZ9RJS",
+    "name": "engineering-linux-alerts"
+  },
+  {
+    "id": "CTSLX66G4",
+    "name": "ep-comp-test"
+  },
+  {
+    "id": "C092JR00WBS",
+    "name": "epic-and-epic-plus-audit"
+  },
+  {
+    "id": "C06FSR4MGN9",
+    "name": "epic-beta-usersnap"
+  },
+  {
+    "id": "C072JNB3FB5",
+    "name": "epic-usersnap-employees"
+  },
+  {
+    "id": "C06JYRV5X7B",
+    "name": "epic-valentines-data"
+  },
+  {
+    "id": "C0GSWNGJU",
+    "name": "equity"
+  },
+  {
+    "id": "C015XE0UESJ",
+    "name": "equity-crowdfunding"
+  },
+  {
+    "id": "CT32T5QJ2",
+    "name": "esg_investing_news"
+  },
+  {
+    "id": "C0246EQU0RX",
+    "name": "excel-sior"
+  },
+  {
+    "id": "C07JS28JZLN",
+    "name": "expense_reimbursement_help"
+  },
+  {
+    "id": "C0255TSV677",
+    "name": "expert-block-project"
+  },
+  {
+    "id": "C0807LDGH6F",
+    "name": "ext-human-security"
+  },
+  {
+    "id": "C01HE15E2DR",
+    "name": "f1_pit_lane"
+  },
+  {
+    "id": "C09621B5WNA",
+    "name": "fastpass-help"
+  },
+  {
+    "id": "C0AB6D01M8E",
+    "name": "fcf-hubspot-notification"
+  },
+  {
+    "id": "C08FN8W163Y",
+    "name": "fe-copy-share"
+  },
+  {
+    "id": "C08UZ86UHPV",
+    "name": "fe-marketing-team"
+  },
+  {
+    "id": "C0F4JJUBB",
+    "name": "feedbacktips"
+  },
+  {
+    "id": "C0AS1V8B84D",
+    "name": "feeds-alerts"
+  },
+  {
+    "id": "CTYLW7DEF",
+    "name": "feeds-build"
+  },
+  {
+    "id": "C17CSDEJ0",
+    "name": "feeds-project"
+  },
+  {
+    "id": "C04KCS2PT7A",
+    "name": "fermentation-station"
+  },
+  {
+    "id": "C026K6DMMFU",
+    "name": "ffff"
+  },
+  {
+    "id": "C07TVSELNBC",
+    "name": "filing-alerts"
+  },
+  {
+    "id": "C0BGL0Q73",
+    "name": "finance-dep-help"
+  },
+  {
+    "id": "C060D9F8SLA",
+    "name": "financial-data-providers"
+  },
+  {
+    "id": "C04CA57BG",
+    "name": "financial-fitness"
+  },
+  {
+    "id": "C02EYMN1MJA",
+    "name": "firecracker-pitch-channel"
+  },
+  {
+    "id": "C03APCSSMN0",
+    "name": "firecrackers_complaints"
+  },
+  {
+    "id": "C02G10SV8BE",
+    "name": "firecrackers-video-programming"
+  },
+  {
+    "id": "C0WU4HR5L",
+    "name": "firststep"
+  },
+  {
+    "id": "C2P0KUA90",
+    "name": "fishbowl"
+  },
+  {
+    "id": "C010820Q0MR",
+    "name": "fix-help"
+  },
+  {
+    "id": "C09LSL0SSNP",
+    "name": "fix-help-testing"
+  },
+  {
+    "id": "C08DQ0RHSA2",
+    "name": "fix-ticket-emojitest"
+  },
+  {
+    "id": "C9MEDBC1J",
+    "name": "flonkertingfools"
+  },
+  {
+    "id": "C02ER3Z1QQJ",
+    "name": "fold-alpha-tech"
+  },
+  {
+    "id": "C02DGTHD08G",
+    "name": "fold-cicd"
+  },
+  {
+    "id": "C01UA8H18T1",
+    "name": "fold-program"
+  },
+  {
+    "id": "CSN2K99LJ",
+    "name": "fool_dot_com_reporting"
+  },
+  {
+    "id": "C0AV4P8GME3",
+    "name": "fool_pairs_pursuit_game"
+  },
+  {
+    "id": "C2U090F6Z",
+    "name": "fool_school_leads"
+  },
+  {
+    "id": "C085AF7R18T",
+    "name": "fool-24-moderators"
+  },
+  {
+    "id": "C02QXV28U0G",
+    "name": "fool-au-recommendation-changes"
+  },
+  {
+    "id": "C043FJGQACV",
+    "name": "fool-ca-affiliates"
+  },
+  {
+    "id": "C1KB570RJ",
+    "name": "fool-canada-services"
+  },
+  {
+    "id": "C025G6Y02N8",
+    "name": "fool-certification"
+  },
+  {
+    "id": "C0AAULGA32P",
+    "name": "fool-chat"
+  },
+  {
+    "id": "C8CCYPM6K",
+    "name": "fool-designers"
+  },
+  {
+    "id": "C089Y6NJX0D",
+    "name": "fool-feeds"
+  },
+  {
+    "id": "C05S92ARN74",
+    "name": "fool-iq-app-alerts"
+  },
+  {
+    "id": "C08H62CCA07",
+    "name": "fool-iq-askai-feedback"
+  },
+  {
+    "id": "C066V5D5C3Z",
+    "name": "fool-iq-help"
+  },
+  {
+    "id": "C085CUEHZPA",
+    "name": "fool-iq-new-versions"
+  },
+  {
+    "id": "C06Q579SNQH",
+    "name": "fool-iq-roadmap-updates"
+  },
+  {
+    "id": "C05ST8DARQE",
+    "name": "fool-iq-usersnap"
+  },
+  {
+    "id": "C0732D9MJ0Y",
+    "name": "fool-iq-usersnap-employees"
+  },
+  {
+    "id": "C01BJFF6GGP",
+    "name": "fool-it-status"
+  },
+  {
+    "id": "C02861FA7RC",
+    "name": "fool-plan-deployments"
+  },
+  {
+    "id": "C2FBC603A",
+    "name": "fool-school"
+  },
+  {
+    "id": "C02BRGA6DST",
+    "name": "fool-score"
+  },
+  {
+    "id": "C04US960ZJ4",
+    "name": "fool-seemplicity-poc"
+  },
+  {
+    "id": "C0AJQP02A13",
+    "name": "fool-swag-blackmarket"
+  },
+  {
+    "id": "C012K4GPM61",
+    "name": "fool-uk-pf"
+  },
+  {
+    "id": "CFZEZTJ2D",
+    "name": "fool-ventures"
+  },
+  {
+    "id": "C01HA18PQRK",
+    "name": "fool-wealth-toddgame"
+  },
+  {
+    "id": "C0877GMCVCH",
+    "name": "fool24-usersnap"
+  },
+  {
+    "id": "C0ARPU331B9",
+    "name": "foolcom-alerts"
+  },
+  {
+    "id": "C0AS1TYJ6SZ",
+    "name": "foolcom-build"
+  },
+  {
+    "id": "C4FMLSU84",
+    "name": "foolcom-help"
+  },
+  {
+    "id": "C099370ESKU",
+    "name": "foolcom-next-deploy"
+  },
+  {
+    "id": "C08TU976XDM",
+    "name": "foolcom-nextjs-launch"
+  },
+  {
+    "id": "C01T8C3AK41",
+    "name": "foolcom-requests"
+  },
+  {
+    "id": "C090UHTECCW",
+    "name": "foolcom-sanity-testing"
+  },
+  {
+    "id": "CES8Y4EVA",
+    "name": "foolcopywriters"
+  },
+  {
+    "id": "C014WJD0V29",
+    "name": "foolfest_2020_transcripts"
+  },
+  {
+    "id": "C07AV5PCGAY",
+    "name": "foolfest_2024_opener_vids"
+  },
+  {
+    "id": "CD2QZV2FK",
+    "name": "foolfest_alexandria"
+  },
+  {
+    "id": "C076K70AE2W",
+    "name": "foolfest-news"
+  },
+  {
+    "id": "C18UZBQM7",
+    "name": "foolfest2017"
+  },
+  {
+    "id": "C1MT98M5W",
+    "name": "foolhub-help"
+  },
+  {
+    "id": "C048Z98CUUV",
+    "name": "foolinaroundpod"
+  },
+  {
+    "id": "C03LJ8W6U0N",
+    "name": "foolish-favorites"
+  },
+  {
+    "id": "C09AB26112Q",
+    "name": "fooliversary-bot-testing"
+  },
+  {
+    "id": "C2ET6FCSY",
+    "name": "foolone-international"
+  },
+  {
+    "id": "C0581GED490",
+    "name": "fools_for_good_habitat_build_2023"
+  },
+  {
+    "id": "C056YHZ7MEK",
+    "name": "fools_for_good_half_day_of_service"
+  },
+  {
+    "id": "C04EBCXMJVC",
+    "name": "foolsforgood-carpentersshelter"
+  },
+  {
+    "id": "CN5NY6137",
+    "name": "foolwealth-idea-exchange"
+  },
+  {
+    "id": "C05AKQH8VAM",
+    "name": "foolympics2023"
+  },
+  {
+    "id": "C05BH49Q68L",
+    "name": "foolympics2023-banana-republica"
+  },
+  {
+    "id": "C05BECRKF35",
+    "name": "foolympics2023-united-republic-of-buy-and-hold"
+  },
+  {
+    "id": "C02TBN95FRV",
+    "name": "foundation_comms_chat"
+  },
+  {
+    "id": "C07LFT8NW14",
+    "name": "foundation_financialfreedom_assessment_tool"
+  },
+  {
+    "id": "C0148MP11T7",
+    "name": "foundation-all"
+  },
+  {
+    "id": "C06CSBC5DFX",
+    "name": "foundation-fools-for-good-taskforce"
+  },
+  {
+    "id": "C02HQPMPYRE",
+    "name": "foundation-program"
+  },
+  {
+    "id": "C010EV1DYR3",
+    "name": "free-live-stream"
+  },
+  {
+    "id": "C0LVDNNMV",
+    "name": "freeguides"
+  },
+  {
+    "id": "C0180R461FD",
+    "name": "friday_fool_live_hosts"
+  },
+  {
+    "id": "C054J6A76HW",
+    "name": "frontend"
+  },
+  {
+    "id": "C1TEQKVF0",
+    "name": "frontendemail"
+  },
+  {
+    "id": "C024FSPSS",
+    "name": "ft-fool-news"
+  },
+  {
+    "id": "C9DGJ9P7G",
+    "name": "gdpr_consenter_center"
+  },
+  {
+    "id": "C03AES83Z46",
+    "name": "gdpr-email-swap"
+  },
+  {
+    "id": "C036ZKAGT27",
+    "name": "geb"
+  },
+  {
+    "id": "C03DZ6R8PJQ",
+    "name": "geb-tech"
+  },
+  {
+    "id": "C015Q71HG9E",
+    "name": "global_bi"
+  },
+  {
+    "id": "C01390G55T4",
+    "name": "global_order_abandon_watch"
+  },
+  {
+    "id": "C5GDPV5EG",
+    "name": "global-911"
+  },
+  {
+    "id": "CB8BP0BL2",
+    "name": "global-ai-articles"
+  },
+  {
+    "id": "C01P3NYP92P",
+    "name": "global-be-order-page-reconfiguration"
+  },
+  {
+    "id": "C054KBDH5A5",
+    "name": "global-braze-migration"
+  },
+  {
+    "id": "C01LRQSJW5D",
+    "name": "global-charts"
+  },
+  {
+    "id": "CJT6EDX50",
+    "name": "global-cios"
+  },
+  {
+    "id": "C5ZGVD2EL",
+    "name": "global-commerce"
+  },
+  {
+    "id": "C022KHYJ76U",
+    "name": "global-disclosures"
+  },
+  {
+    "id": "C081AV65JPQ",
+    "name": "global-email-naming-conventions"
+  },
+  {
+    "id": "CN26AB5CZ",
+    "name": "global-external-mktg"
+  },
+  {
+    "id": "C036D90ELAY",
+    "name": "global-ga_ga4"
+  },
+  {
+    "id": "C01JTJPF7GQ",
+    "name": "global-hop-performance"
+  },
+  {
+    "id": "C03AY375K1N",
+    "name": "global-hub-ideas"
+  },
+  {
+    "id": "CRCV8U737",
+    "name": "global-marketing-design"
+  },
+  {
+    "id": "C0A9P8Q52S3",
+    "name": "global-migration-auth0"
+  },
+  {
+    "id": "C0B83JU2Y8K",
+    "name": "global-payment-recovery"
+  },
+  {
+    "id": "C010XR1GC8P",
+    "name": "global-seo-squad"
+  },
+  {
+    "id": "CT6B1PC04",
+    "name": "global-seo-tech"
+  },
+  {
+    "id": "C096E01RQ",
+    "name": "global-take-stock"
+  },
+  {
+    "id": "C08MW7H395L",
+    "name": "global-unified-premium-experience"
+  },
+  {
+    "id": "C1ZQ5CKQU",
+    "name": "globalmarketing"
+  },
+  {
+    "id": "CPZBZSZAA",
+    "name": "globalooza_investors_panel"
+  },
+  {
+    "id": "C024G826D",
+    "name": "globaltech"
+  },
+  {
+    "id": "C0JL5EL7P",
+    "name": "globaltech-alerts"
+  },
+  {
+    "id": "CBY4LH5QW",
+    "name": "gloomhaven"
+  },
+  {
+    "id": "C0327PCEMAL",
+    "name": "gm"
+  },
+  {
+    "id": "C02HGAZ8F",
+    "name": "gold"
+  },
+  {
+    "id": "C2N3E0U3A",
+    "name": "goldenrule"
+  },
+  {
+    "id": "C0DRP8MPB",
+    "name": "google-optimize"
+  },
+  {
+    "id": "CTXP2BK5H",
+    "name": "gotoally"
+  },
+  {
+    "id": "C09LNC39W6S",
+    "name": "grado-alerts"
+  },
+  {
+    "id": "C09NMLZJJLU",
+    "name": "grammarly-personal"
+  },
+  {
+    "id": "C040B7CECDN",
+    "name": "graphql-alerts"
+  },
+  {
+    "id": "C03V2GD4V8C",
+    "name": "graphql-help"
+  },
+  {
+    "id": "C03HQ8QEBKN",
+    "name": "group35"
+  },
+  {
+    "id": "C7UR17GMT",
+    "name": "gsuite"
+  },
+  {
+    "id": "CNN03DV0X",
+    "name": "gt_notifications"
+  },
+  {
+    "id": "C03HSBNV4SG",
+    "name": "gt_tickers_rollout"
+  },
+  {
+    "id": "C01S694SWP4",
+    "name": "gt-lytics-implementation"
+  },
+  {
+    "id": "C076J6KAB6C",
+    "name": "gt-standup-updates"
+  },
+  {
+    "id": "CJ48VK0F4",
+    "name": "gt-support"
+  },
+  {
+    "id": "C7E4NNJF8",
+    "name": "gtd"
+  },
+  {
+    "id": "C09FS6P14NA",
+    "name": "hackathon-demo-marq"
+  },
+  {
+    "id": "C09FJG1P0SW",
+    "name": "hackathon-group3-test"
+  },
+  {
+    "id": "C06Q8HAF8AZ",
+    "name": "hamzamatic-alerts-critical"
+  },
+  {
+    "id": "CK2RVUJ1H",
+    "name": "headcount_reporting"
+  },
+  {
+    "id": "C01D8881C9J",
+    "name": "health-5280-brewery-club"
+  },
+  {
+    "id": "C9U64R4HM",
+    "name": "health-5280wellness"
+  },
+  {
+    "id": "CJE99MC3H",
+    "name": "health-floorhockey"
+  },
+  {
+    "id": "CQ6CA0P4Y",
+    "name": "health-fool_meditation"
+  },
+  {
+    "id": "C0FABBHRN",
+    "name": "health-fool_runnings"
+  },
+  {
+    "id": "C02V5QDK3",
+    "name": "health-fool-fusion"
+  },
+  {
+    "id": "C9CK4MBPY",
+    "name": "health-mindfulness"
+  },
+  {
+    "id": "CN5G04A9Y",
+    "name": "health-plant-powered"
+  },
+  {
+    "id": "C043NLTRC",
+    "name": "health-remote-wellness"
+  },
+  {
+    "id": "CV5NRD4J2",
+    "name": "health-self-care-challenge"
+  },
+  {
+    "id": "C02SLL16SH4",
+    "name": "health-shooting-our-age"
+  },
+  {
+    "id": "C032GB8BL",
+    "name": "health-soccer"
+  },
+  {
+    "id": "C0301NYC0G1",
+    "name": "health-tennis-fans-and-player"
+  },
+  {
+    "id": "C013HEFBVK6",
+    "name": "health-wearetriathlon"
+  },
+  {
+    "id": "C0CBS9CKX",
+    "name": "health-weightlifting-club"
+  },
+  {
+    "id": "C02FVS1NN",
+    "name": "health-well-being"
+  },
+  {
+    "id": "C03LEH70M",
+    "name": "health-whole-30"
+  },
+  {
+    "id": "C0GB788BG",
+    "name": "health-yoga"
+  },
+  {
+    "id": "C05SE45SS8H",
+    "name": "hello_pickleball"
+  },
+  {
+    "id": "CJCF7K6L8",
+    "name": "hello-5280_mtb"
+  },
+  {
+    "id": "CNMN6QU7M",
+    "name": "hello-5280-dad-jokes"
+  },
+  {
+    "id": "CGZV9B3U5",
+    "name": "hello-5280classifieds"
+  },
+  {
+    "id": "CP1BB2QLS",
+    "name": "hello-5280climbing"
+  },
+  {
+    "id": "CN12YMM3Q",
+    "name": "hello-5280foolball"
+  },
+  {
+    "id": "CLCRLEN05",
+    "name": "hello-5280happenings"
+  },
+  {
+    "id": "CRVA2KMPF",
+    "name": "hello-5280nowplaying"
+  },
+  {
+    "id": "CNRHH0464",
+    "name": "hello-5280offbroadway"
+  },
+  {
+    "id": "CN44R6K5G",
+    "name": "hello-5280whiskeyclub"
+  },
+  {
+    "id": "C082ATAKGSZ",
+    "name": "hello-advent-of-code"
+  },
+  {
+    "id": "C088JPUQEDD",
+    "name": "hello-alcoholfree-fools"
+  },
+  {
+    "id": "C02FD4ARU69",
+    "name": "hello-alx_golf_club"
+  },
+  {
+    "id": "C2B84KFQV",
+    "name": "hello-astronomy"
+  },
+  {
+    "id": "C4V2XNNDQ",
+    "name": "hello-baka"
+  },
+  {
+    "id": "C4YCNTH19",
+    "name": "hello-baking_club"
+  },
+  {
+    "id": "CRV3A12NT",
+    "name": "hello-beamer-status"
+  },
+  {
+    "id": "C039JNG35",
+    "name": "hello-beer-club"
+  },
+  {
+    "id": "C051A4H9M7H",
+    "name": "hello-best_gif_2023"
+  },
+  {
+    "id": "C0114P4R2PP",
+    "name": "hello-best_gift_bracket"
+  },
+  {
+    "id": "C08MU9G5FJB",
+    "name": "hello-best-gif-2025"
+  },
+  {
+    "id": "C0AR52AU1DZ",
+    "name": "hello-best-gif-2026"
+  },
+  {
+    "id": "C013QAQGXD2",
+    "name": "hello-birds"
+  },
+  {
+    "id": "C047QLH08",
+    "name": "hello-book_club"
+  },
+  {
+    "id": "CFVL11DJ8",
+    "name": "hello-book-club-readings"
+  },
+  {
+    "id": "C4CN3RZ0A",
+    "name": "hello-bourbon_club"
+  },
+  {
+    "id": "C0J1H3ZK9",
+    "name": "hello-bridge"
+  },
+  {
+    "id": "C050FJA7400",
+    "name": "hello-caffeinds"
+  },
+  {
+    "id": "C012052UZUK",
+    "name": "hello-carpenters-shelter-catering"
+  },
+  {
+    "id": "C2G1ZAJ23",
+    "name": "hello-carpentershelterlunch"
+  },
+  {
+    "id": "CJQL7L9C1",
+    "name": "hello-carpooling"
+  },
+  {
+    "id": "C0530JGBD6H",
+    "name": "hello-classical-music"
+  },
+  {
+    "id": "C03UU9ZSE",
+    "name": "hello-classifieds-nearish-alexandria"
+  },
+  {
+    "id": "C7NCHG26A",
+    "name": "hello-climbing-club"
+  },
+  {
+    "id": "C079VJL403B",
+    "name": "hello-club-leads"
+  },
+  {
+    "id": "C0GCH6R7G",
+    "name": "hello-club-sandwich"
+  },
+  {
+    "id": "CJ5UNS4SG",
+    "name": "hello-co_hiking"
+  },
+  {
+    "id": "C03CMDGK117",
+    "name": "hello-co-boiled-peanuts"
+  },
+  {
+    "id": "CA53GM3V1",
+    "name": "hello-coffee-and-tea"
+  },
+  {
+    "id": "C02PWBSAZ",
+    "name": "hello-coffeeandsouthwicks"
+  },
+  {
+    "id": "C3F073AMT",
+    "name": "hello-coffeetime"
+  },
+  {
+    "id": "C09R1A7QA",
+    "name": "hello-college-football"
+  },
+  {
+    "id": "C09CB925A",
+    "name": "hello-comics"
+  },
+  {
+    "id": "CUTFQ0G3W",
+    "name": "hello-connect-news"
+  },
+  {
+    "id": "CA5N42GDS",
+    "name": "hello-connections"
+  },
+  {
+    "id": "C04L9L1P5DE",
+    "name": "hello-cosplay-and-props"
+  },
+  {
+    "id": "C0101AU9J5U",
+    "name": "hello-covid_homeschooling"
+  },
+  {
+    "id": "CV0PN5517",
+    "name": "hello-covid_livingsolo"
+  },
+  {
+    "id": "CVAL27CCU",
+    "name": "hello-covid_nightowl"
+  },
+  {
+    "id": "CVC8FSY3H",
+    "name": "hello-covid_olderparents"
+  },
+  {
+    "id": "CVCJPTX6J",
+    "name": "hello-covid_youngkids"
+  },
+  {
+    "id": "C03Q0BED2",
+    "name": "hello-craftyfools"
+  },
+  {
+    "id": "C01FWL9ALF8",
+    "name": "hello-creative-writing-club"
+  },
+  {
+    "id": "C02EJUD9NHY",
+    "name": "hello-crossword-fools"
+  },
+  {
+    "id": "C02CEJ4LUJ1",
+    "name": "hello-culture-book-club"
+  },
+  {
+    "id": "C043N3QLN",
+    "name": "hello-dad_jokes"
+  },
+  {
+    "id": "C01AHK22BH7",
+    "name": "hello-diy-fools"
+  },
+  {
+    "id": "C06EJ3QT62E",
+    "name": "hello-dmv-outdoor-club"
+  },
+  {
+    "id": "C034B71397A",
+    "name": "hello-dmv-social"
+  },
+  {
+    "id": "C04RYHVTE",
+    "name": "hello-doctor_who"
+  },
+  {
+    "id": "C03GNLR1P",
+    "name": "hello-doppelganger"
+  },
+  {
+    "id": "C07D09VHQ",
+    "name": "hello-dumbledores-army"
+  },
+  {
+    "id": "C4PUX0CLW",
+    "name": "hello-etsy-fools"
+  },
+  {
+    "id": "C03FHHTDB",
+    "name": "hello-evdrivers"
+  },
+  {
+    "id": "C02C3180W1M",
+    "name": "hello-fantasy-foolball"
+  },
+  {
+    "id": "C02AY6LV6MU",
+    "name": "hello-fantasy-soccer-but-really-it-is-football"
+  },
+  {
+    "id": "CA8TLLL83",
+    "name": "hello-finance_donut"
+  },
+  {
+    "id": "C041EV3H5U2",
+    "name": "hello-fonowrimo"
+  },
+  {
+    "id": "C07JH5WRG5V",
+    "name": "hello-fool-clubhouse"
+  },
+  {
+    "id": "CFM6NDVPG",
+    "name": "hello-fool-cyclists"
+  },
+  {
+    "id": "C0608RN4116",
+    "name": "hello-fool-library"
+  },
+  {
+    "id": "C01CM05JNAG",
+    "name": "hello-foolapalooza_codenames"
+  },
+  {
+    "id": "C03T6H7ND",
+    "name": "hello-foolepreneurs"
+  },
+  {
+    "id": "CMM24D16G",
+    "name": "hello-foolfantasyfootball"
+  },
+  {
+    "id": "CAYMGGASC",
+    "name": "hello-foolish_makers"
+  },
+  {
+    "id": "C02RH1D419T",
+    "name": "hello-foolish-art"
+  },
+  {
+    "id": "C0312B8T404",
+    "name": "hello-foolishsneakerheads"
+  },
+  {
+    "id": "C04MZQURD",
+    "name": "hello-foolmoto"
+  },
+  {
+    "id": "C28KJ4TD5",
+    "name": "hello-fools-who-brunch"
+  },
+  {
+    "id": "CRLT71B1R",
+    "name": "hello-free-booze"
+  },
+  {
+    "id": "C033HNL6Z",
+    "name": "hello-free-food"
+  },
+  {
+    "id": "CV19N5SCT",
+    "name": "hello-frozen"
+  },
+  {
+    "id": "C048A826F",
+    "name": "hello-gameofthrones"
+  },
+  {
+    "id": "C039VKSB7",
+    "name": "hello-german-club"
+  },
+  {
+    "id": "C03CYRR857Y",
+    "name": "hello-gifs"
+  },
+  {
+    "id": "C02RHUWJT",
+    "name": "hello-giphy"
+  },
+  {
+    "id": "C0B0DC3SL",
+    "name": "hello-go-tar-heels"
+  },
+  {
+    "id": "C018V7ZSZ28",
+    "name": "hello-green-fools"
+  },
+  {
+    "id": "C0KMNNH5Z",
+    "name": "hello-horrorfans"
+  },
+  {
+    "id": "C94VCF79C",
+    "name": "hello-horrorfans-book-club"
+  },
+  {
+    "id": "C03EA9Y9C",
+    "name": "hello-housing"
+  },
+  {
+    "id": "CRE3XTB6C",
+    "name": "hello-i_recommend_this"
+  },
+  {
+    "id": "C0L3A0M50",
+    "name": "hello-iceland"
+  },
+  {
+    "id": "C04KX5U1N",
+    "name": "hello-inkedfools"
+  },
+  {
+    "id": "CGXGZ86H2",
+    "name": "hello-intro-to-k-pop"
+  },
+  {
+    "id": "C02JLB864GK",
+    "name": "hello-isitabonesday"
+  },
+  {
+    "id": "C02L3EY9C",
+    "name": "hello-just_cat_pictures"
+  },
+  {
+    "id": "C4CR9PCDS",
+    "name": "hello-just-bunny-pictures"
+  },
+  {
+    "id": "C02PU6E71",
+    "name": "hello-just-dog-pictures"
+  },
+  {
+    "id": "C01HN45ED6G",
+    "name": "hello-keebie-jeebies"
+  },
+  {
+    "id": "C039X2BEG",
+    "name": "hello-knitting-crocheting"
+  },
+  {
+    "id": "C04KXBQ32TE",
+    "name": "hello-little-plastic-friends"
+  },
+  {
+    "id": "C02K9RU5740",
+    "name": "hello-look-at-my-lunch"
+  },
+  {
+    "id": "C02A8ERPF",
+    "name": "hello-los_tios"
+  },
+  {
+    "id": "C028CTSBE",
+    "name": "hello-lunch"
+  },
+  {
+    "id": "CGZ2D4UH0",
+    "name": "hello-march-madness"
+  },
+  {
+    "id": "C06Q8HQUYHW",
+    "name": "hello-march-madness26"
+  },
+  {
+    "id": "C01T6J7TJTE",
+    "name": "hello-masterscalcutta"
+  },
+  {
+    "id": "C02C6NRAEPM",
+    "name": "hello-ml-book-club"
+  },
+  {
+    "id": "CSG349V9N",
+    "name": "hello-motleyfoods"
+  },
+  {
+    "id": "C043B2L72",
+    "name": "hello-movie-fools"
+  },
+  {
+    "id": "C01EUETDE91",
+    "name": "hello-ms-parent"
+  },
+  {
+    "id": "C03NGF9Q7KP",
+    "name": "hello-ms-tv-forwardslash-movie-club"
+  },
+  {
+    "id": "C03BG3T5E",
+    "name": "hello-music"
+  },
+  {
+    "id": "C0MNVUBMF",
+    "name": "hello-musicians"
+  },
+  {
+    "id": "CSHN05JK1",
+    "name": "hello-nature-club"
+  },
+  {
+    "id": "C048VQCNX",
+    "name": "hello-nerf_herders"
+  },
+  {
+    "id": "C5SCE1049",
+    "name": "hello-newyorkyankees"
+  },
+  {
+    "id": "C16CUKG5N",
+    "name": "hello-nhl-caps"
+  },
+  {
+    "id": "C16C8AX6F",
+    "name": "hello-nhl-penguins"
+  },
+  {
+    "id": "C05R4SK7ANL",
+    "name": "hello-nyt-connections"
+  },
+  {
+    "id": "C016RH21Z2M",
+    "name": "hello-oculusquest"
+  },
+  {
+    "id": "C034K76PU0N",
+    "name": "hello-olde-town-lunch"
+  },
+  {
+    "id": "C55KV07HQ",
+    "name": "hello-outdoors"
+  },
+  {
+    "id": "C03F7D5V5",
+    "name": "hello-pcgaming"
+  },
+  {
+    "id": "C010TMC9S20",
+    "name": "hello-peakyblindersclub"
+  },
+  {
+    "id": "C05PD2DCV34",
+    "name": "hello-philosophy"
+  },
+  {
+    "id": "C048VMH09",
+    "name": "hello-photography"
+  },
+  {
+    "id": "C0575RDF02V",
+    "name": "hello-pinball"
+  },
+  {
+    "id": "C016GCTGGCX",
+    "name": "hello-plant-parents"
+  },
+  {
+    "id": "C01CMR6AZSQ",
+    "name": "hello-podcast-fans"
+  },
+  {
+    "id": "C1QGWPBPA",
+    "name": "hello-pokemon-go"
+  },
+  {
+    "id": "CBPL7TWV8",
+    "name": "hello-poker"
+  },
+  {
+    "id": "C06QHU4NRE2",
+    "name": "hello-prestige-tv"
+  },
+  {
+    "id": "C02MLA35SP9",
+    "name": "hello-puzzle_club"
+  },
+  {
+    "id": "C06E9N21B8D",
+    "name": "hello-pwhl"
+  },
+  {
+    "id": "C024FSPSU",
+    "name": "hello-random"
+  },
+  {
+    "id": "C0257DS5DC6",
+    "name": "hello-real-fools-of-bravo"
+  },
+  {
+    "id": "C02N1LDJJ74",
+    "name": "hello-recipe-club"
+  },
+  {
+    "id": "CBWP2RSJW",
+    "name": "hello-retro-gamerz"
+  },
+  {
+    "id": "C07LVAUCS",
+    "name": "hello-sci-fi"
+  },
+  {
+    "id": "C033URDDZ",
+    "name": "hello-serial"
+  },
+  {
+    "id": "C7FD6M0AU",
+    "name": "hello-sewing_fools"
+  },
+  {
+    "id": "C01DDS0M5PE",
+    "name": "hello-shoeswap"
+  },
+  {
+    "id": "C02CG5N068Z",
+    "name": "hello-smarthome"
+  },
+  {
+    "id": "CM71JCQ4X",
+    "name": "hello-soccer-chat"
+  },
+  {
+    "id": "C030C4S2B",
+    "name": "hello-sock-advisor"
+  },
+  {
+    "id": "C05669KTBFA",
+    "name": "hello-spf-is-a-lifestyle"
+  },
+  {
+    "id": "C0557JDH9",
+    "name": "hello-spikeball"
+  },
+  {
+    "id": "C01D5CAFHJL",
+    "name": "hello-sports"
+  },
+  {
+    "id": "CTAQ8S6LR",
+    "name": "hello-star-trek"
+  },
+  {
+    "id": "C2ZMBTJ48",
+    "name": "hello-stuffthatmakesmehappy"
+  },
+  {
+    "id": "C05S3U26Q5S",
+    "name": "hello-survivor-fans"
+  },
+  {
+    "id": "C056RRRMEHY",
+    "name": "hello-swifties"
+  },
+  {
+    "id": "C039UDMDWTG",
+    "name": "hello-sylvia_food_adventure"
+  },
+  {
+    "id": "CJS7KB9PV",
+    "name": "hello-table_tennis_time"
+  },
+  {
+    "id": "C02H2NE7MPZ",
+    "name": "hello-tbs-topgolf"
+  },
+  {
+    "id": "C7VTLQQNQ",
+    "name": "hello-tea_time"
+  },
+  {
+    "id": "C0BBNB2CA",
+    "name": "hello-tech-talk"
+  },
+  {
+    "id": "C025BK98160",
+    "name": "hello-teetime"
+  },
+  {
+    "id": "C02MK69CS1E",
+    "name": "hello-the_toon_army"
+  },
+  {
+    "id": "C04GL49455E",
+    "name": "hello-the-crew-game"
+  },
+  {
+    "id": "C03VA3TS3",
+    "name": "hello-tmfkickballz"
+  },
+  {
+    "id": "C064V4BNBLP",
+    "name": "hello-tmfskydivers"
+  },
+  {
+    "id": "C0K2U01FS",
+    "name": "hello-toddgames"
+  },
+  {
+    "id": "C0350BQ12",
+    "name": "hello-travel-hackers"
+  },
+  {
+    "id": "C02DY75315K",
+    "name": "hello-true_crime_time"
+  },
+  {
+    "id": "C9TRWJCLW",
+    "name": "hello-tylers-weather"
+  },
+  {
+    "id": "CS1UMG77U",
+    "name": "hello-ukulele-club"
+  },
+  {
+    "id": "C02LG6ZEV5X",
+    "name": "hello-up_the_irons"
+  },
+  {
+    "id": "C0B26EHDF",
+    "name": "hello-video-games"
+  },
+  {
+    "id": "CV5FD9GH5",
+    "name": "hello-virtual-hub"
+  },
+  {
+    "id": "C1U1UAC3Z",
+    "name": "hello-vr"
+  },
+  {
+    "id": "CSRPMMEFR",
+    "name": "hello-wakeuptobacon"
+  },
+  {
+    "id": "C02QSG6C9",
+    "name": "hello-walkingdead"
+  },
+  {
+    "id": "C02MPK53D9U",
+    "name": "hello-where_do_you_buy_clothes"
+  },
+  {
+    "id": "C05TRS5JQGM",
+    "name": "hello-where-is-puck"
+  },
+  {
+    "id": "C036WTTCJ",
+    "name": "hello-wine-club"
+  },
+  {
+    "id": "C1AAHBTMY",
+    "name": "hello-winter-is-coming"
+  },
+  {
+    "id": "C01AGE40L6B",
+    "name": "hello-witchy-business"
+  },
+  {
+    "id": "C081B9KBM",
+    "name": "hello-wmata-drama"
+  },
+  {
+    "id": "C017W3YPX5L",
+    "name": "hello-woodworking"
+  },
+  {
+    "id": "C02V30FF8Q2",
+    "name": "hello-wordle"
+  },
+  {
+    "id": "C03Q8NNH0LX",
+    "name": "hello-zoomfails"
+  },
+  {
+    "id": "C02P4PD55",
+    "name": "heydoesanyonehave"
+  },
+  {
+    "id": "C065JKMH8TS",
+    "name": "hg-comp-campaign"
+  },
+  {
+    "id": "C09077HRCBH",
+    "name": "hold-to-buy-rec-how-do"
+  },
+  {
+    "id": "CA1BR9H7U",
+    "name": "hole-in-the-funnel"
+  },
+  {
+    "id": "C02Q38UCXHS",
+    "name": "holidayspecial2021"
+  },
+  {
+    "id": "C09D9T9870V",
+    "name": "hopper-the-motley-fool"
+  },
+  {
+    "id": "C4Y8C7EQY",
+    "name": "hottopicscanada"
+  },
+  {
+    "id": "C02RCN5PUDU",
+    "name": "how-we-feelin-backstage"
+  },
+  {
+    "id": "C02AQ1T0PAT",
+    "name": "html-css-js"
+  },
+  {
+    "id": "C015BB4L3DE",
+    "name": "hubspot_glassdoor"
+  },
+  {
+    "id": "C01EU56QM89",
+    "name": "hubspot-motleyfool-snowflakedatashare"
+  },
+  {
+    "id": "C2ERZ1NCB",
+    "name": "huddle"
+  },
+  {
+    "id": "C08APPWBSHL",
+    "name": "iden-ms-feedback"
+  },
+  {
+    "id": "CPVF1K9GW",
+    "name": "identity_and_recognition"
+  },
+  {
+    "id": "C06V9HQ6JG7",
+    "name": "identity-services-alerts"
+  },
+  {
+    "id": "C015G6U2X89",
+    "name": "identity-services-cicd"
+  },
+  {
+    "id": "CK9GZ4KCL",
+    "name": "identity-services-help"
+  },
+  {
+    "id": "C06GPD4QHGV",
+    "name": "identity-services-jira"
+  },
+  {
+    "id": "C01C26TPW5C",
+    "name": "idp_2020"
+  },
+  {
+    "id": "C033VVAGYN8",
+    "name": "im_scared_risk_mgmt_tiger_team"
+  },
+  {
+    "id": "C27BXG6SV",
+    "name": "improve-the-fool"
+  },
+  {
+    "id": "C0B3P2U3NM9",
+    "name": "inc-2026-05-14-tutorial-sepia-monkey"
+  },
+  {
+    "id": "C031ZDY75AS",
+    "name": "incident-17"
+  },
+  {
+    "id": "C03R5JXN0Q0",
+    "name": "incident-24"
+  },
+  {
+    "id": "C04B16Y8R7H",
+    "name": "incident-26"
+  },
+  {
+    "id": "C04HK5WF536",
+    "name": "incident-30"
+  },
+  {
+    "id": "C04J3NXKXSP",
+    "name": "incident-31"
+  },
+  {
+    "id": "C04TPB3NBEF",
+    "name": "incident-34"
+  },
+  {
+    "id": "C0ABP20J3GT",
+    "name": "incidents"
+  },
+  {
+    "id": "C016Y46TP0E",
+    "name": "inclusion-survey-2020"
+  },
+  {
+    "id": "C03M93S8JBS",
+    "name": "incomingnews"
+  },
+  {
+    "id": "C070GGVUJBG",
+    "name": "individual-stock-ownership-challenge"
+  },
+  {
+    "id": "C03FMB7S3",
+    "name": "infotrack"
+  },
+  {
+    "id": "C025GUX6JFQ",
+    "name": "integrator-tech-team"
+  },
+  {
+    "id": "C0833FESY",
+    "name": "internal_market"
+  },
+  {
+    "id": "C078WCDUVBJ",
+    "name": "internal-tech-cloud-custodian-alerts"
+  },
+  {
+    "id": "C08U32M2VDE",
+    "name": "internal-tech-help"
+  },
+  {
+    "id": "C08HBMSE05D",
+    "name": "internaltech-apollo-testing"
+  },
+  {
+    "id": "C05VC3RRC4F",
+    "name": "international-security-and-policies"
+  },
+  {
+    "id": "C08V2S1JQCU",
+    "name": "interns-2026"
+  },
+  {
+    "id": "CJVE0ED7F",
+    "name": "intl-source-codes"
+  },
+  {
+    "id": "C051GCCC0SD",
+    "name": "investgpt"
+  },
+  {
+    "id": "C02LG1GP1",
+    "name": "investing"
+  },
+  {
+    "id": "C01SL0BUS4T",
+    "name": "investing-essentials-summit"
+  },
+  {
+    "id": "C02D2G2NKD4",
+    "name": "investing-intel-platform"
+  },
+  {
+    "id": "C0194BY3TGV",
+    "name": "investing-ops-help"
+  },
+  {
+    "id": "C28URN5KJ",
+    "name": "investing-tech-alerts"
+  },
+  {
+    "id": "CKW497WSU",
+    "name": "investing-tech-build"
+  },
+  {
+    "id": "C02F6R1GQRX",
+    "name": "investing-tech-documentation"
+  },
+  {
+    "id": "C022S92J6MS",
+    "name": "investing-tech-periscope-alerts"
+  },
+  {
+    "id": "C02BA3BSNUX",
+    "name": "investment-club-working-group"
+  },
+  {
+    "id": "C018LP9GLF8",
+    "name": "investor_digest_email"
+  },
+  {
+    "id": "CLU4ZHV9P",
+    "name": "investorisland"
+  },
+  {
+    "id": "C03MNMANP5H",
+    "name": "is-hubspot-email-testing"
+  },
+  {
+    "id": "C06LGM0FGJY",
+    "name": "it-deployments"
+  },
+  {
+    "id": "C08SNPB193L",
+    "name": "it-github-naming-audit"
+  },
+  {
+    "id": "C02VA8KCJR3",
+    "name": "it-sysadmin-help"
+  },
+  {
+    "id": "C0AFER4393Q",
+    "name": "it-testing-mfa-agent"
+  },
+  {
+    "id": "C034KNKKV2Q",
+    "name": "jairo-test-channel-public"
+  },
+  {
+    "id": "C024HKATU",
+    "name": "javascript"
+  },
+  {
+    "id": "C2HPJ4ZNV",
+    "name": "jeff_fischer_turns_20"
+  },
+  {
+    "id": "C016MDMR70S",
+    "name": "jelles_marble_runs"
+  },
+  {
+    "id": "C05JUBG8SGM",
+    "name": "jester-design-system"
+  },
+  {
+    "id": "C071MR1MJMV",
+    "name": "jester-tmfbusiness"
+  },
+  {
+    "id": "C072TS7KG2G",
+    "name": "jesterai-data-demo"
+  },
+  {
+    "id": "C072KNKFU86",
+    "name": "jesterai-demo-321"
+  },
+  {
+    "id": "C06TFTGEVEJ",
+    "name": "jesterai-howto"
+  },
+  {
+    "id": "C02KM5AAWD6",
+    "name": "jira-help"
+  },
+  {
+    "id": "C03GW2MJUGY",
+    "name": "jira-test"
+  },
+  {
+    "id": "C02H1SL4U",
+    "name": "jobs"
+  },
+  {
+    "id": "C09J506K2MC",
+    "name": "jsm-responses"
+  },
+  {
+    "id": "C02L5LL7H45",
+    "name": "jwt-auth"
+  },
+  {
+    "id": "C0AF9MJDYBB",
+    "name": "katrinas-test-channel"
+  },
+  {
+    "id": "C310Z5JGL",
+    "name": "kelleher_gardens_hoa"
+  },
+  {
+    "id": "C01TD2E8257",
+    "name": "kevel-motleyfoolglobal"
+  },
+  {
+    "id": "C06ND7T16UD",
+    "name": "kids-and-investing-and-you"
+  },
+  {
+    "id": "C030C4K9G3A",
+    "name": "kids-investing-project"
+  },
+  {
+    "id": "C04LVHZBPEC",
+    "name": "kng-zap-testing"
+  },
+  {
+    "id": "C051BN6B2JY",
+    "name": "koalas"
+  },
+  {
+    "id": "CU5JW3RUG",
+    "name": "kong-ui-project"
+  },
+  {
+    "id": "C02821QJVB5",
+    "name": "l1-l2-pom-team"
+  },
+  {
+    "id": "C030JP6NYP4",
+    "name": "l4-content-curration-project"
+  },
+  {
+    "id": "C05UMCG4MEG",
+    "name": "launches"
+  },
+  {
+    "id": "C3A24AJ0N",
+    "name": "lawrenceg_turns_20"
+  },
+  {
+    "id": "C0QEB3MPZ",
+    "name": "level_up"
+  },
+  {
+    "id": "C02ABTK30HM",
+    "name": "level4_email_welcomes"
+  },
+  {
+    "id": "C046M5P6UCS",
+    "name": "level4and5testing"
+  },
+  {
+    "id": "C02SKAU77",
+    "name": "linux-reboots"
+  },
+  {
+    "id": "C01KSARR8FM",
+    "name": "list_emergencies"
+  },
+  {
+    "id": "C08MXFM7DDL",
+    "name": "live-updates-improvements"
+  },
+  {
+    "id": "C037C2ZGP",
+    "name": "liveshow_fieldtrip_cl"
+  },
+  {
+    "id": "C02J4U74QAJ",
+    "name": "livestream_producers"
+  },
+  {
+    "id": "C06JXU2S285",
+    "name": "llm-gateway-moderation"
+  },
+  {
+    "id": "C08S3B11GLB",
+    "name": "llm-tech-deployments"
+  },
+  {
+    "id": "C053578Q33M",
+    "name": "local-leaders-half-day-of-service-may-2023"
+  },
+  {
+    "id": "C09AJD5PHGC",
+    "name": "localpingbot-test"
+  },
+  {
+    "id": "C09B1HKAC65",
+    "name": "localpingbot-testing"
+  },
+  {
+    "id": "C07NHG4C2UB",
+    "name": "lol-panel-announcements"
+  },
+  {
+    "id": "C096V55UMTQ",
+    "name": "lol-rob-stripy"
+  },
+  {
+    "id": "C096UEUJ1PE",
+    "name": "lol-stripy"
+  },
+  {
+    "id": "C08070ATE4S",
+    "name": "lollypop"
+  },
+  {
+    "id": "C069LPMG6C8",
+    "name": "looza-help"
+  },
+  {
+    "id": "C02FD674ZM5",
+    "name": "ltv-and-cpa-follow-up"
+  },
+  {
+    "id": "C04QARGLHTJ",
+    "name": "lumar_fool-global-alerts"
+  },
+  {
+    "id": "C021B18JYJH",
+    "name": "lumigo-fool"
+  },
+  {
+    "id": "C0AJ1SZRXT3",
+    "name": "lumos_help"
+  },
+  {
+    "id": "C024KRGQF",
+    "name": "mac"
+  },
+  {
+    "id": "C05S5AQLZPG",
+    "name": "mac-os-upgrade"
+  },
+  {
+    "id": "CATT6PLNP",
+    "name": "macro-economics"
+  },
+  {
+    "id": "C02M9Q45WEL",
+    "name": "magenta_new_managers"
+  },
+  {
+    "id": "C01FYEG1PUG",
+    "name": "make-global-offers-great-again"
+  },
+  {
+    "id": "C0A77JV8YES",
+    "name": "manage-membership-errors"
+  },
+  {
+    "id": "C07ABJ95RN0",
+    "name": "manage-membership-release"
+  },
+  {
+    "id": "C01GLG4L7FA",
+    "name": "map-ers"
+  },
+  {
+    "id": "C042E3YMM",
+    "name": "marchmadness"
+  },
+  {
+    "id": "C02J6KFJQBE",
+    "name": "marg-bday"
+  },
+  {
+    "id": "CV16YPZ3K",
+    "name": "market_downturn_q-and-a"
+  },
+  {
+    "id": "C01E0TB16F5",
+    "name": "market-conditions-task-force"
+  },
+  {
+    "id": "C2RKFDSJE",
+    "name": "market-masters"
+  },
+  {
+    "id": "C037PK1TL",
+    "name": "market-tech-help"
+  },
+  {
+    "id": "C0552KF4P33",
+    "name": "market-tech-redis-size"
+  },
+  {
+    "id": "C0NBJHL8H",
+    "name": "marketech-alerts"
+  },
+  {
+    "id": "C03981X32R2",
+    "name": "marketech-deployments"
+  },
+  {
+    "id": "C2H5ED6LB",
+    "name": "marketech-sentry"
+  },
+  {
+    "id": "C024G8AJP",
+    "name": "marketing"
+  },
+  {
+    "id": "C02RLJ5SHGR",
+    "name": "marketing_jobs"
+  },
+  {
+    "id": "C032DLX303Z",
+    "name": "marketing-and-mailbox"
+  },
+  {
+    "id": "C03VALM10CV",
+    "name": "marketing-ops"
+  },
+  {
+    "id": "C01TABYUCPM",
+    "name": "marketing-pipelines-alerts"
+  },
+  {
+    "id": "C0187ML5WCA",
+    "name": "marketingfeedback-au"
+  },
+  {
+    "id": "CSX943HA5",
+    "name": "marketmuse-learnings"
+  },
+  {
+    "id": "C06K6TEKV5F",
+    "name": "marthetron-bot"
+  },
+  {
+    "id": "C02UFDYKL9E",
+    "name": "massachusetts_fools"
+  },
+  {
+    "id": "CD2FVMLHW",
+    "name": "matt_new_adventure"
+  },
+  {
+    "id": "C2LSQ4MGR",
+    "name": "max_keeler_turns_20"
+  },
+  {
+    "id": "C0150UQJ7J8",
+    "name": "max-ted-tony"
+  },
+  {
+    "id": "C07F76NSY2U",
+    "name": "meet_the_investors"
+  },
+  {
+    "id": "C04BUDKPKQC",
+    "name": "melbourne_team_events"
+  },
+  {
+    "id": "C06TN4ZNS8K",
+    "name": "member_events_collab"
+  },
+  {
+    "id": "CK5PW2KR8",
+    "name": "member_stories"
+  },
+  {
+    "id": "C02K4SC6B0R",
+    "name": "member-offers"
+  },
+  {
+    "id": "C05K07Q2VEY",
+    "name": "member-renewal-report"
+  },
+  {
+    "id": "C021PE0LK3J",
+    "name": "member-scorecard-testing"
+  },
+  {
+    "id": "C01SRH31F9Q",
+    "name": "member-services-data"
+  },
+  {
+    "id": "C03UDAEHETB",
+    "name": "membership_news"
+  },
+  {
+    "id": "C27QWKS48",
+    "name": "memergencies"
+  },
+  {
+    "id": "C2QDCLVEW",
+    "name": "mental_models"
+  },
+  {
+    "id": "C09BQ8ALHDL",
+    "name": "message-tech-logs-autorenewal-notice-job-status"
+  },
+  {
+    "id": "C05CYJ8E1LH",
+    "name": "messari-de1-alerts"
+  },
+  {
+    "id": "C05R19R50GH",
+    "name": "messari-de2-alerts"
+  },
+  {
+    "id": "C05R1B2QNQH",
+    "name": "messari-news"
+  },
+  {
+    "id": "C0B08D7M8H0",
+    "name": "metal-friends"
+  },
+  {
+    "id": "C1SRZUMN3",
+    "name": "metrics-brainstorm"
+  },
+  {
+    "id": "C01ER43EK60",
+    "name": "mf_live_holidays"
+  },
+  {
+    "id": "C0AM0SPJF1V",
+    "name": "mfam-dmv-work-syncs"
+  },
+  {
+    "id": "C02D5MR1553",
+    "name": "mfam-hubspot-setup"
+  },
+  {
+    "id": "C046W0ZQ70A",
+    "name": "mff-team-aim"
+  },
+  {
+    "id": "C024LL2BYES",
+    "name": "mfl-contractors"
+  },
+  {
+    "id": "C03ET6MQZ8D",
+    "name": "mflive_fun"
+  },
+  {
+    "id": "C0670AJK0KA",
+    "name": "mfm_911"
+  },
+  {
+    "id": "C02EHBAJQG6",
+    "name": "mfm_ads_problems"
+  },
+  {
+    "id": "C03JDCF886B",
+    "name": "mfm_advertorial_marketing"
+  },
+  {
+    "id": "C04DCL8JVTL",
+    "name": "mfm_ai"
+  },
+  {
+    "id": "C04AVGR64MR",
+    "name": "mfm_alerts"
+  },
+  {
+    "id": "C059CE14LDN",
+    "name": "mfm_article_feed"
+  },
+  {
+    "id": "C03CC1XSZ9B",
+    "name": "mfm_article_ideas"
+  },
+  {
+    "id": "C03D7M0EE74",
+    "name": "mfm_bankcontent"
+  },
+  {
+    "id": "CUNHJ8SLR",
+    "name": "mfm_biz_intel"
+  },
+  {
+    "id": "C03D57H9WER",
+    "name": "mfm_brokeragescontent"
+  },
+  {
+    "id": "C04AVKXURB4",
+    "name": "mfm_build"
+  },
+  {
+    "id": "C020FHGRMJ6",
+    "name": "mfm_caponerelaunch"
+  },
+  {
+    "id": "C0A9C5MDTKJ",
+    "name": "mfm_compliance_scan_feedback"
+  },
+  {
+    "id": "C0195J2S4UD",
+    "name": "mfm_compliance_updates"
+  },
+  {
+    "id": "C0316UAQ9C2",
+    "name": "mfm_crypto_marketing"
+  },
+  {
+    "id": "C03D57F7QLV",
+    "name": "mfm_cryptocontent"
+  },
+  {
+    "id": "CUA6TE649",
+    "name": "mfm_email"
+  },
+  {
+    "id": "C03DAKVNH8C",
+    "name": "mfm_insurancecontent"
+  },
+  {
+    "id": "C03RD3AAEE7",
+    "name": "mfm_newpartners_seo"
+  },
+  {
+    "id": "CLT9BB27Q",
+    "name": "mfm_news_views"
+  },
+  {
+    "id": "C097TUC9S2U",
+    "name": "mfm_offline_conversion_uploads"
+  },
+  {
+    "id": "C03R1HHBH5K",
+    "name": "mfm_partner_updates"
+  },
+  {
+    "id": "C03CTMKDPB9",
+    "name": "mfm_personal_financecontent"
+  },
+  {
+    "id": "C03CTGK7VUP",
+    "name": "mfm_researchcontent"
+  },
+  {
+    "id": "CP2JR3VMH",
+    "name": "mfm_special_offers"
+  },
+  {
+    "id": "C03DLUF4A57",
+    "name": "mfm_student_loanscontent"
+  },
+  {
+    "id": "C01GFKE5J7P",
+    "name": "mfm_tech"
+  },
+  {
+    "id": "C0B09D3J42F",
+    "name": "mfm_viral_articles"
+  },
+  {
+    "id": "C06CHFPAC5Q",
+    "name": "mfm_where_we_at"
+  },
+  {
+    "id": "CA5U5JZRV",
+    "name": "mfprepmattdk"
+  },
+  {
+    "id": "CSE93GTRB",
+    "name": "mfwm_live_event"
+  },
+  {
+    "id": "C07BTHMV74N",
+    "name": "mfwm-hubspot-sso-enforcement"
+  },
+  {
+    "id": "C0439UL601W",
+    "name": "mfwm-self-service-x-marketing"
+  },
+  {
+    "id": "C3FQZJEH0",
+    "name": "mgm-insider-tips"
+  },
+  {
+    "id": "C08D8UFH29H",
+    "name": "microball-usersnap"
+  },
+  {
+    "id": "C02EUKWL0RM",
+    "name": "microcap-mission-investors"
+  },
+  {
+    "id": "C04PCHZ2PC2",
+    "name": "migraine-suffering-fools-unite"
+  },
+  {
+    "id": "C01PK46J8SE",
+    "name": "millennial_news"
+  },
+  {
+    "id": "C01LD1GTF9Q",
+    "name": "millionacres-2021-event"
+  },
+  {
+    "id": "C02E80U54CC",
+    "name": "millionacres-hydra-recs"
+  },
+  {
+    "id": "C0B6XLZ0SJY",
+    "name": "mimecast20252026renewal20231010"
+  },
+  {
+    "id": "C0B6RB68Q5T",
+    "name": "mimecast20252026renewal20231011"
+  },
+  {
+    "id": "C02UG2ZE153",
+    "name": "mindset-video-content"
+  },
+  {
+    "id": "C08UCDMNZPC",
+    "name": "mkt-sanity"
+  },
+  {
+    "id": "C0212NY1V4H",
+    "name": "ml-alerts"
+  },
+  {
+    "id": "C0244BVA5TR",
+    "name": "ml-ideation-so"
+  },
+  {
+    "id": "C042HB43HTN",
+    "name": "ml-strategy-sync"
+  },
+  {
+    "id": "C0AKWT821",
+    "name": "mlb-pirates"
+  },
+  {
+    "id": "C03SJ14BDC0",
+    "name": "mm-security-review-team"
+  },
+  {
+    "id": "C094WSS9DBM",
+    "name": "mobile-freemium-stakeholders"
+  },
+  {
+    "id": "C04TN7N9V6Z",
+    "name": "mobile-tech-alerts"
+  },
+  {
+    "id": "C08LMPH97KQ",
+    "name": "mobile-tech-comms-strat"
+  },
+  {
+    "id": "C05PYDCN5U1",
+    "name": "mobile-tech-deployments"
+  },
+  {
+    "id": "C04QG6P58UE",
+    "name": "mobile-tech-help"
+  },
+  {
+    "id": "C0B3UJDAZB8",
+    "name": "mobilemarketing"
+  },
+  {
+    "id": "CMB2KTRT6",
+    "name": "mocofools"
+  },
+  {
+    "id": "C09TUJ8PQAX",
+    "name": "money-map-pod"
+  },
+  {
+    "id": "C07KQ5X6HP0",
+    "name": "moneyball-usersnap"
+  },
+  {
+    "id": "C022G8S6VM0",
+    "name": "moneymakers-service-analysts"
+  },
+  {
+    "id": "C023H4SU77T",
+    "name": "monster-ranking-analysts"
+  },
+  {
+    "id": "C04NGAEBX",
+    "name": "motley_committee"
+  },
+  {
+    "id": "C01R4HDKG5D",
+    "name": "motley-asian-american-anti-hate"
+  },
+  {
+    "id": "CCPB96XN3",
+    "name": "motley-belonging"
+  },
+  {
+    "id": "C03K0BKQ24R",
+    "name": "motley-black-wall-street-steering-committee"
+  },
+  {
+    "id": "C04U3FZD1A7",
+    "name": "motley-cafecito"
+  },
+  {
+    "id": "CJWT1QGJ0",
+    "name": "motley-caregivers"
+  },
+  {
+    "id": "C019VJA6RU0",
+    "name": "motley-fool-caps"
+  },
+  {
+    "id": "C0380V3AT",
+    "name": "motley-fool-parents"
+  },
+  {
+    "id": "C01N733JJAH",
+    "name": "motley-foolish-access"
+  },
+  {
+    "id": "C053DA5GYMC",
+    "name": "motley-high-school-parents"
+  },
+  {
+    "id": "C053NBRJN2G",
+    "name": "motley-kids0-2"
+  },
+  {
+    "id": "C053D9KF6PQ",
+    "name": "motley-kids3-4"
+  },
+  {
+    "id": "C053NC37FL4",
+    "name": "motley-kids5-7"
+  },
+  {
+    "id": "C053D9SDCT0",
+    "name": "motley-kids8-11"
+  },
+  {
+    "id": "C039DS2MYSG",
+    "name": "motley-lgbtq_fools_and_allies"
+  },
+  {
+    "id": "C0535BXHH1V",
+    "name": "motley-middle-school-parents"
+  },
+  {
+    "id": "C0374MB8PST",
+    "name": "motley-neurodiversity"
+  },
+  {
+    "id": "C014PLDSBJP",
+    "name": "motley-readinggroup"
+  },
+  {
+    "id": "C04MDTSB1JM",
+    "name": "motley-the-cookout"
+  },
+  {
+    "id": "C0208PBKW6S",
+    "name": "motley-verbit-live-channel"
+  },
+  {
+    "id": "C02DZ5PJ0QG",
+    "name": "motleyfool-ippon"
+  },
+  {
+    "id": "C05MQTDT3FU",
+    "name": "ms-3rd-party-reward-partners"
+  },
+  {
+    "id": "C014NSM9SB1",
+    "name": "ms-cancelthisorderplease"
+  },
+  {
+    "id": "C0AUAK09JJJ",
+    "name": "ms-is-ai-discoveries"
+  },
+  {
+    "id": "C018VRX8FU6",
+    "name": "ms-is-bugs"
+  },
+  {
+    "id": "C05G2SGUJ2Y",
+    "name": "ms-is-call-center-carl"
+  },
+  {
+    "id": "C036383PX",
+    "name": "ms-is-member-services-investor-solutions"
+  },
+  {
+    "id": "C025V8LAC2Z",
+    "name": "ms-is-photo-club"
+  },
+  {
+    "id": "C8F0V2B17",
+    "name": "ms-is-wins"
+  },
+  {
+    "id": "C011D7TLQ9J",
+    "name": "ms-is-wordsmiths"
+  },
+  {
+    "id": "C08F5BTMJHW",
+    "name": "ms-march-madness-2025"
+  },
+  {
+    "id": "C06KFNACGDP",
+    "name": "ms-podcast"
+  },
+  {
+    "id": "C04F89DCTTM",
+    "name": "ms-sswd-records"
+  },
+  {
+    "id": "C0621U92M08",
+    "name": "msg-tech-advance-notices"
+  },
+  {
+    "id": "C02522NQKFA",
+    "name": "msg-tech-alerts"
+  },
+  {
+    "id": "C025YE8813R",
+    "name": "msg-tech-alerts-staging"
+  },
+  {
+    "id": "C028GKT8PKP",
+    "name": "msg-tech-alerts-test"
+  },
+  {
+    "id": "C01U8RTUHPA",
+    "name": "msg-tech-deployments"
+  },
+  {
+    "id": "C093AEW5116",
+    "name": "msg-tech-dynamic-prospect-emails"
+  },
+  {
+    "id": "C01SC47T020",
+    "name": "msg-tech-help"
+  },
+  {
+    "id": "C0A2UAP72LA",
+    "name": "msg-tech-slack-logs-fallback"
+  },
+  {
+    "id": "C07B7RXH0AE",
+    "name": "msg-tech-surveyor"
+  },
+  {
+    "id": "C08J7KM7JTS",
+    "name": "msg-tech-web-push"
+  },
+  {
+    "id": "CSRKBGK5L",
+    "name": "multi-servicetest"
+  },
+  {
+    "id": "C048GLJV3HS",
+    "name": "multimedia_requests"
+  },
+  {
+    "id": "C02JBLB0KT2",
+    "name": "my-scorecard-resolver-alerts"
+  },
+  {
+    "id": "C0453S3L2CS",
+    "name": "my-test-channel"
+  },
+  {
+    "id": "C0AEQDLABMW",
+    "name": "nano-db-usersnap"
+  },
+  {
+    "id": "CUGAKEY2X",
+    "name": "nashville"
+  },
+  {
+    "id": "C0253A6RTPD",
+    "name": "native-team-gathering"
+  },
+  {
+    "id": "CA2DRDAN7",
+    "name": "new_fool_alert"
+  },
+  {
+    "id": "CQH1Y7RGT",
+    "name": "new_fool_coffee_112119"
+  },
+  {
+    "id": "CU881L0KZ",
+    "name": "new_fool_coffee_21920"
+  },
+  {
+    "id": "C04THJ2FNCE",
+    "name": "new_manager_emerald"
+  },
+  {
+    "id": "C04TQ2EPG7M",
+    "name": "new_managers_blue"
+  },
+  {
+    "id": "C04UDS23M9N",
+    "name": "new_managers_olive"
+  },
+  {
+    "id": "C063UA8CFEW",
+    "name": "new-managers-nov23"
+  },
+  {
+    "id": "C01M0GG0PUN",
+    "name": "new-trading-rules"
+  },
+  {
+    "id": "CK36LCKAL",
+    "name": "newfoolbuddies"
+  },
+  {
+    "id": "C081W9VHJ30",
+    "name": "news-digests-investing-consultants"
+  },
+  {
+    "id": "C0278BF4Z",
+    "name": "news-tech-team"
+  },
+  {
+    "id": "C07QVPXUBB6",
+    "name": "newsamatic_testing"
+  },
+  {
+    "id": "C09QRNF7G",
+    "name": "nfl-steelers"
+  },
+  {
+    "id": "C01TUEV2GGJ",
+    "name": "nitropack"
+  },
+  {
+    "id": "C02PPCE4M19",
+    "name": "nl-advisors"
+  },
+  {
+    "id": "C02CEMPR10W",
+    "name": "northcarolina_fools"
+  },
+  {
+    "id": "C088V3CGRND",
+    "name": "notifications-semgrep"
+  },
+  {
+    "id": "C0492FF6DQA",
+    "name": "nov16_denofficeheadshots"
+  },
+  {
+    "id": "C01C4DQUAEL",
+    "name": "npi-project"
+  },
+  {
+    "id": "C04AYRWPCUV",
+    "name": "ny-looza2022"
+  },
+  {
+    "id": "C09FXVC8EF8",
+    "name": "okr-pilot-25"
+  },
+  {
+    "id": "C050BGXV8",
+    "name": "old-town-residents"
+  },
+  {
+    "id": "C029GQYQ872",
+    "name": "olympics"
+  },
+  {
+    "id": "C03T6GS5XH9",
+    "name": "onetrust-implementation"
+  },
+  {
+    "id": "C0AN3CXDCLR",
+    "name": "onyx-scan-channel"
+  },
+  {
+    "id": "C08U7M5301L",
+    "name": "onyx-test-benefits"
+  },
+  {
+    "id": "C08UGBDJH3N",
+    "name": "onyx-test-finance"
+  },
+  {
+    "id": "C03J3UKH24R",
+    "name": "options"
+  },
+  {
+    "id": "C0AKL6QP7R9",
+    "name": "options-and-strategies"
+  },
+  {
+    "id": "C02LB453T3K",
+    "name": "options-discourse-launch"
+  },
+  {
+    "id": "C08SUK7LPHP",
+    "name": "order-page-migration"
+  },
+  {
+    "id": "C05L80TBLMR",
+    "name": "order-path-q-and-a"
+  },
+  {
+    "id": "C56SC69C6",
+    "name": "our_parents"
+  },
+  {
+    "id": "C037EHC3S",
+    "name": "outofcontext"
+  },
+  {
+    "id": "C1JJEK308",
+    "name": "overwatch"
+  },
+  {
+    "id": "C084B1Z0D0S",
+    "name": "paid-channels-l3-test-0124"
+  },
+  {
+    "id": "C073KK2R4JV",
+    "name": "panel_mfm_multi_product_pages"
+  },
+  {
+    "id": "C081GML2T1T",
+    "name": "panel-loltest"
+  },
+  {
+    "id": "C081HJNFVHB",
+    "name": "panel-panel-loltest2"
+  },
+  {
+    "id": "C06LCC2771R",
+    "name": "panel-scoreboard"
+  },
+  {
+    "id": "C082FN1HC0Y",
+    "name": "panel-shellyburger"
+  },
+  {
+    "id": "C081G8KR94L",
+    "name": "panel-staging-01"
+  },
+  {
+    "id": "C3RCB31GC",
+    "name": "panera_fools"
+  },
+  {
+    "id": "C053NCPBQTE",
+    "name": "parents-of-adult-children"
+  },
+  {
+    "id": "C02R55A69T9",
+    "name": "password-creation"
+  },
+  {
+    "id": "CEQT3TWNN",
+    "name": "pg-logalerts-linux"
+  },
+  {
+    "id": "C022WQM2TND",
+    "name": "php"
+  },
+  {
+    "id": "C069UR0761E",
+    "name": "pickleballooza"
+  },
+  {
+    "id": "C03471184RG",
+    "name": "pmb_list_changes"
+  },
+  {
+    "id": "C08BJN52A64",
+    "name": "pmo-411"
+  },
+  {
+    "id": "C8DR1M8DC",
+    "name": "podcast-promo"
+  },
+  {
+    "id": "C04DMCPC92A",
+    "name": "podcastmarketingcollab"
+  },
+  {
+    "id": "C067H70G6",
+    "name": "podcasts"
+  },
+  {
+    "id": "C043DCP78JX",
+    "name": "pom-braze"
+  },
+  {
+    "id": "C09BH7C8R0T",
+    "name": "postgresql-version-upgrade"
+  },
+  {
+    "id": "CFED86E4V",
+    "name": "pov-help"
+  },
+  {
+    "id": "C0455URQVEH",
+    "name": "pr-research-optimization"
+  },
+  {
+    "id": "C03CKBZR2",
+    "name": "premium_emails"
+  },
+  {
+    "id": "C0ASF0DG99C",
+    "name": "premium-alerts"
+  },
+  {
+    "id": "C031013CQRH",
+    "name": "premium-app-feedback"
+  },
+  {
+    "id": "C04JPG5LK6D",
+    "name": "premium-cms-alerts"
+  },
+  {
+    "id": "C046Z49FXGU",
+    "name": "premium-cms-deployments"
+  },
+  {
+    "id": "C03PBGAF4LU",
+    "name": "premium-graphql-deployments"
+  },
+  {
+    "id": "C095X6Q362E",
+    "name": "premium-nextjs-auth"
+  },
+  {
+    "id": "C07M6PZ5Q65",
+    "name": "premium-podcast-experience"
+  },
+  {
+    "id": "C093T7J7PHA",
+    "name": "premium-sprint-sizzle"
+  },
+  {
+    "id": "C03F70Y8ZB5",
+    "name": "premium-video-help"
+  },
+  {
+    "id": "C0331UDLCCW",
+    "name": "prime-mates"
+  },
+  {
+    "id": "C02G4NA21R6",
+    "name": "private_channel"
+  },
+  {
+    "id": "C0AMTQNLUDT",
+    "name": "priya-testing-workflows"
+  },
+  {
+    "id": "CK1EEHHFZ",
+    "name": "product-and-retention"
+  },
+  {
+    "id": "C01TZ5098MT",
+    "name": "product-owners"
+  },
+  {
+    "id": "C02UPH435PH",
+    "name": "product-push-metrics"
+  },
+  {
+    "id": "CG5KVUA72",
+    "name": "product-questions"
+  },
+  {
+    "id": "C040EJRP7J4",
+    "name": "product-team"
+  },
+  {
+    "id": "C0Q1HK45P",
+    "name": "product-tech-deployments"
+  },
+  {
+    "id": "C04HETAR53K",
+    "name": "product-tech-dev-help"
+  },
+  {
+    "id": "C18FKTS0P",
+    "name": "product-tech-errors"
+  },
+  {
+    "id": "CDUPM4X34",
+    "name": "product-tech-help"
+  },
+  {
+    "id": "C045VP07657",
+    "name": "product-tech-release"
+  },
+  {
+    "id": "C0AN2LZ4QSZ",
+    "name": "product-tech-sprint-report"
+  },
+  {
+    "id": "C052TC0MQTX",
+    "name": "productgpt"
+  },
+  {
+    "id": "C03A9HAMRHT",
+    "name": "productiv-alerts"
+  },
+  {
+    "id": "C07H9JHNBGA",
+    "name": "productiv-appowners"
+  },
+  {
+    "id": "C0APC4YQ7B4",
+    "name": "proj-airtable-to-sanity"
+  },
+  {
+    "id": "C0990LZCVL7",
+    "name": "proj-foolcom-cms-to-sanity"
+  },
+  {
+    "id": "C0B4SJZNYDU",
+    "name": "proj-premium-to-sanity"
+  },
+  {
+    "id": "C08H72HP07J",
+    "name": "promise-alerts"
+  },
+  {
+    "id": "C0360LA0HC0",
+    "name": "promo_naming"
+  },
+  {
+    "id": "C08ETJSV69L",
+    "name": "provider_proxy"
+  },
+  {
+    "id": "C09SC8G9VK9",
+    "name": "pt-bug-derby-2025"
+  },
+  {
+    "id": "C09PBFD9H9R",
+    "name": "publishing-canada-notifications"
+  },
+  {
+    "id": "C19854YLS",
+    "name": "pwc-residents"
+  },
+  {
+    "id": "C024G8JRM",
+    "name": "python"
+  },
+  {
+    "id": "C0138RWVB6X",
+    "name": "qa_platform"
+  },
+  {
+    "id": "C0A5D6QJ8BG",
+    "name": "quantum-db-usersnap"
+  },
+  {
+    "id": "C01JRCYRY3D",
+    "name": "raveadmins"
+  },
+  {
+    "id": "C0B6CU4PS68",
+    "name": "rb-db-rollout-plan"
+  },
+  {
+    "id": "C09J5NJNL4A",
+    "name": "rb-db-usersnap"
+  },
+  {
+    "id": "CQNQJCX40",
+    "name": "rb-xsell"
+  },
+  {
+    "id": "C01CVEB6EL9",
+    "name": "rbhourmflive"
+  },
+  {
+    "id": "C05AP53TLMB",
+    "name": "react-help"
+  },
+  {
+    "id": "C0126GZ9LNT",
+    "name": "regulationfooldisclosure"
+  },
+  {
+    "id": "C0EG43GR4",
+    "name": "remote_resources"
+  },
+  {
+    "id": "C03D0CNSL4T",
+    "name": "renewal-notices"
+  },
+  {
+    "id": "C0196HSTALX",
+    "name": "renewal-ops"
+  },
+  {
+    "id": "C097FCTNV9C",
+    "name": "reports-sanity"
+  },
+  {
+    "id": "C6KAF8TL5",
+    "name": "research"
+  },
+  {
+    "id": "CKGSTT0P3",
+    "name": "research-hub-test"
+  },
+  {
+    "id": "C02GYM6H78F",
+    "name": "ret-and-mkt-diversityefforts"
+  },
+  {
+    "id": "CUXHZN3K6",
+    "name": "retention-campaign-central"
+  },
+  {
+    "id": "C02MDA6HPMF",
+    "name": "retention-quarterly-surveys"
+  },
+  {
+    "id": "C03UBPWABGV",
+    "name": "retention-wins-test"
+  },
+  {
+    "id": "C102239CL",
+    "name": "returnedrefunds"
+  },
+  {
+    "id": "C043MU3DJ8M",
+    "name": "rfc"
+  },
+  {
+    "id": "C08V0T5E10T",
+    "name": "rob-and-robert-testing"
+  },
+  {
+    "id": "C08A5TU3HSM",
+    "name": "romantasy-book-chat"
+  },
+  {
+    "id": "C07MJ3PBZNZ",
+    "name": "ron-16th-fooliversary"
+  },
+  {
+    "id": "C09B4CL4WV9",
+    "name": "rounta-hgoc-tech"
+  },
+  {
+    "id": "C094Q7D413Q",
+    "name": "rule-breaker-podcast"
+  },
+  {
+    "id": "CR3D46YEB",
+    "name": "sa_20_content"
+  },
+  {
+    "id": "C04R5CP1HJ5",
+    "name": "sa-product-bi-stakeholders"
+  },
+  {
+    "id": "CPY520GGP",
+    "name": "sandbox"
+  },
+  {
+    "id": "C09MWAF4TCZ",
+    "name": "sanity-stakeholder-feedback"
+  },
+  {
+    "id": "C01ULETDJ3V",
+    "name": "schedule-submission"
+  },
+  {
+    "id": "C02BBNEPYNL",
+    "name": "scorecard-ncc-pentest"
+  },
+  {
+    "id": "C0194C1081K",
+    "name": "scorecard-ticker-help"
+  },
+  {
+    "id": "C0B1AD9CGFN",
+    "name": "scorecards-realtime-returns"
+  },
+  {
+    "id": "C0AU5T1CTP1",
+    "name": "scoregeneration"
+  },
+  {
+    "id": "C05KBH4F5K9",
+    "name": "screener-usersnap-feedback"
+  },
+  {
+    "id": "C09HT3MJK7U",
+    "name": "secops-siem-notifications"
+  },
+  {
+    "id": "C0GK0G5AQ",
+    "name": "security-help"
+  },
+  {
+    "id": "C01N7AXN6BT",
+    "name": "security-notifications"
+  },
+  {
+    "id": "C0498C1U0L9",
+    "name": "segment-migration"
+  },
+  {
+    "id": "C060HBPND8X",
+    "name": "segment-tech"
+  },
+  {
+    "id": "C071JTR4CS2",
+    "name": "seo-graphic-assignments"
+  },
+  {
+    "id": "C033GCK21",
+    "name": "seo-help"
+  },
+  {
+    "id": "C01JRBXAJ8K",
+    "name": "seo-world-domination"
+  },
+  {
+    "id": "C045MPHTLFR",
+    "name": "serverless"
+  },
+  {
+    "id": "C07DRJJ06DS",
+    "name": "service-cost-savings"
+  },
+  {
+    "id": "C8Z1FA71U",
+    "name": "sfoneventpanel"
+  },
+  {
+    "id": "C08F0H5JZ0B",
+    "name": "sgpanel-loz1"
+  },
+  {
+    "id": "C081GBKCXJQ",
+    "name": "sgpanel-staging-01"
+  },
+  {
+    "id": "C0843CAS1BK",
+    "name": "sgpanel-string"
+  },
+  {
+    "id": "C086XKG8B45",
+    "name": "shr"
+  },
+  {
+    "id": "C050WJP20HH",
+    "name": "signalsciences-offboarding"
+  },
+  {
+    "id": "C085WEDQF6X",
+    "name": "sir-pings-alot"
+  },
+  {
+    "id": "C018YDP0L6A",
+    "name": "site911"
+  },
+  {
+    "id": "C4S3QGMC0",
+    "name": "siteops-alerts"
+  },
+  {
+    "id": "C055TUGP7H6",
+    "name": "siteops-contractors"
+  },
+  {
+    "id": "C9FK9EU4Q",
+    "name": "siteops-docker"
+  },
+  {
+    "id": "C01AZ7UNJLF",
+    "name": "siteops-github"
+  },
+  {
+    "id": "C019LLJ01KP",
+    "name": "siteops-redirect-alerts"
+  },
+  {
+    "id": "CTNDQB39N",
+    "name": "siteops-salt-root"
+  },
+  {
+    "id": "C02DP2ANS2C",
+    "name": "siteops-sentry"
+  },
+  {
+    "id": "C01T3KTEV62",
+    "name": "siteops-signalsciences"
+  },
+  {
+    "id": "CKQ2BQY7L",
+    "name": "siteops-testing"
+  },
+  {
+    "id": "C02HE8YUK9R",
+    "name": "skunkworks-olympiad"
+  },
+  {
+    "id": "C030DKJCY",
+    "name": "slack_advisor"
+  },
+  {
+    "id": "C018DE7DK0C",
+    "name": "slack-offboarding-integration-logs"
+  },
+  {
+    "id": "CK4QBE129",
+    "name": "slackathon"
+  },
+  {
+    "id": "C03EP62FYLE",
+    "name": "small-cap-investors"
+  },
+  {
+    "id": "C018DCSF1GC",
+    "name": "smartfaq-dev"
+  },
+  {
+    "id": "C048Z9D7YEA",
+    "name": "smileys-smileys-smileys"
+  },
+  {
+    "id": "CBLTDUU3Y",
+    "name": "snowflake-db"
+  },
+  {
+    "id": "C01N9GULG2C",
+    "name": "snowflake-fool"
+  },
+  {
+    "id": "C03CFPP4D6J",
+    "name": "snowpark-poc"
+  },
+  {
+    "id": "C03PFH0GZEG",
+    "name": "so-big-leap"
+  },
+  {
+    "id": "C038BLQRXPU",
+    "name": "so-segmented-frequency-test"
+  },
+  {
+    "id": "CH54XLCRG",
+    "name": "socialmedia"
+  },
+  {
+    "id": "C01P1869KV4",
+    "name": "sonmbals-training"
+  },
+  {
+    "id": "C020ZQA5MH8",
+    "name": "sourcegraph"
+  },
+  {
+    "id": "C02TU2FU63W",
+    "name": "southcarolina_fools"
+  },
+  {
+    "id": "C03LQ4WTCCS",
+    "name": "spark_conversation_recording"
+  },
+  {
+    "id": "C01LQQ2MRGC",
+    "name": "spend_attribution_team"
+  },
+  {
+    "id": "CDAC6SCRW",
+    "name": "spends_triage"
+  },
+  {
+    "id": "C01TQQQPZ6W",
+    "name": "spero-interviews"
+  },
+  {
+    "id": "C072SJZ16R0",
+    "name": "spiffy-pop-watchdogs"
+  },
+  {
+    "id": "C02BPKY9BN1",
+    "name": "sql-model-scoring"
+  },
+  {
+    "id": "C02U5DQ3G4D",
+    "name": "sqlalertsmtpheartbeat"
+  },
+  {
+    "id": "C02A7FJ03",
+    "name": "startups"
+  },
+  {
+    "id": "C070LL0SAKT",
+    "name": "stock_advisor_metrics"
+  },
+  {
+    "id": "C01LMDJ3E1E",
+    "name": "stockadvisorhourmflive"
+  },
+  {
+    "id": "C0LVCS5V0",
+    "name": "stocks-and-whatnot"
+  },
+  {
+    "id": "C055FSLPQ8H",
+    "name": "stocks-watchlist"
+  },
+  {
+    "id": "C6EC8AJT0",
+    "name": "stockstar"
+  },
+  {
+    "id": "CH3TB1D8T",
+    "name": "stockstar_integration"
+  },
+  {
+    "id": "CEJDSTA5N",
+    "name": "stockstar_live"
+  },
+  {
+    "id": "CAZFT7GQ0",
+    "name": "stockstar-android"
+  },
+  {
+    "id": "C042QFV5JAC",
+    "name": "strategic-planning-money-mgmt"
+  },
+  {
+    "id": "C033EPEDYEP",
+    "name": "strategy_roundtables"
+  },
+  {
+    "id": "C083A9J5QCS",
+    "name": "stripe-alerts-critical"
+  },
+  {
+    "id": "C083A9L5BBL",
+    "name": "stripe-alerts-high"
+  },
+  {
+    "id": "C07NQN315C5",
+    "name": "stripe-deployments"
+  },
+  {
+    "id": "C06EK5LFQ9G",
+    "name": "stripe-integration"
+  },
+  {
+    "id": "C083VERCFC1",
+    "name": "stripe-renewal-emails"
+  },
+  {
+    "id": "C09RYF7S89L",
+    "name": "stripe-us-migration"
+  },
+  {
+    "id": "C0963J8GQ6T",
+    "name": "stripey-lol"
+  },
+  {
+    "id": "C01F7E01NEQ",
+    "name": "stryve-tmfc"
+  },
+  {
+    "id": "C01GCSZ1937",
+    "name": "summit-help-desk"
+  },
+  {
+    "id": "C15QTATP1",
+    "name": "survey_questions"
+  },
+  {
+    "id": "C06CVH81GHX",
+    "name": "survey-town-hall"
+  },
+  {
+    "id": "CTSDMAKD2",
+    "name": "swede_speed"
+  },
+  {
+    "id": "C0B6DJ9DZ1R",
+    "name": "sylvias-foolish-farewell"
+  },
+  {
+    "id": "C08G2C16E06",
+    "name": "sysadmin-alerts-critical"
+  },
+  {
+    "id": "C08GLEYPUFK",
+    "name": "sysadmin-alerts-medium"
+  },
+  {
+    "id": "C04Q65ZATFT",
+    "name": "ta-banks-competitive"
+  },
+  {
+    "id": "C04PTGJ9M6W",
+    "name": "ta-brokerages-competitive"
+  },
+  {
+    "id": "C04SKR8LLG2",
+    "name": "ta-business-competitive"
+  },
+  {
+    "id": "C04Q5UVGCKT",
+    "name": "ta-credit-card-competitive"
+  },
+  {
+    "id": "C04S59CKEDV",
+    "name": "ta-crypto-competitive"
+  },
+  {
+    "id": "C05PYE3LDRT",
+    "name": "ta-insurance-competitive"
+  },
+  {
+    "id": "C05SSBV5U6R",
+    "name": "ta-mktg-competitive"
+  },
+  {
+    "id": "C04PTGRLKQA",
+    "name": "ta-mortgages-competitive"
+  },
+  {
+    "id": "C04PW1995MJ",
+    "name": "ta-personal-finance-competitive"
+  },
+  {
+    "id": "C04SGSZGCG5",
+    "name": "ta-personal-loans-competitive"
+  },
+  {
+    "id": "C05QE1B1A7K",
+    "name": "ta-taxes-competitive"
+  },
+  {
+    "id": "C1MDY0MH9",
+    "name": "team_leaders"
+  },
+  {
+    "id": "C05AA5ZQ1LM",
+    "name": "team-9-foolympics"
+  },
+  {
+    "id": "C021A63TK52",
+    "name": "team-breakers-leadership"
+  },
+  {
+    "id": "C06FEFV954K",
+    "name": "team-building-2024"
+  },
+  {
+    "id": "C0A4P92D77U",
+    "name": "team-gjjm"
+  },
+  {
+    "id": "C016G0K466T",
+    "name": "teamtrivia"
+  },
+  {
+    "id": "C09H5EA3Z7C",
+    "name": "tech-projects-capex"
+  },
+  {
+    "id": "C01CXJP8RK2",
+    "name": "techies-levelingup"
+  },
+  {
+    "id": "C03FK1HEEAK",
+    "name": "temp_termination-checklist"
+  },
+  {
+    "id": "C0141DTHMDX",
+    "name": "temp_webinar_client_qa"
+  },
+  {
+    "id": "C010E849L84",
+    "name": "temp-corona-response-page"
+  },
+  {
+    "id": "C065BQWKXFY",
+    "name": "temp-global-pii"
+  },
+  {
+    "id": "C045PUQR2NS",
+    "name": "temp-lowtier-schedulecall"
+  },
+  {
+    "id": "C09FD2B11S4",
+    "name": "temp-mmtech-meetup"
+  },
+  {
+    "id": "C03S7EAASKG",
+    "name": "temp-regulated-okta-discussion"
+  },
+  {
+    "id": "C04KK02KK41",
+    "name": "temp-ss-flow-reimagining"
+  },
+  {
+    "id": "C03P8HK1BQS",
+    "name": "temp-vi-assist-rehaul"
+  },
+  {
+    "id": "C0A35TJ7MRT",
+    "name": "test-alert-critical"
+  },
+  {
+    "id": "C0A39ATBKGA",
+    "name": "test-alert-medium"
+  },
+  {
+    "id": "C0A3CU9T3DJ",
+    "name": "test-alert-team"
+  },
+  {
+    "id": "C04S4U59A3C",
+    "name": "test-better"
+  },
+  {
+    "id": "C07HR2GJ9R9",
+    "name": "test-bot-channel"
+  },
+  {
+    "id": "C039M0X9GJX",
+    "name": "test-for-slack-alerts"
+  },
+  {
+    "id": "C08GNAT3MH7",
+    "name": "test-jesterai-llm-gateway"
+  },
+  {
+    "id": "C044LPN8BRS",
+    "name": "test-marketing-slack-app"
+  },
+  {
+    "id": "C02VA7QBJ1M",
+    "name": "test-member-success-demo-updates"
+  },
+  {
+    "id": "C01ETUCRQ2G",
+    "name": "test-private-to-public"
+  },
+  {
+    "id": "C02SS4N6XJ4",
+    "name": "test-review-team-updates"
+  },
+  {
+    "id": "C07GMR9KNN4",
+    "name": "test-usersnap"
+  },
+  {
+    "id": "CBJGSFTC7",
+    "name": "testtest"
+  },
+  {
+    "id": "CA79J3M0V",
+    "name": "texperts"
+  },
+  {
+    "id": "CUAT3HP4Z",
+    "name": "the_luzhin_defence"
+  },
+  {
+    "id": "C04A4QKNQUF",
+    "name": "the_secret_backgammon_society"
+  },
+  {
+    "id": "C088K81MFDJ",
+    "name": "the-ascent-offers"
+  },
+  {
+    "id": "C07TJ1FT2RE",
+    "name": "the-conqueror-step-challenge"
+  },
+  {
+    "id": "C04L2NLG97T",
+    "name": "the-dirty-seven"
+  },
+  {
+    "id": "CC88F2R0B",
+    "name": "the-mot-juste"
+  },
+  {
+    "id": "C01F2KDGR4G",
+    "name": "thenewsletterers"
+  },
+  {
+    "id": "C07LNGV9N86",
+    "name": "thursday-rec-crew"
+  },
+  {
+    "id": "CJ8K867AS",
+    "name": "ticker-guide-alerts"
+  },
+  {
+    "id": "C7NGKL37V",
+    "name": "ticker-page"
+  },
+  {
+    "id": "C0A8U29UAVA",
+    "name": "tipalti-users"
+  },
+  {
+    "id": "C03AUJ3GP4L",
+    "name": "tmf_finance-bar-partnership"
+  },
+  {
+    "id": "C08M873TYRH",
+    "name": "tmf-segment"
+  },
+  {
+    "id": "C02PT1WJEJK",
+    "name": "tmf-shared-upperdiamond"
+  },
+  {
+    "id": "C05BY3P0U2U",
+    "name": "tmp_factor_model_monitoring"
+  },
+  {
+    "id": "C070R4GDXTN",
+    "name": "together-we-bake"
+  },
+  {
+    "id": "C1QN56YR3",
+    "name": "tom_coffee_questions"
+  },
+  {
+    "id": "C01HZ2YV2M9",
+    "name": "tonic-motleyfool"
+  },
+  {
+    "id": "C03URDF1XGQ",
+    "name": "top-stories"
+  },
+  {
+    "id": "CNVNWQBCL",
+    "name": "torchbox-fool"
+  },
+  {
+    "id": "C0AEX7UJKU6",
+    "name": "torii-test"
+  },
+  {
+    "id": "C056VC15LTW",
+    "name": "total-membership-count"
+  },
+  {
+    "id": "CTFEEAQ2F",
+    "name": "tpp-renewals"
+  },
+  {
+    "id": "C0287CQJXK2",
+    "name": "training-across-tmf"
+  },
+  {
+    "id": "CJ69XHETX",
+    "name": "transcript-alerts"
+  },
+  {
+    "id": "C04SE6ZRJ1W",
+    "name": "trash-tv-and-more-gurus"
+  },
+  {
+    "id": "C05P8S4SP8B",
+    "name": "travel-help"
+  },
+  {
+    "id": "C0ACW4LMC7R",
+    "name": "trends-database"
+  },
+  {
+    "id": "CDUD54ZGU",
+    "name": "tubmantourers"
+  },
+  {
+    "id": "C19GD8NJU",
+    "name": "twb_volunteers"
+  },
+  {
+    "id": "C045B3BDA",
+    "name": "twitter"
+  },
+  {
+    "id": "CFUSSVDS6",
+    "name": "ubifresearchers"
+  },
+  {
+    "id": "C02M5T7JETU",
+    "name": "uk_contractors"
+  },
+  {
+    "id": "C31PDKN5U",
+    "name": "uk-customer_services"
+  },
+  {
+    "id": "C04NUEFDZS6",
+    "name": "uk-product"
+  },
+  {
+    "id": "C03KACJ0DE1",
+    "name": "ukg-help"
+  },
+  {
+    "id": "C0972DVUA2K",
+    "name": "ultimate-income-w-options"
+  },
+  {
+    "id": "CSL0BUQTD",
+    "name": "unit-testing"
+  },
+  {
+    "id": "C0A45RW4CEA",
+    "name": "universal-login-launch"
+  },
+  {
+    "id": "C9LT73UH3",
+    "name": "usa-based_fools"
+  },
+  {
+    "id": "C03DDFKBU1H",
+    "name": "usa-today-response-premium-on-acquisition"
+  },
+  {
+    "id": "C02JR7L4REW",
+    "name": "user-generated-content-alerts"
+  },
+  {
+    "id": "C02K3S604KB",
+    "name": "user-generated-content-deployments"
+  },
+  {
+    "id": "C05QEP2PPAM",
+    "name": "usersnap-feedback-premium-company-pages"
+  },
+  {
+    "id": "C03QNM6JW87",
+    "name": "usersnap-mf-live"
+  },
+  {
+    "id": "C03Q2JCDJ79",
+    "name": "usersnap-my-portfolio"
+  },
+  {
+    "id": "C09N1P147K5",
+    "name": "usersnap-testing"
+  },
+  {
+    "id": "C02592VDV",
+    "name": "ux"
+  },
+  {
+    "id": "C0AJLAFET0F",
+    "name": "vicinity_alexandria"
+  },
+  {
+    "id": "C0AJLA8QY4F",
+    "name": "vicinity_arlington"
+  },
+  {
+    "id": "C051M16CLCA",
+    "name": "vicinity_austin"
+  },
+  {
+    "id": "C08RNB14H",
+    "name": "vicinity_australia"
+  },
+  {
+    "id": "C0AJZMDA4BY",
+    "name": "vicinity_baltimore"
+  },
+  {
+    "id": "C0AK1NX123C",
+    "name": "vicinity_bethesda"
+  },
+  {
+    "id": "C04KQ4ZFPDY",
+    "name": "vicinity_bocaraton"
+  },
+  {
+    "id": "C047E24B3TR",
+    "name": "vicinity_charlottenc"
+  },
+  {
+    "id": "C0AJL9KP7TR",
+    "name": "vicinity_charlottesville"
+  },
+  {
+    "id": "C0AJZLNMACE",
+    "name": "vicinity_dale_city"
+  },
+  {
+    "id": "C04SU2Z7JRY",
+    "name": "vicinity_dallas"
+  },
+  {
+    "id": "C0AKW0VGHPS",
+    "name": "vicinity_dc"
+  },
+  {
+    "id": "C03HL2RKH6H",
+    "name": "vicinity_denver"
+  },
+  {
+    "id": "C0AJVAPFGHH",
+    "name": "vicinity_dulles"
+  },
+  {
+    "id": "C0AJY9BUJR3",
+    "name": "vicinity_fairfax"
+  },
+  {
+    "id": "C0AJVA42NH1",
+    "name": "vicinity_fredericksburg"
+  },
+  {
+    "id": "C0AL51L4H7Y",
+    "name": "vicinity_losangeles"
+  },
+  {
+    "id": "C02J80BMB4L",
+    "name": "vicinity_madison"
+  },
+  {
+    "id": "C02200URCHY",
+    "name": "vicinity_nashville"
+  },
+  {
+    "id": "C02TRNCFGRG",
+    "name": "vicinity_newyorkcity"
+  },
+  {
+    "id": "C0AL0JT9V19",
+    "name": "vicinity_orlando"
+  },
+  {
+    "id": "C02TK30GLQ6",
+    "name": "vicinity_philly"
+  },
+  {
+    "id": "C0AM1BNNRNU",
+    "name": "vicinity_pittsburg"
+  },
+  {
+    "id": "C02UFET4GGY",
+    "name": "vicinity_portland"
+  },
+  {
+    "id": "C04KQ4V3TBL",
+    "name": "vicinity_raleighdurham"
+  },
+  {
+    "id": "C03S7D80MCN",
+    "name": "vicinity_richmond"
+  },
+  {
+    "id": "C04MEDMCH3Q",
+    "name": "vicinity_sf-bay-area"
+  },
+  {
+    "id": "C0AJZKCP5PG",
+    "name": "vicinity_springfield"
+  },
+  {
+    "id": "C0AKVUM7WRE",
+    "name": "vicinity_suitland"
+  },
+  {
+    "id": "C041GCV7F0U",
+    "name": "video-approval-usm-seo"
+  },
+  {
+    "id": "CV3M5L7PH",
+    "name": "video-for-the-rest-of-us"
+  },
+  {
+    "id": "C0193H38YDP",
+    "name": "vindicia"
+  },
+  {
+    "id": "C83LRPKG9",
+    "name": "vox-populi"
+  },
+  {
+    "id": "C01B1SZG0TY",
+    "name": "vue-components-deployments"
+  },
+  {
+    "id": "C6T6LGZ6W",
+    "name": "vuejs"
+  },
+  {
+    "id": "C5BE91LVA",
+    "name": "wagtail"
+  },
+  {
+    "id": "C8V93QLCU",
+    "name": "wagtail-reports"
+  },
+  {
+    "id": "C03UA2N7YF6",
+    "name": "watchlist-project"
+  },
+  {
+    "id": "C04TVQ1M56X",
+    "name": "wbw-social-leads"
+  },
+  {
+    "id": "C04T5879EN5",
+    "name": "wbw-wallet-classes"
+  },
+  {
+    "id": "C2G5EB813",
+    "name": "web-accessibility"
+  },
+  {
+    "id": "C451G4RJ8",
+    "name": "webtech-alerts"
+  },
+  {
+    "id": "CK1SP24RK",
+    "name": "weekly_pulse"
+  },
+  {
+    "id": "C01V103SFDE",
+    "name": "wharton-people-2021"
+  },
+  {
+    "id": "C4B6BD15M",
+    "name": "where-we-at"
+  },
+  {
+    "id": "C0B5KQAACMB",
+    "name": "where-we-at-save-the-10q"
+  },
+  {
+    "id": "C08HCPUDWBS",
+    "name": "where-we-at-troubleshooting"
+  },
+  {
+    "id": "CDD5MDN87",
+    "name": "whichfool"
+  },
+  {
+    "id": "CP8EVHR09",
+    "name": "wi-wy-mi"
+  },
+  {
+    "id": "C02QVNY9CU8",
+    "name": "wild-card"
+  },
+  {
+    "id": "C0237162ZFZ",
+    "name": "wildcard-wednesday-2021-interns"
+  },
+  {
+    "id": "CDT98UBQ9",
+    "name": "winewithjoshandgary_2023"
+  },
+  {
+    "id": "C06AWSCSB8S",
+    "name": "wiz-auto-testing"
+  },
+  {
+    "id": "C02F0G6Q63U",
+    "name": "women-in-tech"
+  },
+  {
+    "id": "C2H92PAQ4",
+    "name": "women-investing-team"
+  },
+  {
+    "id": "CFHGRCP0U",
+    "name": "woof"
+  },
+  {
+    "id": "CRKFWJR8S",
+    "name": "wordpress-devs"
+  },
+  {
+    "id": "C0850P33RGB",
+    "name": "workflow-test-channel"
+  },
+  {
+    "id": "C021MNJ2QQ6",
+    "name": "worksuite_fool"
+  },
+  {
+    "id": "C01FA226XUH",
+    "name": "writersconference2020"
+  },
+  {
+    "id": "CCV9MBBU6",
+    "name": "xfer_orders"
+  },
+  {
+    "id": "CTWK37EFL",
+    "name": "xpressfeed-notifications"
+  },
+  {
+    "id": "C08EZ7J66EN",
+    "name": "zaurs-extraordinary-playlist"
+  },
+  {
+    "id": "C0HTS8E05",
+    "name": "zendesk-help"
+  },
+  {
+    "id": "C07HFLS5U5T",
+    "name": "zero-negative-ticker-alert"
+  },
+  {
+    "id": "C04S42X6YHY",
+    "name": "zip_pay_project"
+  },
+  {
+    "id": "C078ZQ7JGQM",
+    "name": "zscaler-help"
+  },
+  {
+    "id": "C03N6BL6KLY",
+    "name": "zuora-snowflake"
+  }
+]

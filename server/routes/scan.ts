@@ -6,6 +6,13 @@ import * as slack from '../services/slack.js';
 
 const router = Router();
 
+/**
+ * POST /api/scan
+ * Scans a Slack channel for threaded conversations and extracts problem/solution pairs
+ * into the knowledge base. Skips threads already present in the knowledge base.
+ * @body {ScanRequest} - `channelId` (required), `startDate` (optional ISO date string).
+ * @returns {ScanResponse} - Summary of threads scanned, entries added, and entries skipped.
+ */
 router.post('/', async (req, res) => {
   const { channelId, startDate } = req.body as ScanRequest;
   const start = Date.now();

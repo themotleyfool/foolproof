@@ -66,10 +66,11 @@ cp .env.example .env
 
 | Variable | Description |
 |---|---|
-| `SLACK_BOT_TOKEN` | Bot User OAuth Token from Slack app (`xoxb-...`) |
-| `OPENAI_API_KEY` | LiteLLM key from Orion Keyring |
 | `LLM_MODEL` | Model name copied from Orion Keyring Models list |
+| `OPENAI_API_KEY` | LiteLLM key from Orion Keyring |
 | `PORT` | Express server port (default: `3001`) |
+| `SLACK_BOT_TOKEN` | Bot User OAuth Token from Slack app (`xoxb-...`) |
+| `VITE_SLACK_WORKSPACE_URL` | Base URL for your Slack workspace (e.g. `https://fool.slack.com/`) |
 
 ### 5. Install Dependencies and Run
 
