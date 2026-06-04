@@ -1,6 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { ProgressStepper, StatusBanner } from './shared';
 import type { ScanRequest, ScanResponse } from '../types';
+import { ComboboxInput } from '../ui/input';
+import type { ComboboxOption } from '../ui/input';
+import channelList from '../../lib/data/slack-channels.json';
+
+interface SlackChannel {
+  id: string;
+  name: string;
+}
 
 /**
  * Returns today's date as an ISO 8601 date string (YYYY-MM-DD).
@@ -20,6 +28,12 @@ const SCAN_STEPS = [
 // Cumulative delays (ms) to reach steps 1, 2, 3 while API call runs
 const STEP_DELAYS = [900, 2500, 5500];
 
+const channelOptions: ComboboxOption[] = (channelList as SlackChannel[]).map(c => ({
+  value: c.id,
+  label: c.name,
+  hint: c.id,
+}));
+
 /**
  * Tab panel for scanning a Slack channel and extracting knowledge base entries.
  * Displays a progress stepper during the scan and a results summary on completion.
@@ -27,6 +41,7 @@ const STEP_DELAYS = [900, 2500, 5500];
  */
 export function ScanChannel({ onScanComplete }: { onScanComplete?: () => void }) {
   const [channelId, setChannelId] = useState('');
+  const [query, setQuery] = useState('');
   const [startDate, setStartDate] = useState(today());
   const [phase, setPhase] = useState<'idle' | 'scanning' | 'done' | 'error'>('idle');
   const [currentStep, setCurrentStep] = useState(-1);
@@ -109,15 +124,18 @@ export function ScanChannel({ onScanComplete }: { onScanComplete?: () => void })
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div style={{ display: 'flex', gap: 12, alignItems: 'flex-end', marginBottom: 8 }}>
+          <div style={{ display: 'flex', gap: 12, alignItems: 'flex-end', marginBottom: 20 }}>
             <div style={{ flex: 1 }}>
-              <label className="label">Channel ID</label>
-              <input
-                className="input"
-                type="text"
-                value={channelId}
-                onChange={e => setChannelId(e.target.value)}
-                placeholder="C12345678"
+              <label className="label">Channel</label>
+              <ComboboxInput
+                id="channel"
+                options={channelOptions}
+                value={query}
+                onChange={text => { setChannelId(''); setQuery(text); }}
+                onSelect={option => { setChannelId(option.value); setQuery(option.label); }}
+                prefix="#"
+                debounceMs={500}
+                placeholder="Search by channel name…"
                 disabled={scanning}
               />
             </div>
@@ -133,9 +151,6 @@ export function ScanChannel({ onScanComplete }: { onScanComplete?: () => void })
               />
             </div>
           </div>
-          <p className="helper-text" style={{ marginBottom: 20 }}>
-            Find the channel ID in Slack: right-click the channel name → Channel details → copy the ID at the bottom.
-          </p>
           <button
             type="submit"
             className="btn btn-primary"

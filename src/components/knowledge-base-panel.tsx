@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
+import { ComboboxInput } from '../ui/input';
 import { ConfidenceMeter, EmptyState, SkeletonCard, StatusBanner, TagChip } from './shared';
 import type { KnowledgeEntry } from '../types';
 
@@ -58,7 +59,6 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
   const [allTags, setAllTags] = useState<string[]>([]);
   const [tag, setTag] = useState('');
   const [tagSearch, setTagSearch] = useState('');
-  const [tagOpen, setTagOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [data, setData] = useState<KbResponse | null>(null);
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
@@ -67,7 +67,6 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
   const [initialLoading, setInitialLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const workspaceUrl = import.meta.env.VITE_SLACK_WORKSPACE_URL as string ?? '';
-  const tagRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     /**
@@ -100,19 +99,7 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
     void fetchAllTags(selectedChannel);
   }, [selectedChannel]);
 
-  useEffect(() => {
-    /**
-     * Closes the tag dropdown when a click occurs outside the tag input container.
-     * @param e - The mousedown event from the document listener.
-     */
-    function handleClickOutside(e: MouseEvent) {
-      if (tagRef.current && !tagRef.current.contains(e.target as Node)) {
-        setTagOpen(false);
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+
 
   /**
    * Fetches all unique tags from a channel's knowledge base for the tag filter dropdown.
@@ -171,16 +158,14 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
   function selectTag(t: string) {
     setTag(t);
     setTagSearch(t);
-    setTagOpen(false);
   }
 
   /**
-   * Clears the active tag filter and resets the tag search input and dropdown state.
+   * Clears the active tag filter and resets the tag search input.
    */
   function clearTag() {
     setTag('');
     setTagSearch('');
-    setTagOpen(false);
   }
 
   /**
@@ -230,7 +215,10 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
     return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
   }
 
-  const filteredTags = allTags.filter(t => t.toLowerCase().includes(tagSearch.toLowerCase()));
+  const tagOptions = useMemo(
+    () => allTags.map(t => ({ value: t, label: t })),
+    [allTags]
+  );
   const entries = data?.entries ?? [];
 
   if (initialLoading) {
@@ -277,42 +265,16 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
         {/* Search row */}
         <form onSubmit={handleSearch} style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
           {/* Tag dropdown */}
-          <div ref={tagRef} style={{ position: 'relative' }}>
-            <div style={{ display: 'flex', alignItems: 'center', border: '1px solid #D7DCF4', borderRadius: 4, background: 'white', overflow: 'hidden', width: 154 }}>
-              <input
-                className="input"
-                style={{ border: 'none', borderRadius: 0, boxShadow: 'none', padding: '9px 10px', width: '100%' }}
-                value={tagSearch}
-                onChange={e => { setTagSearch(e.target.value); setTag(''); setTagOpen(true); }}
-                onFocus={() => setTagOpen(true)}
-                placeholder="Filter by tag"
-              />
-              {tag && (
-                <button
-                  type="button"
-                  onClick={clearTag}
-                  style={{ border: 'none', background: 'none', cursor: 'pointer', padding: '0 8px', color: '#9DA0B2', flexShrink: 0, lineHeight: 1 }}
-                >
-                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                    <path d="M2 2l6 6M8 2l-6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                  </svg>
-                </button>
-              )}
-            </div>
-            {tagOpen && filteredTags.length > 0 && (
-              <ul style={{ position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 20, marginTop: 4, background: 'white', border: '1px solid #EBEBEF', borderRadius: 6, boxShadow: '0 8px 24px rgba(2,10,56,0.1)', maxHeight: 200, overflowY: 'auto', padding: '4px 0', listStyle: 'none', margin: '4px 0 0' }}>
-                {filteredTags.map(t => (
-                  <li
-                    key={t}
-                    onMouseDown={() => selectTag(t)}
-                    style={{ padding: '8px 12px', cursor: 'pointer', fontSize: 13, fontWeight: t === tag ? 700 : 400, color: t === tag ? '#0522BA' : '#0A0A0A', background: t === tag ? '#F5F6FC' : 'transparent', transition: 'background 0.1s' }}
-                  >
-                    {t}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+          <ComboboxInput
+            id="tag"
+            options={tagOptions}
+            value={tagSearch}
+            onChange={text => { setTagSearch(text); setTag(''); }}
+            onSelect={option => selectTag(option.value)}
+            onClear={clearTag}
+            placeholder="Filter by tag"
+            style={{ width: 154 }}
+          />
 
           {/* Text search */}
           <div style={{ flex: 1, minWidth: 180 }}>
