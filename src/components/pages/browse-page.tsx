@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { parseAsInteger, parseAsString, useQueryState } from 'nuqs';
 import type { KnowledgeEntry } from '../../types';
 import { deleteEntry, fetchChannels, fetchEntries, patchEntry } from '../../utils/api';
 import { usePageTitle } from '../../hooks/use-page-title';
@@ -14,17 +15,39 @@ import { ComboboxInput } from '../ui/input';
  * Tab panel for browsing, filtering, and deleting knowledge base entries across channels.
  * Supports filtering by channel, tag, and free-text search, and shows expandable raw messages.
  */
+const PAGE_SIZE = 5;
+
+/**
+ * Returns the page numbers (and null for ellipsis) to render in the pagination bar.
+ * Always includes page 1, the last page, and a window of current ± 1.
+ * @param current - The active page number.
+ * @param total - The total number of pages.
+ * @returns Array of page numbers with null markers where ellipsis should appear.
+ */
+function getPageItems(current: number, total: number): (number | null)[] {
+  const visible = new Set(
+    [1, total, current - 1, current, current + 1].filter(p => p >= 1 && p <= total)
+  );
+  const sorted = [...visible].sort((a, b) => a - b);
+  const items: (number | null)[] = [];
+  for (let i = 0; i < sorted.length; i++) {
+    if (i > 0 && sorted[i] - sorted[i - 1] > 1) items.push(null);
+    items.push(sorted[i]);
+  }
+  return items;
+}
+
 export function BrowsePage() {
   usePageTitle('Browse');
   const queryClient = useQueryClient();
-  const [selectedChannel, setSelectedChannel] = useState('');
+  const [selectedChannel, setSelectedChannel] = useQueryState('channel', parseAsString.withDefault(''));
+  const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1));
+  const [activeTag, setActiveTag] = useQueryState('tag', parseAsString.withDefault(''));
+  const [activeQuery, setActiveQuery] = useQueryState('q', parseAsString.withDefault(''));
   const [channelSearch, setChannelSearch] = useState('');
-  // Draft filter state (shown in inputs, committed on submit)
-  const [draftTag, setDraftTag] = useState('');
-  const [draftQuery, setDraftQuery] = useState('');
-  // Active filter state (drives query key, committed on form submit)
-  const [activeTag, setActiveTag] = useState('');
-  const [activeQuery, setActiveQuery] = useState('');
+  // Draft filter state — initialised from URL so inputs are populated on refresh
+  const [draftTag, setDraftTag] = useState(activeTag);
+  const [draftQuery, setDraftQuery] = useState(activeQuery);
   // Modal state
   const [viewingEntry, setViewingEntry] = useState<KnowledgeEntry | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
@@ -43,8 +66,17 @@ export function BrowsePage() {
   });
   const channels = useMemo(() => channelsData?.channels ?? [], [channelsData]);
 
-  // Fall back to the first channel when none is explicitly selected — avoids a setState-in-effect
-  const effectiveChannel = selectedChannel || channels[0] || '';
+  const firstChannel = channels[0] ?? '';
+
+  // Write the default channel to the URL the first time channels load with no param set.
+  // The URL (browser history) is an external system; this syncs the derived default into it once.
+  useEffect(() => {
+    if (!selectedChannel && firstChannel) {
+      void setSelectedChannel(firstChannel);
+    }
+  }, [firstChannel, selectedChannel, setSelectedChannel]);
+
+  const effectiveChannel = selectedChannel || firstChannel;
 
   // All tags — always fetches the unfiltered list so the tag dropdown stays complete.
   // Uses the same query key as the unfiltered entries query, so TanStack Query deduplicates the request.
@@ -68,6 +100,12 @@ export function BrowsePage() {
     enabled: !!effectiveChannel,
   });
   const entries = useMemo(() => entriesData?.entries ?? [], [entriesData]);
+  const totalPages = Math.max(1, Math.ceil(entries.length / PAGE_SIZE));
+  const safePage = Math.min(Math.max(1, page), totalPages);
+  const pageEntries = useMemo(
+    () => entries.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE),
+    [entries, safePage],
+  );
 
   // Delete mutation — includes 300 ms delay for exit animation
   const deleteMutation = useMutation({
@@ -108,26 +146,28 @@ export function BrowsePage() {
   });
 
   /**
-   * Selects a channel, resetting all filters so the new channel starts unfiltered.
+   * Selects a channel, resetting all filters and returning to page 1.
    * @param ch - The channel name to select.
    */
   function selectChannel(ch: string) {
-    setSelectedChannel(ch);
+    void setSelectedChannel(ch);
+    void setPage(1);
+    void setActiveTag('');
+    void setActiveQuery('');
     setDraftTag('');
     setDraftQuery('');
-    setActiveTag('');
-    setActiveQuery('');
     verifyMutation.reset();
   }
 
   /**
-   * Handles search form submission, committing draft filters to drive a new entries query.
+   * Handles search form submission, committing draft filters and returning to page 1.
    * @param e - The form submit event.
    */
   function handleSearch(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
-    setActiveTag(draftTag);
-    setActiveQuery(draftQuery);
+    void setPage(1);
+    void setActiveTag(draftTag);
+    void setActiveQuery(draftQuery);
   }
 
   /**
@@ -149,10 +189,11 @@ export function BrowsePage() {
    * Clears all active and draft filters, resetting the entry list to unfiltered.
    */
   function handleClear() {
+    void setPage(1);
+    void setActiveTag('');
+    void setActiveQuery('');
     setDraftTag('');
     setDraftQuery('');
-    setActiveTag('');
-    setActiveQuery('');
   }
 
   /**
@@ -343,6 +384,11 @@ export function BrowsePage() {
                 {effectiveChannel && <> in <strong className="text-fg-strong">#{effectiveChannel}</strong></>}
                 {(activeTag || activeQuery) && <span className="text-content-36"> · filtered</span>}
               </p>
+              {totalPages > 1 && (
+                <p className="text-[13px] text-fg-muted m-0">
+                  Page <strong className="text-fg-strong">{safePage}</strong> of <strong className="text-fg-strong">{totalPages}</strong>
+                </p>
+              )}
             </div>
           )}
 
@@ -379,7 +425,7 @@ export function BrowsePage() {
           )}
 
           {/* Entry list */}
-          {!loading && entries.map(entry => (
+          {!loading && pageEntries.map(entry => (
             <EntryCard
               key={entry.id}
               entry={entry}
@@ -393,6 +439,52 @@ export function BrowsePage() {
               clampSolution
             />
           ))}
+
+          {/* Pagination */}
+          {!loading && totalPages > 1 && (
+            <div className="flex items-center justify-center gap-1 pt-2">
+              <button
+                type="button"
+                onClick={() => void setPage(safePage - 1)}
+                disabled={safePage <= 1}
+                className="h-8 w-8 rounded-[6px] border border-divider bg-white text-fg-default cursor-pointer inline-flex items-center justify-center transition-colors duration-[120ms] hover:bg-primary-4 hover:border-primary-24 hover:text-primary-100 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:border-divider disabled:hover:text-fg-default"
+              >
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M7.5 2L4 6l3.5 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
+
+              {getPageItems(safePage, totalPages).map((p, i) =>
+                p === null ? (
+                  <span key={`ellipsis-${i}`} className="h-8 w-6 inline-flex items-center justify-center text-[13px] text-content-36 select-none">…</span>
+                ) : (
+                  <button
+                    key={p}
+                    type="button"
+                    onClick={() => void setPage(p)}
+                    className={`h-8 min-w-8 px-2 rounded-[6px] border text-[13px] font-semibold cursor-pointer inline-flex items-center justify-center transition-colors duration-[120ms] ${
+                      p === safePage
+                        ? 'bg-primary-100 border-primary-100 text-white'
+                        : 'bg-white border-divider text-fg-default hover:bg-primary-4 hover:border-primary-24 hover:text-primary-100'
+                    }`}
+                  >
+                    {p}
+                  </button>
+                )
+              )}
+
+              <button
+                type="button"
+                onClick={() => void setPage(safePage + 1)}
+                disabled={safePage >= totalPages}
+                className="h-8 w-8 rounded-[6px] border border-divider bg-white text-fg-default cursor-pointer inline-flex items-center justify-center transition-colors duration-[120ms] hover:bg-primary-4 hover:border-primary-24 hover:text-primary-100 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:border-divider disabled:hover:text-fg-default"
+              >
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M4.5 2L8 6l-3.5 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
