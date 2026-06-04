@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { ProgressStepper, StatusBanner } from './shared';
-import type { ScanRequest, ScanResponse } from '../types';
-import { ComboboxInput } from '../ui/input';
-import type { ComboboxOption } from '../ui/input';
-import channelList from '../../lib/data/slack-channels.json';
-import { scanChannel } from '../lib/api';
+import { ProgressStepper, StatusBanner } from '../ui';
+import type { ScanRequest, ScanResponse } from '../../types';
+import { ComboboxInput } from '../../ui/input';
+import type { ComboboxOption } from '../../ui/input';
+import channelList from '../../../lib/data/slack-channels.json';
+import { scanChannel } from '../../lib/api';
 
 interface SlackChannel {
   id: string;

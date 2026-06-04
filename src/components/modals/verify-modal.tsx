@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import type { KnowledgeEntry } from '../types';
+import type { KnowledgeEntry } from '../../types';
 
 export interface VerifyModalProps {
   entry: KnowledgeEntry;

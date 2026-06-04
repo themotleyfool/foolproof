@@ -1,4 +1,4 @@
-import { ConfidenceMeter, NeedsReviewBadge, TagChip, VerifiedBadge } from './shared';
+import { ConfidenceMeter, NeedsReviewBadge, TagChip, VerifiedBadge } from './ui';
 import { formatDate, slackLink } from '../utils/format';
 import type { KnowledgeEntry } from '../types';
 

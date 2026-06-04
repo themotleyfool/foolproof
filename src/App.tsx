@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { ScanChannel } from './components/scan-channel';
-import { LookupThread } from './components/lookup-thread';
-import { KnowledgeBasePanel } from './components/knowledge-base-panel';
+import { ScanChannel } from './components/tabs/scan-channel';
+import { LookupThread } from './components/tabs/lookup-thread';
+import { KnowledgeBasePanel } from './components/tabs/knowledge-base-panel';
 import { fetchStats } from './lib/api';
 
 type Tab = 'scan' | 'lookup' | 'kb';

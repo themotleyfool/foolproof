@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { StatusBanner } from './shared';
-import { EntryCard } from './entry-card';
-import type { LookupRequest } from '../types';
-import { lookupThread } from '../lib/api';
+import { StatusBanner } from '../ui';
+import { EntryCard } from '../entry-card';
+import type { LookupRequest } from '../../types';
+import { lookupThread } from '../../lib/api';
 
 /**
  * Tab panel for looking up a Slack thread by permalink and getting an AI-suggested solution.

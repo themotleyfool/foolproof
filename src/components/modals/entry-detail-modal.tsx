@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { ConfidenceMeter, TagChip } from './shared';
-import { slackLink } from '../utils/format';
-import type { KnowledgeEntry } from '../types';
+import type { KnowledgeEntry } from '../../types';
+import { slackLink } from '../../utils/format';
+import { ConfidenceMeter, TagChip } from '../ui';
 
 export interface EntryDetailModalProps {
   entry: KnowledgeEntry;

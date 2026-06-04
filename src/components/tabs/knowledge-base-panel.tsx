@@ -1,13 +1,13 @@
-import { useMemo, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import type { KnowledgeEntry } from '../types';
-import { ComboboxInput } from '../ui/input';
-import { ConfirmModal } from './confirm-modal';
-import { EntryCard } from './entry-card';
-import { EntryDetailModal } from './entry-detail-modal';
-import { EmptyState, SkeletonCard, StatusBanner } from './shared';
-import { VerifyModal } from './verify-modal';
-import { deleteEntry, fetchChannels, fetchEntries, patchEntry } from '../lib/api';
+import { useMemo, useState } from 'react';
+import { deleteEntry, fetchChannels, fetchEntries, patchEntry } from '../../lib/api';
+import type { KnowledgeEntry } from '../../types';
+import { ComboboxInput } from '../../ui/input';
+import { EntryCard } from '../entry-card';
+import { ConfirmModal } from '../modals/confirm-modal';
+import { EntryDetailModal } from '../modals/entry-detail-modal';
+import { VerifyModal } from '../modals/verify-modal';
+import { EmptyState, SkeletonCard, StatusBanner } from '../ui';
 
 /**
  * Tab panel for browsing, filtering, and deleting knowledge base entries across channels.
