@@ -434,7 +434,7 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
                   <TagChip key={t} label={t} active={t === tag} onClick={() => selectTag(t)} />
                 ))}
               </div>
-              <ConfidenceMeter level={entry.confidence} />
+              {!entry.verification && <ConfidenceMeter level={entry.confidence} />}
               {entry.verification
                 ? <VerifiedBadge verifiedBy={entry.verification.verifiedBy} verifiedAt={entry.verification.verifiedAt} />
                 : <NeedsReviewBadge />

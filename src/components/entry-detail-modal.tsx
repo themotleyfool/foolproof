@@ -144,8 +144,8 @@ export function EntryDetailModal({ entry, workspaceUrl, onClose, onEdit, onDelet
 
           {/* Metadata row */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', paddingBottom: 14, marginBottom: 14, borderBottom: '1px solid #EBEBEF' }}>
-            <ConfidenceMeter level={entry.confidence} />
-            <div style={{ width: 1, height: 12, background: '#EBEBEF', flexShrink: 0 }} />
+            {!entry.verification && <ConfidenceMeter level={entry.confidence} />}
+            {!entry.verification && <div style={{ width: 1, height: 12, background: '#EBEBEF', flexShrink: 0 }} />}
             <span style={{ fontSize: 12, color: '#9DA0B2', fontWeight: 500 }}>Scanned {date}</span>
             {entry.verification && (
               <>
