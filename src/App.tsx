@@ -1,8 +1,8 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { BrowsePage } from './components/tabs/browse-page';
-import { BuildKnowledgePage } from './components/tabs/build-knowledge-page';
-import { FindAnswerPage } from './components/tabs/find-answer-page';
 import { Navbar } from './components/navbar';
+import { BrowsePage } from './components/pages/browse-page';
+import { BuildKnowledgePage } from './components/pages/build-knowledge-page';
+import { FindAnswerPage } from './components/pages/find-answer-page';
 
 /**
  * Root application component. Renders the navbar and routes to the active page.
