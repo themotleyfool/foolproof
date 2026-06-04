@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import type { KnowledgeEntry } from '../../types';
 import { deleteEntry, fetchChannels, fetchEntries, patchEntry } from '../../utils/api';
+import { usePageTitle } from '../../hooks/use-page-title';
 import { EntryCard } from '../entry-card';
 import { ConfirmModal } from '../modals/confirm-modal';
 import { EntryDetailModal } from '../modals/entry-detail-modal';
@@ -14,6 +15,7 @@ import { ComboboxInput } from '../ui/input';
  * Supports filtering by channel, tag, and free-text search, and shows expandable raw messages.
  */
 export function BrowsePage() {
+  usePageTitle('Browse');
   const queryClient = useQueryClient();
   const [selectedChannel, setSelectedChannel] = useState('');
   const [channelSearch, setChannelSearch] = useState('');

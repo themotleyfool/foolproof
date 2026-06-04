@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import channelList from '../../../lib/data/slack-channels.json';
 import type { ScanRequest, ScanResponse } from '../../types';
 import { scanChannel } from '../../utils/api';
+import { usePageTitle } from '../../hooks/use-page-title';
 import { ProgressStepper, StatusBanner, inputCls } from '../ui';
 import type { ComboboxOption } from '../ui/input';
 import { ComboboxInput } from '../ui/input';
@@ -51,6 +52,7 @@ const channelOptions: ComboboxOption[] = (channelList as SlackChannel[]).map(c =
  * Displays a progress stepper during the scan and a results summary on completion.
  */
 export function BuildKnowledgePage() {
+  usePageTitle('Build Knowledge');
   const [channelId, setChannelId] = useState('');
   const [query, setQuery] = useState('');
   const [startDate, setStartDate] = useState(yesterday());

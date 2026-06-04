@@ -2,6 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import type { LookupRequest } from '../../types';
 import { lookupThread } from '../../utils/api';
+import { usePageTitle } from '../../hooks/use-page-title';
 import { EntryCard } from '../entry-card';
 import { StatusBanner, inputCls } from '../ui';
 
@@ -10,6 +11,7 @@ import { StatusBanner, inputCls } from '../ui';
  * Displays the thread summary, suggested solution, and related knowledge base entries.
  */
 export function FindAnswerPage() {
+  usePageTitle('Find Answer');
   const [url, setUrl] = useState('');
   const [copied, setCopied] = useState(false);
   const [relatedOpen, setRelatedOpen] = useState(false);
