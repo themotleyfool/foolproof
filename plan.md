@@ -10,7 +10,7 @@ Build a local developer tool that (1) scans a public Slack channel to extract pr
 
 **Frontend**: React (existing scaffold) — UI for scanning channels and looking up threads.  
 **Backend**: Express.js server added to this project — handles all API calls to Slack and Anthropic so tokens never reach the browser.  
-**Storage**: `data/{channel-name}.json` — flat JSON file.  
+**Storage**: `knowledge-bases/{channel-name}.json` — flat JSON file.  
 **Dev**: Vite proxies `/api` to `localhost:3001`; both run together via `concurrently`.
 
 ---
@@ -22,7 +22,7 @@ New/modified files:
 ```
 ├── .env                           # NEW — secrets (gitignored)
 ├── .env.example                   # NEW — placeholder template
-├── data/
+├── knowledge-bases/
 │   └── {channel-name}.json        # NEW — generated at runtime (gitignored)
 ├── server/
 │   ├── tsconfig.json              # NEW
@@ -182,7 +182,7 @@ Instantiate Anthropic client once at module level. Model: `process.env.LLM_MODEL
 
 ### `server/services/knowledgeBase.ts`
 
-Operates on `data/knowledge-base.json` (path resolved relative to the project root).
+Operates on `knowledge-bases/{channel-name}.json` (path resolved relative to the project root).
 
 | Function                  | What it does                                                |
 | ------------------------- | ----------------------------------------------------------- |
@@ -358,6 +358,6 @@ Required Slack bot OAuth scopes: `channels:history`, `channels:read`, `channels:
 2. `npm install` (new deps)
 3. `npm run dev` — expect cyan Vite output on :5173, yellow server output on :3001
 4. `curl http://localhost:5173/api/knowledge` — expect `{"entries":[],"total":0}` (confirms proxy)
-5. `curl -X POST http://localhost:3001/api/scan -H "Content-Type: application/json" -d '{"channelName":"general","maxMessages":50}'` — expect `ScanResponse`; inspect `data/knowledge-base.json`
+5. `curl -X POST http://localhost:3001/api/scan -H "Content-Type: application/json" -d '{"channelName":"general","maxMessages":50}'` — expect `ScanResponse`; inspect `knowledge-bases/{channel-name}.json`
 6. Open `http://localhost:5173`, go to "Lookup Thread", paste a Slack permalink, verify suggestion + related entries appear
 7. Check browser DevTools Network tab — confirm no tokens appear in any response

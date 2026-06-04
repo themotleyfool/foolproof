@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import type { KnowledgeBase, KnowledgeEntry } from '../../src/types/index.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const KB_DIR = path.resolve(__dirname, '../../data');
+const KB_DIR = path.resolve(__dirname, '../../knowledge-bases');
 
 function kbPath(channelName: string): string {
   return path.join(KB_DIR, `${channelName}.json`);
