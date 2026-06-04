@@ -3,6 +3,7 @@ import { ComboboxInput } from '../ui/input';
 import { ConfidenceMeter, EmptyState, SkeletonCard, StatusBanner, TagChip } from './shared';
 import { VerifyModal } from './verify-modal';
 import { ConfirmModal } from './confirm-modal';
+import { EntryDetailModal } from './entry-detail-modal';
 import type { KnowledgeEntry } from '../types';
 
 interface KbResponse {
@@ -93,7 +94,7 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
   const [tagSearch, setTagSearch] = useState('');
   const [query, setQuery] = useState('');
   const [data, setData] = useState<KbResponse | null>(null);
-  const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
+  const [viewingEntry, setViewingEntry] = useState<KnowledgeEntry | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
   const [editingEntry, setEditingEntry] = useState<KnowledgeEntry | null>(null);
@@ -210,18 +211,6 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
     clearTag();
     setQuery('');
     if (selectedChannel) void fetchEntries(selectedChannel, '', '');
-  }
-
-  /**
-   * Toggles the expanded state of a knowledge entry's raw message list.
-   * @param id - The entry ID to expand or collapse.
-   */
-  function toggleExpand(id: string) {
-    setExpandedIds(prev => {
-      const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
-      return next;
-    });
   }
 
   /**
@@ -401,21 +390,29 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
 
       {/* Entry list */}
       {!loading && entries.map(entry => {
-        const expanded = expandedIds.has(entry.id);
         const deleting = deletingId === entry.id;
         return (
           <div
             key={entry.id}
             className="entry-card animate-in"
-            style={{ opacity: deleting ? 0 : 1, transform: deleting ? 'scale(0.98)' : 'scale(1)', transition: 'opacity 0.25s, transform 0.25s' }}
+            onClick={() => setViewingEntry(entry)}
+            style={{ opacity: deleting ? 0 : 1, transform: deleting ? 'scale(0.98)' : 'scale(1)', transition: 'opacity 0.25s, transform 0.25s', cursor: 'pointer' }}
           >
             <div style={{ position: 'absolute', top: 12, right: 12, display: 'flex', gap: 4 }}>
-              <button className="entry-action-btn" onClick={() => setEditingEntry(entry)} title="Edit & verify solution">
+              <button
+                className="entry-action-btn"
+                onClick={e => { e.stopPropagation(); setEditingEntry(entry); }}
+                title="Edit & verify solution"
+              >
                 <svg width="9" height="9" viewBox="0 0 11 11" fill="none">
                   <path d="M7.5 1.5L9.5 3.5L3.5 9.5H1.5V7.5L7.5 1.5Z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round"/>
                 </svg>
               </button>
-              <button className="entry-action-btn entry-action-btn--delete" onClick={() => setPendingDeleteId(entry.id)} title="Delete entry">
+              <button
+                className="entry-action-btn entry-action-btn--delete"
+                onClick={e => { e.stopPropagation(); setPendingDeleteId(entry.id); }}
+                title="Delete entry"
+              >
                 <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
                   <path d="M1 1l7 7M8 1L1 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
                 </svg>
@@ -426,16 +423,12 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
               {entry.problem}
             </p>
 
-            <p style={{
-              fontSize: 13, color: '#515151', margin: '0 0 10px', lineHeight: 1.6,
-              display: '-webkit-box', WebkitLineClamp: expanded ? 'unset' : 2,
-              WebkitBoxOrient: 'vertical' as const, overflow: expanded ? 'visible' : 'hidden',
-            }}>
+            <p style={{ fontSize: 13, color: '#515151', margin: '0 0 10px', lineHeight: 1.6, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' as const, overflow: 'hidden' }}>
               {entry.solution}
             </p>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-              <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', flex: 1 }}>
+              <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', flex: 1 }} onClick={e => e.stopPropagation()}>
                 {entry.tags.map(t => (
                   <TagChip key={t} label={t} active={t === tag} onClick={() => selectTag(t)} />
                 ))}
@@ -452,42 +445,19 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
                 <SlackLinkIcon href={slackLink(workspaceUrl, entry.channelId, entry.threadTs)} />
               )}
             </div>
-
-            {entry.rawMessages.length > 0 && (
-              <div style={{ marginTop: 10, borderTop: '1px solid #EBEBEF', paddingTop: 8 }}>
-                <button
-                  onClick={() => toggleExpand(entry.id)}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5, color: '#0522BA', fontSize: 12, fontWeight: 700, padding: 0, fontFamily: 'var(--font-sans)' }}
-                >
-                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{ transform: expanded ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>
-                    <path d="M1.5 3.5L5 7l3.5-3.5" stroke="#0522BA" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                  {expanded ? 'Hide' : 'Show'} {entry.rawMessages.length} messages
-                </button>
-
-                {expanded && (
-                  <div style={{ marginTop: 10, display: 'flex', flexDirection: 'column', gap: 0, background: '#F5F6FC', borderRadius: 6, overflow: 'hidden', border: '1px solid #EBEDF9' }}>
-                    {entry.rawMessages.map((msg, i) => (
-                      <div key={msg.ts} style={{ padding: '8px 12px', borderBottom: i < entry.rawMessages.length - 1 ? '1px solid #EBEDF9' : 'none', display: 'flex', gap: 10, alignItems: 'flex-start' }}>
-                        <div style={{ width: 24, height: 24, borderRadius: '50%', background: '#EBEDF9', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 10, fontWeight: 700, color: '#80849B' }}>
-                          {(msg.userName ?? msg.user).charAt(0).toUpperCase()}
-                        </div>
-                        <div style={{ flex: 1, minWidth: 0 }}>
-                          <span style={{ fontSize: 11, fontWeight: 700, color: '#373D5B', marginRight: 6 }}>{msg.userName ?? msg.user}</span>
-                          <span style={{ fontSize: 12, color: '#515151', lineHeight: 1.5 }}>{msg.text}</span>
-                        </div>
-                        {workspaceUrl && (
-                          <SlackLinkIcon href={slackLink(workspaceUrl, entry.channelId, msg.ts, entry.threadTs)} />
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
           </div>
         );
       })}
+
+      {viewingEntry && (
+        <EntryDetailModal
+          entry={viewingEntry}
+          workspaceUrl={workspaceUrl}
+          onClose={() => setViewingEntry(null)}
+          onEdit={() => { setEditingEntry(viewingEntry); setViewingEntry(null); }}
+          onDelete={() => { setPendingDeleteId(viewingEntry.id); setViewingEntry(null); }}
+        />
+      )}
 
       {editingEntry && (
         <VerifyModal
