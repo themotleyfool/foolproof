@@ -29,6 +29,32 @@ router.get('/:channel', (req, res) => {
 });
 
 /**
+ * PATCH /api/knowledge/:channel/:id
+ * Updates a single entry's solution text and marks it as verified.
+ * @param channel - The channel name (path parameter).
+ * @param id - The URL-encoded entry ID to update (path parameter).
+ * @body {{ solution: string, verifiedBy: string }}
+ * @returns {{ success: true }} on success, 400 if inputs are missing, or 404 if the entry was not found.
+ */
+router.patch('/:channel/:id', (req, res) => {
+  const { channel, id } = req.params;
+  const { solution, verifiedBy } = req.body as { solution?: string; verifiedBy?: string };
+  if (!solution?.trim() || !verifiedBy?.trim()) {
+    res.status(400).json({ error: 'solution and verifiedBy are required' });
+    return;
+  }
+  const updated = kb.patchEntry(channel, decodeURIComponent(id), {
+    solution: solution.trim(),
+    verification: { verifiedBy: verifiedBy.trim(), verifiedAt: new Date().toISOString() },
+  });
+  if (!updated) {
+    res.status(404).json({ error: 'Entry not found' });
+    return;
+  }
+  res.json({ success: true });
+});
+
+/**
  * DELETE /api/knowledge/:channel/:id
  * Removes a single entry from a channel's knowledge base by its ID.
  * @param channel - The channel name (path parameter).

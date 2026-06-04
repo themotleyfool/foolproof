@@ -14,6 +14,11 @@ export interface SlackThread {
   channelName: string;
 }
 
+export interface EntryVerification {
+  verifiedAt: string;
+  verifiedBy: string;
+}
+
 export interface KnowledgeEntry {
   id: string;
   channelId: string;
@@ -25,6 +30,7 @@ export interface KnowledgeEntry {
   rawMessages: SlackMessage[];
   tags: string[];
   confidence: 'high' | 'medium' | 'low';
+  verification?: EntryVerification;
 }
 
 export interface KnowledgeBase {

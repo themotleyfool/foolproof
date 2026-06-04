@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
 import { ComboboxInput } from '../ui/input';
 import { ConfidenceMeter, EmptyState, SkeletonCard, StatusBanner, TagChip } from './shared';
+import { VerifyModal } from './verify-modal';
 import type { KnowledgeEntry } from '../types';
 
 interface KbResponse {
@@ -48,6 +49,36 @@ function SlackLinkIcon({ href }: { href: string }) {
   );
 }
 
+/** Amber badge shown on entries that have not yet been admin-verified. */
+function NeedsReviewBadge() {
+  return (
+    <span className="badge badge-needs-review">
+      <svg width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true">
+        <circle cx="4.5" cy="4.5" r="4" stroke="currentColor" strokeWidth="1.2"/>
+        <path d="M4.5 2.5v2.25l1.25 1" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+      </svg>
+      Needs review
+    </span>
+  );
+}
+
+/**
+ * Green badge shown on entries that an admin has verified.
+ * @param verifiedBy - Name of the admin who verified the entry.
+ * @param verifiedAt - ISO 8601 timestamp of when the entry was verified.
+ */
+function VerifiedBadge({ verifiedBy, verifiedAt }: { verifiedBy: string; verifiedAt: string }) {
+  const date = new Date(verifiedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  return (
+    <span className="badge badge-verified" title={`Verified by ${verifiedBy} · ${date}`}>
+      <svg width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true">
+        <path d="M1.5 4.5L3.5 6.5L7.5 2.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+      Verified
+    </span>
+  );
+}
+
 /**
  * Tab panel for browsing, filtering, and deleting knowledge base entries across channels.
  * Supports filtering by channel, tag, and free-text search, and shows expandable raw messages.
@@ -63,6 +94,8 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
   const [data, setData] = useState<KbResponse | null>(null);
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [editingEntry, setEditingEntry] = useState<KnowledgeEntry | null>(null);
+  const [savingId, setSavingId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -207,6 +240,30 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
   }
 
   /**
+   * Submits a solution edit and verification stamp for an entry via PATCH, then refreshes.
+   * @param id - The entry ID to patch.
+   * @param solution - The updated solution text.
+   * @param verifierName - The admin's name to record on the verification.
+   */
+  async function handleVerify(id: string, solution: string, verifierName: string) {
+    setSavingId(id);
+    try {
+      const res = await fetch(`/api/knowledge/${selectedChannel}/${encodeURIComponent(id)}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ solution, verifiedBy: verifierName }),
+      });
+      if (!res.ok) throw new Error('Failed to save');
+      setEditingEntry(null);
+      await fetchEntries(selectedChannel, tag, query);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Failed to save');
+    } finally {
+      setSavingId(null);
+    }
+  }
+
+  /**
    * Formats an ISO 8601 timestamp as a short human-readable date (e.g. "Jun 4, 2026").
    * @param iso - An ISO 8601 date string.
    * @returns A localized short date string.
@@ -346,13 +403,20 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
             className="entry-card animate-in"
             style={{ opacity: deleting ? 0 : 1, transform: deleting ? 'scale(0.98)' : 'scale(1)', transition: 'opacity 0.25s, transform 0.25s' }}
           >
-            <button className="entry-delete-btn" onClick={() => void handleDelete(entry.id)} title="Delete entry">
-              <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
-                <path d="M1 1l7 7M8 1L1 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-              </svg>
-            </button>
+            <div style={{ position: 'absolute', top: 12, right: 12, display: 'flex', gap: 4 }}>
+              <button className="entry-action-btn" onClick={() => setEditingEntry(entry)} title="Edit & verify solution">
+                <svg width="9" height="9" viewBox="0 0 11 11" fill="none">
+                  <path d="M7.5 1.5L9.5 3.5L3.5 9.5H1.5V7.5L7.5 1.5Z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round"/>
+                </svg>
+              </button>
+              <button className="entry-action-btn entry-action-btn--delete" onClick={() => void handleDelete(entry.id)} title="Delete entry">
+                <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
+                  <path d="M1 1l7 7M8 1L1 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                </svg>
+              </button>
+            </div>
 
-            <p style={{ fontSize: 14, fontWeight: 700, color: '#0A0A0A', margin: '0 24px 6px 0', lineHeight: 1.4 }}>
+            <p style={{ fontSize: 14, fontWeight: 700, color: '#0A0A0A', margin: '0 48px 6px 0', lineHeight: 1.4 }}>
               {entry.problem}
             </p>
 
@@ -371,7 +435,11 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
                 ))}
               </div>
               <ConfidenceMeter level={entry.confidence} />
-              <span style={{ fontSize: 11, color: '#9DA0B2', fontWeight: 500, whiteSpace: 'nowrap', marginLeft: 4 }}>
+              {entry.verification
+                ? <VerifiedBadge verifiedBy={entry.verification.verifiedBy} verifiedAt={entry.verification.verifiedAt} />
+                : <NeedsReviewBadge />
+              }
+              <span style={{ fontSize: 11, color: '#9DA0B2', fontWeight: 500, whiteSpace: 'nowrap' }}>
                 {formatDate(entry.scannedAt)}
               </span>
               {workspaceUrl && (
@@ -414,6 +482,15 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
           </div>
         );
       })}
+
+      {editingEntry && (
+        <VerifyModal
+          entry={editingEntry}
+          saving={savingId === editingEntry.id}
+          onSubmit={(solution, verifierName) => void handleVerify(editingEntry.id, solution, verifierName)}
+          onClose={() => setEditingEntry(null)}
+        />
+      )}
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import type { KnowledgeBase, KnowledgeEntry } from '../../src/types/index.js';
+import type { KnowledgeBase, KnowledgeEntry, EntryVerification } from '../../src/types/index.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const KB_DIR = path.resolve(__dirname, '../../lib/knowledge-bases');
@@ -68,6 +68,29 @@ export function removeEntry(channelName: string, id: string): boolean {
   const before = kb.entries.length;
   kb.entries = kb.entries.filter(e => e.id !== id);
   if (kb.entries.length === before) return false;
+  kb.lastUpdated = new Date().toISOString();
+  save(channelName, kb);
+  return true;
+}
+
+/**
+ * Updates a single entry's solution text and sets its verification stamp.
+ * @param channelName - The Slack channel name identifying which knowledge base to update.
+ * @param id - The entry ID to patch.
+ * @param patch - The new solution text and verification metadata to apply.
+ * @returns `true` if the entry was found and updated, `false` if it did not exist.
+ */
+export function patchEntry(
+  channelName: string,
+  id: string,
+  patch: { solution: string; verification: EntryVerification }
+): boolean {
+  const kb = load(channelName);
+  const entry = kb.entries.find(e => e.id === id);
+  if (!entry) return false;
+  entry.solution = patch.solution;
+  entry.verification = patch.verification;
+  entry.confidence = 'high';
   kb.lastUpdated = new Date().toISOString();
   save(channelName, kb);
   return true;

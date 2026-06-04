@@ -218,18 +218,46 @@ button, input, select, textarea { font-family: var(--font-sans); }
   transition: box-shadow var(--dur-fast); position: relative;
 }
 .entry-card:hover { box-shadow: var(--shadow-md); }
-.entry-delete-btn {
-  position: absolute; top: 12px; right: 12px;
+.entry-action-btn {
   width: 24px; height: 24px; border: none; background: transparent;
   color: var(--mf-content-24); cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   border-radius: var(--radius-xs); transition: all var(--dur-fast);
-  opacity: 0;
+  opacity: 0; flex-shrink: 0;
 }
-.entry-card:hover .entry-delete-btn { opacity: 1; }
-.entry-delete-btn:hover { background: var(--mf-secondary-red-4); color: var(--mf-secondary-red-50); }
+.entry-card:hover .entry-action-btn { opacity: 1; }
+.entry-action-btn:hover { background: var(--mf-primary-8); color: var(--mf-primary-100); }
+.entry-action-btn--delete:hover { background: var(--mf-secondary-red-4); color: var(--mf-secondary-red-50); }
 .slack-link-icon { opacity: 0.6; transition: opacity var(--dur-fast), color var(--dur-fast); }
 .slack-link-icon:hover { opacity: 1; color: #4A154B; }
+
+/* ── Verification badges ─────────────────────────────────────────────── */
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 700; padding: 2px 7px;
+  border-radius: 999px; border: 1px solid; white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+.badge-verified     { background: #E6FAF0; color: #1A7F4B; border-color: #A3E4C1; }
+.badge-needs-review { background: #FFF8E6; color: #92620C; border-color: #F5D48A; }
+
+
+/* ── Modal ───────────────────────────────────────────────────────────── */
+.modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(2, 10, 56, 0.45);
+  z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  animation: fade-in-up 0.15s var(--ease-out) forwards;
+}
+.modal-panel {
+  background: #fff; border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(2, 10, 56, 0.18), 0 2px 8px rgba(2, 10, 56, 0.08);
+  max-width: 560px; width: 100%;
+  padding: 24px;
+  display: flex; flex-direction: column; gap: 16px;
+}
 
 /* ── Status banners ──────────────────────────────────────────────────── */
 .banner { border-radius: var(--radius-xs); padding: 10px 14px; font-size: 14px; font-weight: 500; line-height: 1.55; display: flex; align-items: flex-start; gap: 8px; }
