@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { ScanChannel } from './components/scan-channel';
 import { LookupThread } from './components/lookup-thread';
 import { KnowledgeBasePanel } from './components/knowledge-base-panel';
+import { fetchStats } from './lib/api';
 
 type Tab = 'scan' | 'lookup' | 'kb';
 
@@ -11,58 +13,16 @@ const TABS: { id: Tab; label: string }[] = [
   { id: 'kb',     label: 'Knowledge base' },
 ];
 
-interface HeaderStats {
-  entriesCount: number;
-  channelsCount: number;
-}
-
 /**
  * Root application component. Renders the header, tab navigation, and the active tab panel.
  * Fetches and displays aggregate knowledge base stats (entry count, channel count) in the header.
  */
 function App() {
   const [activeTab, setActiveTab] = useState<Tab>('scan');
-  const [stats, setStats] = useState<HeaderStats>({ entriesCount: 0, channelsCount: 0 });
-  const [statsKey, setStatsKey] = useState(0);
-
-  useEffect(() => {
-    /**
-     * Fetches total entry and channel counts from the knowledge API and updates header stats.
-     */
-    async function loadStats() {
-      try {
-        const res = await fetch('/api/knowledge');
-        if (!res.ok) return;
-        const { channels } = await res.json() as { channels: string[] };
-        if (channels.length === 0) {
-          setStats({ entriesCount: 0, channelsCount: 0 });
-          return;
-        }
-        const totals = await Promise.all(
-          channels.map(ch =>
-            fetch(`/api/knowledge/${ch}`)
-              .then(r => r.json())
-              .then((d: { total: number }) => d.total)
-              .catch(() => 0)
-          )
-        );
-        setStats({
-          channelsCount: channels.length,
-          entriesCount: totals.reduce((a, b) => a + b, 0),
-        });
-      } catch {
-        // header stats are non-critical
-      }
-    }
-    void loadStats();
-  }, [statsKey]);
-
-  /**
-   * Triggers a re-fetch of header stats by incrementing the stats key used as a useEffect dependency.
-   */
-  function refreshStats() {
-    setStatsKey(k => k + 1);
-  }
+  const { data: stats = { entriesCount: 0, channelsCount: 0 } } = useQuery({
+    queryKey: ['stats'],
+    queryFn: fetchStats,
+  });
 
   return (
     <div className="app-shell">
@@ -113,9 +73,9 @@ function App() {
 
       <main style={{ flex: 1, padding: '28px 24px' }}>
         <div style={{ maxWidth: 860, margin: '0 auto', width: '100%' }}>
-          {activeTab === 'scan'   && <ScanChannel onScanComplete={refreshStats} />}
+          {activeTab === 'scan'   && <ScanChannel />}
           {activeTab === 'lookup' && <LookupThread />}
-          {activeTab === 'kb'     && <KnowledgeBasePanel onDelete={refreshStats} />}
+          {activeTab === 'kb'     && <KnowledgeBasePanel />}
         </div>
       </main>
     </div>

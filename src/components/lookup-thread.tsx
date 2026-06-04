@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { useApi } from '../hooks/use-api';
+import { useMutation } from '@tanstack/react-query';
 import { StatusBanner } from './shared';
 import { EntryCard } from './entry-card';
-import type { LookupRequest, LookupResponse } from '../types';
+import type { LookupRequest } from '../types';
+import { lookupThread } from '../lib/api';
 
 /**
  * Tab panel for looking up a Slack thread by permalink and getting an AI-suggested solution.
@@ -12,17 +13,22 @@ export function LookupThread() {
   const [url, setUrl] = useState('');
   const [copied, setCopied] = useState(false);
   const [relatedOpen, setRelatedOpen] = useState(false);
-  const { execute, data, loading, error } = useApi<LookupResponse, LookupRequest>('/api/lookup');
+
+  const lookupMutation = useMutation({
+    mutationFn: (body: LookupRequest) => lookupThread(body),
+  });
+
+  const { data, isPending: loading, error } = lookupMutation;
 
   /**
    * Handles form submission, submitting the Slack URL to the lookup API.
    * @param e - The form submit event.
    */
-  async function handleSubmit(e: React.FormEvent) {
+  function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!url.trim() || loading) return;
     setRelatedOpen(false);
-    await execute({ slackUrl: url.trim() });
+    lookupMutation.mutate({ slackUrl: url.trim() });
   }
 
   /**

@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { KnowledgeEntry } from '../types';
 import { ComboboxInput } from '../ui/input';
 import { ConfirmModal } from './confirm-modal';
@@ -6,202 +7,186 @@ import { EntryCard } from './entry-card';
 import { EntryDetailModal } from './entry-detail-modal';
 import { EmptyState, SkeletonCard, StatusBanner } from './shared';
 import { VerifyModal } from './verify-modal';
-
-interface KbResponse {
-  entries: KnowledgeEntry[];
-  total: number;
-}
+import { deleteEntry, fetchChannels, fetchEntries, patchEntry } from '../lib/api';
 
 /**
  * Tab panel for browsing, filtering, and deleting knowledge base entries across channels.
  * Supports filtering by channel, tag, and free-text search, and shows expandable raw messages.
- * @param onDelete - Optional callback invoked after an entry is successfully deleted.
  */
-export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
-  const [channels, setChannels] = useState<string[]>([]);
-  const [channelSearch, setChannelSearch] = useState('');
+export function KnowledgeBasePanel() {
+  const queryClient = useQueryClient();
   const [selectedChannel, setSelectedChannel] = useState('');
-  const [allTags, setAllTags] = useState<string[]>([]);
-  const [tag, setTag] = useState('');
-  const [tagSearch, setTagSearch] = useState('');
-  const [query, setQuery] = useState('');
-  const [data, setData] = useState<KbResponse | null>(null);
+  const [channelSearch, setChannelSearch] = useState('');
+  // Draft filter state (shown in inputs, committed on submit)
+  const [draftTag, setDraftTag] = useState('');
+  const [draftQuery, setDraftQuery] = useState('');
+  // Active filter state (drives query key, committed on form submit)
+  const [activeTag, setActiveTag] = useState('');
+  const [activeQuery, setActiveQuery] = useState('');
+  // Modal state
   const [viewingEntry, setViewingEntry] = useState<KnowledgeEntry | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
   const [editingEntry, setEditingEntry] = useState<KnowledgeEntry | null>(null);
-  const [savingId, setSavingId] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [initialLoading, setInitialLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const workspaceUrl = import.meta.env.VITE_SLACK_WORKSPACE_URL as string ?? '';
 
-  useEffect(() => {
-    /**
-     * Fetches the list of channels that have a knowledge base and selects the first one.
-     */
-    async function loadChannels() {
-      try {
-        const res = await fetch('/api/knowledge');
-        if (!res.ok) throw new Error('Failed to load channels');
-        const json = await res.json() as { channels: string[] };
-        setChannels(json.channels);
-        if (json.channels.length > 0) {
-          setSelectedChannel(json.channels[0]);
-        } else {
-          setInitialLoading(false);
-        }
-      } catch (e) {
-        setError(e instanceof Error ? e.message : 'Failed to load');
-        setInitialLoading(false);
-      }
-    }
-    void loadChannels();
-  }, []);
+  // Channels list
+  const {
+    data: channelsData,
+    isLoading: channelsLoading,
+    error: channelsError,
+  } = useQuery({
+    queryKey: ['knowledge', 'channels'],
+    queryFn: fetchChannels,
+  });
+  const channels = useMemo(() => channelsData?.channels ?? [], [channelsData]);
 
-  useEffect(() => {
-    if (!selectedChannel) return;
-    void fetchEntries(selectedChannel, '', '');
-    void fetchAllTags(selectedChannel);
-  }, [selectedChannel]);
+  // Fall back to the first channel when none is explicitly selected — avoids a setState-in-effect
+  const effectiveChannel = selectedChannel || channels[0] || '';
 
+  // All tags — always fetches the unfiltered list so the tag dropdown stays complete.
+  // Uses the same query key as the unfiltered entries query, so TanStack Query deduplicates the request.
+  const { data: allTagsData } = useQuery({
+    queryKey: ['knowledge', 'entries', effectiveChannel, '', ''],
+    queryFn: () => fetchEntries(effectiveChannel),
+    enabled: !!effectiveChannel,
+    select: data => [...new Set(data.entries.flatMap(e => e.tags))].sort(),
+  });
+  const allTags = useMemo(() => allTagsData ?? [], [allTagsData]);
 
+  // Filtered entries — re-runs whenever committed filters or channel changes
+  const {
+    data: entriesData,
+    isLoading: entriesLoading,
+    isFetching: entriesFetching,
+    error: entriesError,
+  } = useQuery({
+    queryKey: ['knowledge', 'entries', effectiveChannel, activeTag, activeQuery],
+    queryFn: () => fetchEntries(effectiveChannel, activeTag, activeQuery),
+    enabled: !!effectiveChannel,
+  });
+  const entries = useMemo(() => entriesData?.entries ?? [], [entriesData]);
+
+  // Delete mutation — includes 300 ms delay for exit animation
+  const deleteMutation = useMutation({
+    mutationFn: async ({ id }: { id: string }) => {
+      setDeletingId(id);
+      await new Promise(res => setTimeout(res, 300));
+      await deleteEntry(effectiveChannel, id);
+    },
+    onSuccess: () => {
+      setPendingDeleteId(null);
+      setDeletingId(null);
+      void queryClient.invalidateQueries({ queryKey: ['knowledge', 'entries', effectiveChannel] });
+      void queryClient.invalidateQueries({ queryKey: ['stats'] });
+    },
+    onError: () => {
+      setPendingDeleteId(null);
+      setDeletingId(null);
+    },
+  });
+
+  // Verify / patch mutation
+  const verifyMutation = useMutation({
+    mutationFn: ({
+      id,
+      problem,
+      solution,
+      verifiedBy,
+    }: {
+      id: string;
+      problem: string;
+      solution: string;
+      verifiedBy: string;
+    }) => patchEntry(effectiveChannel, id, { problem, solution, verifiedBy }),
+    onSuccess: () => {
+      setEditingEntry(null);
+      void queryClient.invalidateQueries({ queryKey: ['knowledge', 'entries', effectiveChannel] });
+    },
+  });
 
   /**
-   * Fetches all unique tags from a channel's knowledge base for the tag filter dropdown.
-   * @param channel - The channel name to load tags for.
+   * Selects a channel, resetting all filters so the new channel starts unfiltered.
+   * @param ch - The channel name to select.
    */
-  async function fetchAllTags(channel: string) {
-    try {
-      const res = await fetch(`/api/knowledge/${channel}`);
-      if (!res.ok) return;
-      const json = await res.json() as KbResponse;
-      const tags = [...new Set(json.entries.flatMap(e => e.tags))].sort();
-      setAllTags(tags);
-    } catch {
-      // non-critical — tag filter just stays empty
-    }
+  function selectChannel(ch: string) {
+    setSelectedChannel(ch);
+    setDraftTag('');
+    setDraftQuery('');
+    setActiveTag('');
+    setActiveQuery('');
   }
 
   /**
-   * Fetches knowledge base entries for a channel, applying optional tag and text filters.
-   * @param channel - The channel name to load entries for.
-   * @param tg - Tag filter value; pass an empty string to skip.
-   * @param q - Text search query; pass an empty string to skip.
-   */
-  async function fetchEntries(channel: string, tg: string, q: string) {
-    setTag(tg);
-    setTagSearch(tg);
-    setLoading(true);
-    setError(null);
-    try {
-      const params = new URLSearchParams();
-      if (tg) params.set('tag', tg);
-      if (q) params.set('q', q);
-      const qs = params.toString();
-      const res = await fetch(`/api/knowledge/${channel}${qs ? `?${qs}` : ''}`);
-      if (!res.ok) throw new Error('Failed to load entries');
-      setData(await res.json() as KbResponse);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'Failed to load');
-    } finally {
-      setLoading(false);
-      setInitialLoading(false);
-    }
-  }
-
-  /**
-   * Handles search form submission, re-fetching entries with the current tag and query filters.
+   * Handles search form submission, committing draft filters to drive a new entries query.
    * @param e - The form submit event.
    */
-  async function handleSearch(e: React.FormEvent) {
+  function handleSearch(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (selectedChannel) await fetchEntries(selectedChannel, tag, query);
+    setActiveTag(draftTag);
+    setActiveQuery(draftQuery);
   }
 
   /**
-   * Selects a tag from the dropdown, updating both the active filter and the input display value.
+   * Selects a tag from the dropdown, updating the draft tag input.
    * @param t - The tag string to select.
    */
   function selectTag(t: string) {
-    setTag(t);
-    setTagSearch(t);
+    setDraftTag(t);
   }
 
   /**
-   * Clears the active tag filter and resets the tag search input.
+   * Clears the draft tag input.
    */
   function clearTag() {
-    setTag('');
-    setTagSearch('');
+    setDraftTag('');
   }
 
   /**
-   * Clears all active filters (tag and text query) and re-fetches the unfiltered entry list.
+   * Clears all active and draft filters, resetting the entry list to unfiltered.
    */
   function handleClear() {
-    clearTag();
-    setQuery('');
-    if (selectedChannel) void fetchEntries(selectedChannel, '', '');
+    setDraftTag('');
+    setDraftQuery('');
+    setActiveTag('');
+    setActiveQuery('');
   }
 
   /**
-   * Animates an entry out, deletes it via the API, then refreshes the entry list.
-   * Called after the user confirms the deletion in the confirm modal.
+   * Triggers entry deletion after the user confirms the confirm modal.
    */
-  async function handleDelete() {
+  function handleDelete() {
     if (!pendingDeleteId) return;
-    const id = pendingDeleteId;
-    setDeletingId(id);
-    await new Promise(res => setTimeout(res, 300));
-    try {
-      await fetch(`/api/knowledge/${selectedChannel}/${encodeURIComponent(id)}`, { method: 'DELETE' });
-      setPendingDeleteId(null);
-      setDeletingId(null);
-      await fetchEntries(selectedChannel, tag, query);
-      onDelete?.();
-    } catch {
-      setPendingDeleteId(null);
-      setDeletingId(null);
-    }
+    deleteMutation.mutate({ id: pendingDeleteId });
   }
 
   /**
-   * Submits a problem/solution edit and verification stamp for an entry via PATCH, then refreshes.
+   * Submits a problem/solution edit and verification stamp for an entry via PATCH.
    * @param id - The entry ID to patch.
    * @param problem - The updated problem text.
    * @param solution - The updated solution text.
    * @param verifierName - The admin's name to record on the verification.
    */
-  async function handleVerify(id: string, problem: string, solution: string, verifierName: string) {
-    setSavingId(id);
-    try {
-      const res = await fetch(`/api/knowledge/${selectedChannel}/${encodeURIComponent(id)}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ problem, solution, verifiedBy: verifierName }),
-      });
-      if (!res.ok) throw new Error('Failed to save');
-      setEditingEntry(null);
-      await fetchEntries(selectedChannel, tag, query);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'Failed to save');
-    } finally {
-      setSavingId(null);
-    }
+  function handleVerify(id: string, problem: string, solution: string, verifierName: string) {
+    verifyMutation.mutate({ id, problem, solution, verifiedBy: verifierName });
   }
 
-  const tagOptions = useMemo(
-    () => allTags.map(t => ({ value: t, label: t })),
-    [allTags]
-  );
+  const tagOptions = useMemo(() => allTags.map(t => ({ value: t, label: t })), [allTags]);
   const filteredChannels = useMemo(
     () => channels.filter(ch => ch.toLowerCase().includes(channelSearch.toLowerCase())),
     [channels, channelSearch]
   );
-  const entries = data?.entries ?? [];
 
-  if (initialLoading) {
+  const loading = entriesLoading || entriesFetching;
+  const error = channelsError
+    ? (channelsError instanceof Error ? channelsError.message : 'Failed to load channels')
+    : entriesError
+    ? (entriesError instanceof Error ? entriesError.message : 'Failed to load entries')
+    : verifyMutation.error
+    ? (verifyMutation.error instanceof Error ? verifyMutation.error.message : 'Failed to save')
+    : null;
+
+  if (channelsLoading) {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {[1, 2, 3].map(i => <SkeletonCard key={i} />)}
@@ -272,8 +257,8 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
             ) : filteredChannels.map(ch => (
               <button
                 key={ch}
-                className={'kb-channel-btn' + (selectedChannel === ch ? ' active' : '')}
-                onClick={() => { setSelectedChannel(ch); setQuery(''); }}
+                className={'kb-channel-btn' + (effectiveChannel === ch ? ' active' : '')}
+                onClick={() => selectChannel(ch)}
               >
                 <span className="kb-channel-hash" style={{ color: '#C2C4CF', fontWeight: 400, fontSize: 12, flexShrink: 0 }}>#</span>
                 {ch}
@@ -290,8 +275,8 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
               <ComboboxInput
                 id="tag"
                 options={tagOptions}
-                value={tagSearch}
-                onChange={text => { setTagSearch(text); setTag(''); }}
+                value={draftTag}
+                onChange={text => { setDraftTag(text); }}
                 onSelect={option => selectTag(option.value)}
                 onClear={clearTag}
                 placeholder="Filter by tag"
@@ -300,13 +285,13 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
               <div style={{ flex: 1, minWidth: 180 }}>
                 <input
                   className="input"
-                  value={query}
-                  onChange={e => setQuery(e.target.value)}
+                  value={draftQuery}
+                  onChange={e => setDraftQuery(e.target.value)}
                   placeholder="Search problems and solutions"
                 />
               </div>
               <button type="submit" className="btn btn-primary" style={{ flexShrink: 0 }}>Search</button>
-              {(tag || query) && (
+              {(activeTag || activeQuery) && (
                 <button type="button" className="btn btn-secondary" style={{ height: 40 }} onClick={handleClear}>
                   Clear
                 </button>
@@ -315,13 +300,13 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
           </div>
 
           {/* Results count */}
-          {!loading && data && (
+          {!loading && entriesData && (
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <p style={{ fontSize: 13, color: '#6F6F6F', margin: 0 }}>
                 <strong style={{ color: '#0A0A0A' }}>{entries.length}</strong>{' '}
                 {entries.length === 1 ? 'entry' : 'entries'}
-                {selectedChannel && <> in <strong style={{ color: '#0A0A0A' }}>#{selectedChannel}</strong></>}
-                {(tag || query) && <span style={{ color: '#9DA0B2' }}> · filtered</span>}
+                {effectiveChannel && <> in <strong style={{ color: '#0A0A0A' }}>#{effectiveChannel}</strong></>}
+                {(activeTag || activeQuery) && <span style={{ color: '#9DA0B2' }}> · filtered</span>}
               </p>
             </div>
           )}
@@ -335,7 +320,7 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
           )}
 
           {/* Empty filtered state */}
-          {!loading && data && entries.length === 0 && (
+          {!loading && entriesData && entries.length === 0 && (
             <div className="card">
               <EmptyState
                 icon={
@@ -364,7 +349,7 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
               onClick={() => setViewingEntry(entry)}
               onEdit={setEditingEntry}
               onDelete={e => setPendingDeleteId(e.id)}
-              activeTag={tag}
+              activeTag={activeTag}
               onTagClick={selectTag}
               workspaceUrl={workspaceUrl}
               clampSolution
@@ -386,8 +371,8 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
       {editingEntry && (
         <VerifyModal
           entry={editingEntry}
-          saving={savingId === editingEntry.id}
-          onSubmit={(problem, solution, verifierName) => void handleVerify(editingEntry.id, problem, solution, verifierName)}
+          saving={verifyMutation.isPending}
+          onSubmit={(problem, solution, verifierName) => handleVerify(editingEntry.id, problem, solution, verifierName)}
           onClose={() => setEditingEntry(null)}
         />
       )}
@@ -399,7 +384,7 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
           description="This will permanently remove the entry from the knowledge base. This cannot be undone."
           confirmLabel="Delete"
           confirming={deletingId === pendingDeleteId}
-          onConfirm={() => void handleDelete()}
+          onConfirm={handleDelete}
           onClose={() => setPendingDeleteId(null)}
         />
       )}

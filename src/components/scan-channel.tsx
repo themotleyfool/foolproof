@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { ProgressStepper, StatusBanner } from './shared';
 import type { ScanRequest, ScanResponse } from '../types';
 import { ComboboxInput } from '../ui/input';
 import type { ComboboxOption } from '../ui/input';
 import channelList from '../../lib/data/slack-channels.json';
+import { scanChannel } from '../lib/api';
 
 interface SlackChannel {
   id: string;
@@ -37,9 +39,8 @@ const channelOptions: ComboboxOption[] = (channelList as SlackChannel[]).map(c =
 /**
  * Tab panel for scanning a Slack channel and extracting knowledge base entries.
  * Displays a progress stepper during the scan and a results summary on completion.
- * @param onScanComplete - Optional callback invoked after a successful scan.
  */
-export function ScanChannel({ onScanComplete }: { onScanComplete?: () => void }) {
+export function ScanChannel() {
   const [channelId, setChannelId] = useState('');
   const [query, setQuery] = useState('');
   const [startDate, setStartDate] = useState(today());
@@ -48,6 +49,7 @@ export function ScanChannel({ onScanComplete }: { onScanComplete?: () => void })
   const [result, setResult] = useState<ScanResponse | null>(null);
   const [errorMsg, setErrorMsg] = useState('');
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const queryClient = useQueryClient();
 
   useEffect(() => () => { timersRef.current.forEach(clearTimeout); }, []);
 
@@ -59,14 +61,32 @@ export function ScanChannel({ onScanComplete }: { onScanComplete?: () => void })
     timersRef.current = [];
   }
 
+  const scanMutation = useMutation({
+    mutationFn: (body: ScanRequest) => scanChannel(body),
+    onSuccess: (data) => {
+      clearTimers();
+      setCurrentStep(SCAN_STEPS.length);
+      setPhase('done');
+      setResult(data);
+      void queryClient.invalidateQueries({ queryKey: ['knowledge'] });
+      void queryClient.invalidateQueries({ queryKey: ['stats'] });
+    },
+    onError: (e) => {
+      clearTimers();
+      setErrorMsg(e instanceof Error ? e.message : 'Network error');
+      setPhase('error');
+      setCurrentStep(-1);
+    },
+  });
+
   /**
    * Handles form submission: starts the scan, advances the progress stepper
-   * on a timer, and updates state when the API call resolves.
+   * on a timer, and delegates to the scan mutation.
    * @param e - The form submit event.
    */
-  async function handleSubmit(e: React.FormEvent) {
+  function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!channelId.trim() || phase === 'scanning') return;
+    if (!channelId.trim() || scanMutation.isPending) return;
 
     setPhase('scanning');
     setCurrentStep(0);
@@ -78,36 +98,9 @@ export function ScanChannel({ onScanComplete }: { onScanComplete?: () => void })
       setTimeout(() => setCurrentStep(i + 1), delay)
     );
 
-    try {
-      const body: ScanRequest = { channelId: channelId.trim() };
-      if (startDate) body.startDate = startDate;
-
-      const res = await fetch('/api/scan', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      });
-      clearTimers();
-
-      if (!res.ok) {
-        const err = await res.json() as { error: string };
-        setErrorMsg(err.error ?? 'Scan failed');
-        setPhase('error');
-        setCurrentStep(-1);
-        return;
-      }
-
-      const data = await res.json() as ScanResponse;
-      setCurrentStep(SCAN_STEPS.length);
-      setPhase('done');
-      setResult(data);
-      onScanComplete?.();
-    } catch (e) {
-      clearTimers();
-      setErrorMsg(e instanceof Error ? e.message : 'Network error');
-      setPhase('error');
-      setCurrentStep(-1);
-    }
+    const body: ScanRequest = { channelId: channelId.trim() };
+    if (startDate) body.startDate = startDate;
+    scanMutation.mutate(body);
   }
 
   const scanning = phase === 'scanning';
