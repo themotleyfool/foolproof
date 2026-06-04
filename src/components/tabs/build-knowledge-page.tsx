@@ -50,7 +50,7 @@ const channelOptions: ComboboxOption[] = (channelList as SlackChannel[]).map(c =
  * Tab panel for scanning a Slack channel and extracting knowledge base entries.
  * Displays a progress stepper during the scan and a results summary on completion.
  */
-export function ScanChannel() {
+export function BuildKnowledgePage() {
   const [channelId, setChannelId] = useState('');
   const [query, setQuery] = useState('');
   const [startDate, setStartDate] = useState(yesterday());

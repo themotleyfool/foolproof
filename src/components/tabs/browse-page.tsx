@@ -15,7 +15,7 @@ const inputCls = 'w-full border border-border-subtle rounded-[4px] py-[9px] px-3
  * Tab panel for browsing, filtering, and deleting knowledge base entries across channels.
  * Supports filtering by channel, tag, and free-text search, and shows expandable raw messages.
  */
-export function KnowledgeBasePanel() {
+export function BrowsePage() {
   const queryClient = useQueryClient();
   const [selectedChannel, setSelectedChannel] = useState('');
   const [channelSearch, setChannelSearch] = useState('');

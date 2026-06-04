@@ -1,15 +1,15 @@
-import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { StatusBanner } from '../ui';
-import { EntryCard } from '../entry-card';
-import type { LookupRequest } from '../../types';
+import { useState } from 'react';
 import { lookupThread } from '../../lib/api';
+import type { LookupRequest } from '../../types';
+import { EntryCard } from '../entry-card';
+import { StatusBanner } from '../ui';
 
 /**
  * Tab panel for looking up a Slack thread by permalink and getting an AI-suggested solution.
  * Displays the thread summary, suggested solution, and related knowledge base entries.
  */
-export function LookupThread() {
+export function FindAnswerPage() {
   const [url, setUrl] = useState('');
   const [copied, setCopied] = useState(false);
   const [relatedOpen, setRelatedOpen] = useState(false);
