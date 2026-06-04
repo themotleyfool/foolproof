@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { fetchStats } from '../lib/api';
+import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import { fetchStats } from '../utils/api';
 
 const TABS = [
   { path: '/build',  label: 'Build Knowledge' },
@@ -15,15 +15,11 @@ const TABS = [
  */
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const location = useLocation();
 
   const { data: stats = { entriesCount: 0, channelsCount: 0 } } = useQuery({
     queryKey: ['stats'],
     queryFn: fetchStats,
   });
-
-  // Close the mobile menu whenever the route changes
-  useEffect(() => { setMenuOpen(false); }, [location.pathname]);
 
   return (
     <header className="bg-content-100 shrink-0 relative">

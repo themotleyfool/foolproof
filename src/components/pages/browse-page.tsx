@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
-import { deleteEntry, fetchChannels, fetchEntries, patchEntry } from '../../lib/api';
 import type { KnowledgeEntry } from '../../types';
+import { deleteEntry, fetchChannels, fetchEntries, patchEntry } from '../../utils/api';
 import { EntryCard } from '../entry-card';
 import { ConfirmModal } from '../modals/confirm-modal';
 import { EntryDetailModal } from '../modals/entry-detail-modal';

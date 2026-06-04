@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
-import { lookupThread } from '../../lib/api';
 import type { LookupRequest } from '../../types';
+import { lookupThread } from '../../utils/api';
 import { EntryCard } from '../entry-card';
 import { StatusBanner } from '../ui';
 
