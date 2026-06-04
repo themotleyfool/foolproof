@@ -1,7 +1,6 @@
-import { useEffect } from 'react';
+import { useEscapeKey } from '../../hooks/use-escape-key';
 
 export interface ConfirmModalProps {
-  theme: 'danger' | 'success';
   title: string;
   description: string;
   confirmLabel: string;
@@ -11,8 +10,7 @@ export interface ConfirmModalProps {
 }
 
 /**
- * Reusable confirmation dialog with danger or success theming.
- * @param theme - Visual theme for the confirm button: 'danger' (red) or 'success' (green).
+ * Reusable danger confirmation dialog.
  * @param title - Heading text displayed in the modal.
  * @param description - Supporting text explaining the action.
  * @param confirmLabel - Label for the confirm button.
@@ -20,18 +18,10 @@ export interface ConfirmModalProps {
  * @param onConfirm - Called when the user clicks the confirm button.
  * @param onClose - Called when the modal should be dismissed.
  */
-export function ConfirmModal({ theme, title, description, confirmLabel, confirming, onConfirm, onClose }: ConfirmModalProps) {
-  useEffect(() => {
-    function handleKey(e: KeyboardEvent) {
-      if (e.key === 'Escape') onClose();
-    }
-    document.addEventListener('keydown', handleKey);
-    return () => document.removeEventListener('keydown', handleKey);
-  }, [onClose]);
+export function ConfirmModal({ title, description, confirmLabel, confirming, onConfirm, onClose }: ConfirmModalProps) {
+  useEscapeKey(onClose);
 
-  const confirmCls = theme === 'danger'
-    ? 'bg-red-50 text-white hover:bg-[#C41520] disabled:bg-red-4 disabled:text-[#C41520] disabled:cursor-not-allowed'
-    : 'bg-green-50 text-white hover:bg-green-80 disabled:bg-green-4 disabled:text-green-80 disabled:cursor-not-allowed';
+  const confirmCls = 'bg-red-50 text-white hover:bg-[#C41520] disabled:bg-red-4 disabled:text-[#C41520] disabled:cursor-not-allowed';
 
   return (
     <div className="fixed inset-0 bg-[rgba(2,10,56,0.45)] z-[100] flex items-center justify-center p-6 animate-fade-in-up" onClick={onClose}>

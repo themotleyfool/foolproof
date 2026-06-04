@@ -16,6 +16,11 @@ const router = Router();
 router.post('/', async (req, res) => {
   const { slackUrl } = req.body as LookupRequest;
 
+  if (typeof slackUrl !== 'string' || !slackUrl.trim()) {
+    res.status(400).json({ error: 'slackUrl is required' });
+    return;
+  }
+
   try {
     const { channelId, threadTs } = slack.parseThreadUrl(slackUrl);
     const thread = await slack.fetchThread(channelId, threadTs);
@@ -29,8 +34,12 @@ router.post('/', async (req, res) => {
     res.json(response);
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown error';
-    const status = message.includes('Invalid Slack URL') ? 400 : 502;
-    res.status(status).json({ error: message });
+    console.error('[lookup] error:', message);
+    if (message === 'Invalid Slack URL') {
+      res.status(400).json({ error: 'Invalid Slack URL' });
+    } else {
+      res.status(502).json({ error: 'Lookup failed. Please try again.' });
+    }
   }
 });
 

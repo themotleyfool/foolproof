@@ -120,17 +120,9 @@ export async function lookupThread(body: LookupRequest): Promise<LookupResponse>
 }
 
 /**
- * Fetches aggregated stats by summing entry counts across all knowledge base channels.
+ * Fetches aggregated stats from the server's stats endpoint.
  * @returns Object with total entry count and channel count.
  */
 export async function fetchStats(): Promise<HeaderStats> {
-  const { channels } = await fetchChannels();
-  if (!channels.length) return { channelsCount: 0, entriesCount: 0 };
-  const totals = await Promise.all(
-    channels.map(ch => fetchEntries(ch).then(d => d.total).catch(() => 0))
-  );
-  return {
-    channelsCount: channels.length,
-    entriesCount: totals.reduce((a, b) => a + b, 0),
-  };
+  return apiFetch<HeaderStats>('/api/knowledge/stats');
 }

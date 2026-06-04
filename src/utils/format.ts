@@ -8,6 +8,7 @@
  * @returns A full Slack permalink URL.
  */
 export function slackLink(workspaceUrl: string, channelId: string, ts: string, threadTs?: string): string {
+  if (!workspaceUrl.startsWith('https://')) return '#';
   const pTs = 'p' + ts.replace('.', '');
   const base = `${workspaceUrl}archives/${channelId}/${pTs}`;
   return threadTs && threadTs !== ts

@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
+import { useEscapeKey } from '../../hooks/use-escape-key';
 import type { KnowledgeEntry } from '../../types';
+import { inputCls } from '../ui';
 
 export interface VerifyModalProps {
   entry: KnowledgeEntry;
@@ -22,14 +24,8 @@ export function VerifyModal({ entry, saving, onSubmit, onClose }: VerifyModalPro
   const [modalError, setModalError] = useState<string | null>(null);
   const problemRef = useRef<HTMLTextAreaElement>(null);
 
-  useEffect(() => {
-    problemRef.current?.focus();
-    function handleKey(e: KeyboardEvent) {
-      if (e.key === 'Escape') onClose();
-    }
-    document.addEventListener('keydown', handleKey);
-    return () => document.removeEventListener('keydown', handleKey);
-  }, [onClose]);
+  useEffect(() => { problemRef.current?.focus(); }, []);
+  useEscapeKey(onClose);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -41,8 +37,6 @@ export function VerifyModal({ entry, saving, onSubmit, onClose }: VerifyModalPro
   }
 
   const isValid = problem.trim() && solution.trim() && verifierName.trim();
-
-  const inputCls = 'w-full border border-border-subtle rounded-[4px] py-[9px] px-3 text-sm font-medium text-fg-strong bg-white outline-none transition-[border-color,box-shadow] duration-[120ms] focus:border-primary-100 focus:[box-shadow:0_0_0_3px_#EBEDF9] placeholder:text-fg-faint disabled:bg-primary-4 disabled:opacity-65 disabled:cursor-not-allowed';
 
   return (
     <div className="fixed inset-0 bg-[rgba(2,10,56,0.45)] z-[100] flex items-center justify-center p-6 animate-fade-in-up" onClick={onClose}>

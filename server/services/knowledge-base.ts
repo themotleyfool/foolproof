@@ -8,11 +8,21 @@ const KB_DIR = path.resolve(__dirname, '../../lib/knowledge-bases');
 
 /**
  * Resolves the file path for a channel's knowledge base JSON file.
+ * Validates the channel name to prevent path traversal attacks.
  * @param channelName - The Slack channel name (used as the filename).
  * @returns Absolute path to the knowledge base JSON file.
+ * @throws Error if the channel name contains characters outside [a-zA-Z0-9_-].
  */
 function kbPath(channelName: string): string {
-  return path.join(KB_DIR, `${channelName}.json`);
+  if (!/^[a-zA-Z0-9_-]+$/.test(channelName)) {
+    throw new Error(`Invalid channel name: ${channelName}`);
+  }
+  const resolved = path.join(KB_DIR, `${channelName}.json`);
+  // Belt-and-suspenders: ensure the resolved path stays inside KB_DIR
+  if (!resolved.startsWith(KB_DIR + path.sep)) {
+    throw new Error('Path traversal detected');
+  }
+  return resolved;
 }
 
 /**
@@ -25,7 +35,11 @@ export function load(channelName: string): KnowledgeBase {
   if (!fs.existsSync(file)) {
     return { version: 1, lastUpdated: new Date().toISOString(), entries: [] };
   }
-  return JSON.parse(fs.readFileSync(file, 'utf-8')) as KnowledgeBase;
+  try {
+    return JSON.parse(fs.readFileSync(file, 'utf-8')) as KnowledgeBase;
+  } catch (err) {
+    throw new Error(`Knowledge base file for "${channelName}" is unreadable or corrupt`, { cause: err });
+  }
 }
 
 /**

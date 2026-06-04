@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import channelList from '../../../lib/data/slack-channels.json';
 import type { ScanRequest, ScanResponse } from '../../types';
 import { scanChannel } from '../../utils/api';
-import { ProgressStepper, StatusBanner } from '../ui';
+import { ProgressStepper, StatusBanner, inputCls } from '../ui';
 import type { ComboboxOption } from '../ui/input';
 import { ComboboxInput } from '../ui/input';
 
@@ -116,8 +116,6 @@ export function BuildKnowledgePage() {
   }
 
   const scanning = phase === 'scanning';
-
-  const inputCls = 'w-full border border-border-subtle rounded-[4px] py-[9px] px-3 text-sm font-medium text-fg-strong bg-white outline-none transition-[border-color,box-shadow] duration-[120ms] focus:border-primary-100 focus:[box-shadow:0_0_0_3px_#EBEDF9] placeholder:text-fg-faint disabled:bg-primary-4 disabled:opacity-65 disabled:cursor-not-allowed';
 
   return (
     <div className="flex flex-col gap-4">

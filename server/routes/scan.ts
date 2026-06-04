@@ -15,6 +15,22 @@ const router = Router();
  */
 router.post('/', async (req, res) => {
   const { channelId, startDate, endDate } = req.body as ScanRequest;
+
+  if (typeof channelId !== 'string' || !/^[A-Z0-9]{1,32}$/i.test(channelId)) {
+    res.status(400).json({ error: 'channelId must be a non-empty alphanumeric string' });
+    return;
+  }
+
+  const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+  if (startDate !== undefined && (typeof startDate !== 'string' || !ISO_DATE_RE.test(startDate) || isNaN(new Date(startDate).getTime()))) {
+    res.status(400).json({ error: 'startDate must be a valid ISO date (YYYY-MM-DD)' });
+    return;
+  }
+  if (endDate !== undefined && (typeof endDate !== 'string' || !ISO_DATE_RE.test(endDate) || isNaN(new Date(endDate).getTime()))) {
+    res.status(400).json({ error: 'endDate must be a valid ISO date (YYYY-MM-DD)' });
+    return;
+  }
+
   const start = Date.now();
 
   const oldest = startDate ? String(new Date(startDate).getTime() / 1000) : undefined;
@@ -68,8 +84,12 @@ router.post('/', async (req, res) => {
     res.json(response);
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown error';
-    const status = message.includes('not found') ? 404 : 502;
-    res.status(status).json({ error: message });
+    console.error('[scan] error:', message);
+    if (message.includes('not found')) {
+      res.status(404).json({ error: 'Channel not found' });
+    } else {
+      res.status(502).json({ error: 'Scan failed. Please try again.' });
+    }
   }
 });
 

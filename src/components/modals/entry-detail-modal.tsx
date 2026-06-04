@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useEscapeKey } from '../../hooks/use-escape-key';
 import type { KnowledgeEntry } from '../../types';
-import { slackLink } from '../../utils/format';
-import { ConfidenceMeter, TagChip } from '../ui';
+import { formatDate, slackLink } from '../../utils/format';
+import { ConfidenceMeter, SlackLinkIcon, TagChip } from '../ui';
 
 export interface EntryDetailModalProps {
   entry: KnowledgeEntry;
@@ -9,28 +10,6 @@ export interface EntryDetailModalProps {
   onClose: () => void;
   onEdit: () => void;
   onDelete: () => void;
-}
-
-/**
- * An icon-only anchor that opens a Slack permalink in a new tab.
- * @param href - The Slack deep link URL to navigate to.
- */
-function SlackLinkIcon({ href }: { href: string }) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      title="Open in Slack"
-      onClick={e => e.stopPropagation()}
-      className="inline-flex items-center justify-center text-content-36 shrink-0 leading-none no-underline opacity-60 transition-[opacity,color] duration-[120ms] hover:opacity-100 hover:text-[#4A154B]"
-    >
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-        <path d="M5 2H2a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V7" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M8 1h3m0 0v3m0-3L5.5 6.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    </a>
-  );
 }
 
 /**
@@ -45,15 +24,9 @@ function SlackLinkIcon({ href }: { href: string }) {
 export function EntryDetailModal({ entry, workspaceUrl, onClose, onEdit, onDelete }: EntryDetailModalProps) {
   const [messagesOpen, setMessagesOpen] = useState(true);
 
-  useEffect(() => {
-    function handleKey(e: KeyboardEvent) {
-      if (e.key === 'Escape') onClose();
-    }
-    document.addEventListener('keydown', handleKey);
-    return () => document.removeEventListener('keydown', handleKey);
-  }, [onClose]);
+  useEscapeKey(onClose);
 
-  const date = new Date(entry.scannedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  const date = formatDate(entry.scannedAt);
   const threadUrl = workspaceUrl ? slackLink(workspaceUrl, entry.channelId, entry.threadTs) : null;
 
   return (
@@ -135,7 +108,7 @@ export function EntryDetailModal({ entry, workspaceUrl, onClose, onEdit, onDelet
                 <div className="w-px h-3 bg-divider shrink-0" />
                 <span className="text-xs text-content-36 font-medium">
                   Verified by <strong className="text-fg-default">{entry.verification.verifiedBy}</strong>
-                  {' · '}{new Date(entry.verification.verifiedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                  {' · '}{formatDate(entry.verification.verifiedAt)}
                 </span>
               </>
             )}

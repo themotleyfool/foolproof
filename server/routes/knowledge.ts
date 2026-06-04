@@ -3,6 +3,11 @@ import * as kb from '../services/knowledge-base.js';
 
 const router = Router();
 
+/** Rejects channel names with characters outside [a-zA-Z0-9_-] (mirrors kbPath validation). */
+function isValidChannelName(name: string): boolean {
+  return /^[a-zA-Z0-9_-]+$/.test(name);
+}
+
 /**
  * GET /api/knowledge
  * Returns the list of channel names that have a knowledge base on disk.
@@ -10,6 +15,17 @@ const router = Router();
  */
 router.get('/', (_req, res) => {
   res.json({ channels: kb.listChannels() });
+});
+
+/**
+ * GET /api/knowledge/stats
+ * Returns aggregated counts across all knowledge bases.
+ * @returns {{ channelsCount: number, entriesCount: number }}
+ */
+router.get('/stats', (_req, res) => {
+  const channels = kb.listChannels();
+  const entriesCount = channels.reduce((sum, ch) => sum + kb.load(ch).entries.length, 0);
+  res.json({ channelsCount: channels.length, entriesCount });
 });
 
 /**
@@ -22,6 +38,10 @@ router.get('/', (_req, res) => {
  */
 router.get('/:channel', (req, res) => {
   const { channel } = req.params;
+  if (!isValidChannelName(channel)) {
+    res.status(400).json({ error: 'Invalid channel name' });
+    return;
+  }
   const { tag, q } = req.query as Record<string, string | undefined>;
   const knowledgeBase = kb.load(channel);
   const entries = kb.filterEntries(knowledgeBase, { tag, query: q });
@@ -38,9 +58,25 @@ router.get('/:channel', (req, res) => {
  */
 router.patch('/:channel/:id', (req, res) => {
   const { channel, id } = req.params;
+  if (!isValidChannelName(channel)) {
+    res.status(400).json({ error: 'Invalid channel name' });
+    return;
+  }
   const { problem, solution, verifiedBy } = req.body as { problem?: string; solution?: string; verifiedBy?: string };
   if (!solution?.trim() || !verifiedBy?.trim()) {
     res.status(400).json({ error: 'solution and verifiedBy are required' });
+    return;
+  }
+  if (solution.length > 5000) {
+    res.status(400).json({ error: 'solution must be 5000 characters or fewer' });
+    return;
+  }
+  if (problem && problem.length > 2000) {
+    res.status(400).json({ error: 'problem must be 2000 characters or fewer' });
+    return;
+  }
+  if (verifiedBy.length > 200) {
+    res.status(400).json({ error: 'verifiedBy must be 200 characters or fewer' });
     return;
   }
   const updated = kb.patchEntry(channel, decodeURIComponent(id), {
@@ -64,6 +100,10 @@ router.patch('/:channel/:id', (req, res) => {
  */
 router.delete('/:channel/:id', (req, res) => {
   const { channel, id } = req.params;
+  if (!isValidChannelName(channel)) {
+    res.status(400).json({ error: 'Invalid channel name' });
+    return;
+  }
   const removed = kb.removeEntry(channel, decodeURIComponent(id));
   if (!removed) {
     res.status(404).json({ error: 'Entry not found' });

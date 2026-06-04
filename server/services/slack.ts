@@ -4,6 +4,7 @@ import type { SlackMessage, SlackThread } from '../../src/types/index.js';
 const client = new WebClient(process.env.SLACK_BOT_TOKEN);
 
 const userNameCache = new Map<string, string>();
+const channelNameCache = new Map<string, string>();
 
 /**
  * Resolves a Slack user ID to a display name, with in-memory caching.
@@ -106,6 +107,9 @@ export async function fetchThread(channelId: string, threadTs: string): Promise<
     msg.userName = userNameCache.get(msg.user) ?? msg.user;
   }
 
+  if (messages.length === 0) {
+    throw new Error(`Thread ${threadTs} in channel ${channelId} returned no messages`);
+  }
   const [parent, ...replies] = messages;
   const channelName = await getChannelName(channelId);
   return { parentMessage: parent, replies, channelId, channelName };
@@ -128,11 +132,15 @@ export function parseThreadUrl(slackUrl: string): { channelId: string; threadTs:
 }
 
 /**
- * Fetches the human-readable name of a Slack channel.
+ * Fetches the human-readable name of a Slack channel, with in-memory caching.
  * @param channelId - The Slack channel ID to look up.
  * @returns The channel name, or the channel ID as a fallback if unavailable.
  */
 export async function getChannelName(channelId: string): Promise<string> {
+  const cached = channelNameCache.get(channelId);
+  if (cached !== undefined) return cached;
   const res = await client.conversations.info({ channel: channelId });
-  return res.channel?.name ?? channelId;
+  const name = res.channel?.name ?? channelId;
+  channelNameCache.set(channelId, name);
+  return name;
 }

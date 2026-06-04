@@ -8,7 +8,7 @@ A local dev tool that scans public Slack channels, uses Claude to extract proble
 
 The Slack app and API keys are already created. Credentials are stored in 1Password:
 
-> **1Password link:** `<PLACEHOLDER>`
+> **1Password link:** https://start.1password.com/open/i?a=ANPCTG6MWRD2DIJDOYIDJKO7DQ&v=2ai65vnrpivxsju7hfyg6rst2a&i=qn2tpnqzpkmpp7vry3f5333mne&h=fool.1password.com
 
 The Slack app name is [FoolProof](https://api.slack.com/apps/A0B87TMUS4W).
 

@@ -6,10 +6,8 @@ import { EntryCard } from '../entry-card';
 import { ConfirmModal } from '../modals/confirm-modal';
 import { EntryDetailModal } from '../modals/entry-detail-modal';
 import { VerifyModal } from '../modals/verify-modal';
-import { EmptyState, SkeletonCard, StatusBanner } from '../ui';
+import { EmptyState, SkeletonCard, StatusBanner, inputCls } from '../ui';
 import { ComboboxInput } from '../ui/input';
-
-const inputCls = 'w-full border border-border-subtle rounded-[4px] py-[9px] px-3 text-sm font-medium text-fg-strong bg-white outline-none transition-[border-color,box-shadow] duration-[120ms] focus:border-primary-100 focus:[box-shadow:0_0_0_3px_#EBEDF9] placeholder:text-fg-faint disabled:bg-primary-4 disabled:opacity-65 disabled:cursor-not-allowed';
 
 /**
  * Tab panel for browsing, filtering, and deleting knowledge base entries across channels.
@@ -117,6 +115,7 @@ export function BrowsePage() {
     setDraftQuery('');
     setActiveTag('');
     setActiveQuery('');
+    verifyMutation.reset();
   }
 
   /**
@@ -416,7 +415,6 @@ export function BrowsePage() {
 
       {pendingDeleteId && (
         <ConfirmModal
-          theme="danger"
           title="Delete entry"
           description="This will permanently remove the entry from the knowledge base. This cannot be undone."
           confirmLabel="Delete"

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import type { LookupRequest } from '../../types';
 import { lookupThread } from '../../utils/api';
 import { EntryCard } from '../entry-card';
-import { StatusBanner } from '../ui';
+import { StatusBanner, inputCls } from '../ui';
 
 /**
  * Tab panel for looking up a Slack thread by permalink and getting an AI-suggested solution.
@@ -43,8 +43,6 @@ export function FindAnswerPage() {
       setTimeout(() => setCopied(false), 2000);
     }
   }
-
-  const inputCls = 'w-full border border-border-subtle rounded-[4px] py-[9px] px-3 text-sm font-medium text-fg-strong bg-white outline-none transition-[border-color,box-shadow] duration-[120ms] focus:border-primary-100 focus:[box-shadow:0_0_0_3px_#EBEDF9] placeholder:text-fg-faint disabled:bg-primary-4 disabled:opacity-65 disabled:cursor-not-allowed';
 
   return (
     <div className="flex flex-col gap-4">
