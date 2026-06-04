@@ -1,0 +1,325 @@
+{
+  "version": 1,
+  "lastUpdated": "2026-06-04T20:27:50.464Z",
+  "entries": [
+    {
+      "channelId": "C04P43P89A4",
+      "channelName": "cloudops-help",
+      "threadTs": "1780591946.851469",
+      "problem": "A feature branch deployment for The Ascent was returning 500 errors due to Redis connection timeouts (`django_redis.exceptions.ConnectionInterrupted: Redis TimeoutError: Timeout writing to socket`). The root cause was that smoke tests were hitting the previous release of the feature branch rather than the newly deployed one, because the cache instance restart during deployment caused the old running release to flood with Redis disconnect errors.",
+      "solution": "The feature namespace was nuked and restarted fresh, which resolved the issue. The underlying problem was a stale feature namespace where the previous release was interfering with the new deployment's smoke tests during the Redis cache restart cycle.",
+      "rawMessages": [
+        {
+          "ts": "1780591946.851469",
+          "user": "W018UD886C8",
+          "text": "Hey there CLOPS :cyclops:\n\nIt looks like we're getting a 500 on a feature branch this morning that we can't really resolve on our own. Link to the jenkins console log here:\n<https://leroy.fool.com/job/apps/job/the-ascent/job/the-ascent-deploy/15609/console>\n\nSomething I noticed with this though too is that it's running on python 3.9? Python 3.9 support is being deprecated across libraries, so that _might_ be why we're seeing the 500s, but not entirely clear.\n\nWe don't have any references to python 3.9 in our repo as far as I can tell, but something in jenkins looks like it's still building python 3.9",
+          "thread_ts": "1780591946.851469",
+          "reply_count": 43,
+          "userName": "Brady"
+        },
+        {
+          "ts": "1780592694.690129",
+          "user": "U07LF0S5CR4",
+          "text": "when I visit a page on that feature branch I get a stack trace and a 500 error",
+          "thread_ts": "1780591946.851469",
+          "userName": "logan.sears"
+        },
+        {
+          "ts": "1780592695.013439",
+          "user": "U07LF0S5CR4",
+          "text": "<https://the-ascent-feature-act-2923-rmv-podcast.development.fool.com/money/credit-cards/chase/chase-sapphire-preferred-card-review/>",
+          "thread_ts": "1780591946.851469",
+          "userName": "logan.sears"
+        },
+        {
+          "ts": "1780592701.543449",
+          "user": "U07LF0S5CR4",
+          "text": "```django_redis.exceptions.ConnectionInterrupted: Redis TimeoutError: Timeout writing to socket```",
+          "thread_ts": "1780591946.851469",
+          "userName": "logan.sears"
+        },
+        {
+          "ts": "1780592729.102459",
+          "user": "U07LF0S5CR4",
+          "text": "I see references to Python 3.13, not 3.9",
+          "thread_ts": "1780591946.851469",
+          "userName": "logan.sears"
+        },
+        {
+          "ts": "1780592782.145319",
+          "user": "W018UD886C8",
+          "text": "We haven't done anything with redis on the ascent, so I don't really know why it's timing out.\n\nThis is what I'm seeing in the console logs just above the smoketests:\n```/usr/local/lib/python3.9/site-packages/boto3/compat.py:89: PythonDeprecationWarning: Boto3 will no longer support Python 3.9 starting April 29, 2026. To continue receiving service updates, bug fixes, and security updates please upgrade to Python 3.10 or later. More information can be found here: <https://aws.amazon.com/blogs/developer/python-support-policy-updates-for-aws-sdks-and-tools/>\n  warnings.warn(warning, PythonDeprecationWarning)\nTotal checks: 14, Smoke tests: 14, Errors: 0, Warnings: 0```",
+          "thread_ts": "1780591946.851469",
+          "userName": "Brady"
+        },
+        {
+          "ts": "1780592785.950799",
+          "user": "W018UD886C8",
+          "text": "Which says python 3.9",
+          "thread_ts": "1780591946.851469",
+          "userName": "Brady"
+        },
+        {
+          "ts": "1780593257.016449",
+          "user": "W018UD886C8",
+          "text": "That feature branch is just some HTML removals, so the redis timeout doesn't make much sense to me with what the change is. We did a deploy yesterday fine, but the feature redis seems to be in a bad state?",
+          "thread_ts": "1780591946.851469",
+          "userName": "Brady"
+        },
+        {
+          "ts": "1780593300.336619",
+          "user": "U07LF0S5CR4",
+          "text": "all it means is one of the redis instances that the ascent tries to read from seems to be not responding. Looking at secrets manager there's a few it tries to connect to",
+          "thread_ts": "1780591946.851469",
+          "userName": "logan.sears"
+        },
+        {
+          "ts": "1780593313.729499",
+          "user": "U07LF0S5CR4",
+          "text": "that URL works now so I'll attempt a re-run",
+          "thread_ts": "1780591946.851469",
+          "userName": "logan.sears"
+        },
+        {
+          "ts": "1780593334.172189",
+          "user": "W018UD886C8",
+          "text": "excellent - thank you - did you just restart the redis instances?",
+          "thread_ts": "1780591946.851469",
+          "userName": "Brady"
+        },
+        {
+          "ts": "1780593347.839349",
+          "user": "U07LF0S5CR4",
+          "text": "No I haven't tracked down which one failed yet",
+          "thread_ts": "1780591946.851469",
+          "userName": "logan.sears"
+        },
+        {
+          "ts": "1780593468.311799",
+          "user": "U07LF0S5CR4",
+          "text": "Could be one of\n```<http://master.data-combined-main.vyvbsx.use1.cache.amazonaws.com|master.data-combined-main.vyvbsx.use1.cache.amazonaws.com>\n<http://master.sessions-combined-main.vyvbsx.use1.cache.amazonaws.com|master.sessions-combined-main.vyvbsx.use1.cache.amazonaws.com>\n<http://master.informant-main.vyvbsx.use1.cache.amazonaws.com|master.informant-main.vyvbsx.use1.cache.amazonaws.com>\n<http://master.sessions-combined-main.vyvbsx.use1.cache.amazonaws.com|master.sessions-combined-main.vyvbsx.use1.cache.amazonaws.com>```",
+          "thread_ts": "1780591946.851469",
+          "userName": "logan.sears"
+        },
+        {
+          "ts": "1780593596.693689",
+          "user": "W018UD886C8",
+          "text": "Yeah that's our 500 error page for logged in users or if it's on feature or development.",
+          "thread_ts": "1780591946.851469",
+          "userName": "Brady"
+        },
+        {
+          "ts": "1780593611.872729",
+          "user": "U07LF0S5CR4",
+          "text": "That's what the smoke tests are hitting in Jenkins",
+          "thread_ts": "1780591946.851469",
+          "userName": "logan.sears"
+        },
+        {
+          "ts": "1780593637.709489",
+          "user": "W018UD886C8",
+          "text": "Yep I get that - but I don't know why Redis is timing out, and I don't think there's anything I can do to fix it?",
+          "thread_ts": "1780591946.851469",
+          "userName": "Brady"
+        },
+        {
+          "ts": "1780593662.092929",
+          "user": "U07LF0S5CR4",
+          "text": "```Traceback (most recent call last):\n\nFile \"/var/src/affiliates/.venv/lib/python3.13/site-packages/django_redis/cache.py\", line 29, in _decorator return method(self, *args, **kwargs)\n\nFile \"/var/src/affiliates/.venv/lib/python3.13/site-packages/django_redis/cache.py\", line 99, in _get return self.client.get(key, default=default, version=version, client=client) ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\nFile \"/var/src/affiliates/.venv/lib/python3.13/site-packages/django_redis/client/default.py\", line 300, in get raise ConnectionInterrupted(connection=client) from e\n\ndjango_redis.exceptions.ConnectionInterrupted: Redis TimeoutError: Timeout writing to socket\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n\nFile \"/var/src/affiliates/.venv/lib/python3.13/site-packages/django/core/handlers/exception.py\", line 55, in inner response = get_response(request)\n\nFile \"/var/src/affiliates/.venv/lib/python3.13/site-packages/django/core/handlers/base.py\", line 198, in _get_response response = wrapped_callback(request, *callback_args, **callback_kwargs)\n\nFile \"/var/src/affiliates/.venv/lib/python3.13/site-packages/sentry_sdk/integrations/django/views.py\", line 108, in sentry_wrapped_callback return callback(request, *args, **kwargs)\n\nFile \"/var/src/affiliates/.venv/lib/python3.13/site-packages/wagtail/views.py\", line 32, in serve return on_serve_chain(page, request, args, kwargs)\n\nFile \"/var/src/affiliates/.venv/lib/python3.13/site-packages/wagtail/wagtail_hooks.py\", line 71, in inner response = callback(page, request, serve_args, serve_kwargs)\n\nFile \"/var/src/affiliates/.venv/lib/python3.13/site-packages/wagtail/views.py\", line 13, in serve_chain return page.serve(request, *args, **kwargs) ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^\n\nFile \"/var/src/affiliates/articles/models.py\", line 914, in serve return super().serve(request) ~~~~~~~~~~~~~^^^^^^^^^\n\nFile \"/var/src/affiliates/.venv/lib/python3.13/site-packages/wagtail/models/pages.py\", line 1275, in serve self.get_context(request, *args, **kwargs), ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^\n\nFile \"/var/src/affiliates/articles/models.py\", line 877, in get_context if \"/banks/\" in self.url: ^^^^^^^^\n\nFile \"/var/src/affiliates/.venv/lib/python3.13/site-packages/wagtail/models/pages.py\", line 1459, in get_url url_parts = self.get_url_parts(request=request)\n\nFile \"/var/src/affiliates/.venv/lib/python3.13/site-packages/wagtail/models/pages.py\", line 1362, in get_url_parts possible_sites = self._get_relevant_site_root_paths(request)\n\nFile \"/var/src/affiliates/.venv/lib/python3.13/site-packages/wagtail/models/pages.py\", line 1339, in _get_relevant_site_root_paths for srp in self._get_site_root_paths(cache_object) ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^\n\nFile \"/var/src/affiliates/.venv/lib/python3.13/site-packages/wagtail/models/pages.py\", line 1330, in _get_site_root_paths cache_object._wagtail_cached_site_root_paths = Site.get_site_root_paths() ~~~~~~~~~~~~~~~~~~~~~~~~^^\n\nFile \"/var/src/affiliates/.venv/lib/python3.13/site-packages/wagtail/models/sites.py\", line 221, in get_site_root_paths result = cache.get( SITE_ROOT_PATHS_CACHE_KEY, version=SITE_ROOT_PATHS_CACHE_VERSION )\n\nFile \"/var/src/affiliates/.venv/lib/python3.13/site-packages/django_redis/cache.py\", line 92, in get value = self._get(key, default, version, client)\n\nFile \"/var/src/affiliates/.venv/lib/python3.13/site-packages/django_redis/cache.py\", line 36, in _decorator raise e.__cause__ # noqa: B904 ^^^^^^^^^^^^^^^^^\n\nFile \"/var/src/affiliates/.venv/lib/python3.13/site-packages/django_redis/client/default.py\", line 298, in get value = client.get(key)\n\nFile \"/var/src/affiliates/.venv/lib/python3.13/site-packages/redis/commands/core.py\", line 3194, in get return self.execute_command(\"GET\", name, keys=[name]) ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^\n\nFile \"/var/src/affiliates/.venv/lib/python3.13/site-packages/sentry_sdk/integrations/redis/_sync_common.py\", line 151, in sentry_patched_execute_command value = old_execute_command(self, name, *args, **kwargs)\n\nFile \"/var/src/affiliates/.venv/lib/python3.13/site-packages/ddtrace/contrib/internal/redis/patch.py\", line 131, in _instrumented_execute_command return _run_redis_command(ctx=ctx, func=func, args=args, kwargs=kwargs)\n\nFile \"/var/src/affiliates/.venv/lib/python3.13/site-packages/ddtrace/contrib/internal/redis/patch.py\", line 112, in _run_redis_command result = func(*args, **kwargs)\n\nFile \"/var/src/affiliates/.venv/lib/python3.13/site-packages/redis/client.py\", line 787, in execute_command return self._execute_command(*args, **options) ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n\nFile \"/var/src/affiliates/.venv/lib/python3.13/site-packages/redis/client.py\", line 809, in _execute_command result = conn.retry.call_with_retry( lambda: self._send_command_parse_response( ...&lt;3 lines&gt;... with_failure_count=True, )\n\nFile \"/var/src/affiliates/.venv/lib/python3.13/site-packages/redis/retry.py\", line 132, in call_with_retry raise error\n\nFile \"/var/src/affiliates/.venv/lib/python3.13/site-packages/redis/retry.py\", line 120, in call_with_retry return do()\n\nFile \"/var/src/affiliates/.venv/lib/python3.13/site-packages/redis/client.py\", line 810, in &lt;lambda&gt; lambda: self._send_command_parse_response( ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^ conn, command_name, *args, **options ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ), ^\n\nFile \"/var/src/affiliates/.venv/lib/python3.13/site-packages/redis/client.py\", line 752, in _send_command_parse_response conn.send_command(*args, **options) ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n\nFile \"/var/src/affiliates/.venv/lib/python3.13/site-packages/redis/connection.py\", line 1335, in send_command self.send_packed_command( ~~~~~~~~~~~~~~~~~~~~~~~~^ self._command_packer.pack(*args), ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ check_health=kwargs.get(\"check_health\", True), ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ) ^\n\nFile \"/var/src/affiliates/.venv/lib/python3.13/site-packages/redis/connection.py\", line 1316, in send_packed_command raise TimeoutError(\"Timeout writing to socket\")\n\nredis.exceptions.TimeoutError: Timeout writing to socket```",
+          "thread_ts": "1780591946.851469",
+          "userName": "logan.sears"
+        },
+        {
+          "ts": "1780593675.701069",
+          "user": "U07LF0S5CR4",
+          "text": "You could help debug which instance that tries to communicate with and we can go from there",
+          "thread_ts": "1780591946.851469",
+          "userName": "logan.sears"
+        },
+        {
+          "ts": "1780593715.905939",
+          "user": "U07LF0S5CR4",
+          "text": "`result = cache.get( SITE_ROOT_PATHS_CACHE_KEY, version=SITE_ROOT_PATHS_CACHE_VERSION )`",
+          "thread_ts": "1780591946.851469",
+          "userName": "logan.sears"
+        },
+        {
+          "ts": "1780593772.847519",
+          "user": "W018UD886C8",
+          "text": "It looks like this is our Redis Host:\n`<http://master.data-combined-main.vyvbsx.use1.cache.amazonaws.com|master.data-combined-main.vyvbsx.use1.cache.amazonaws.com>`",
+          "thread_ts": "1780591946.851469",
+          "userName": "Brady"
+        },
+        {
+          "ts": "1780593800.793309",
+          "user": "W018UD886C8",
+          "text": "the other one you posted was for informant - which we do not use AFAIK",
+          "thread_ts": "1780591946.851469",
+          "userName": "Brady"
+        },
+        {
+          "ts": "1780593824.016769",
+          "user": "U07LF0S5CR4",
+          "text": "```result = cache.get( SITE_ROOT_PATHS_CACHE_KEY, version=SITE_ROOT_PATHS_CACHE_VERSION )```\n^ is the line that's blowing up / timing out",
+          "thread_ts": "1780591946.851469",
+          "userName": "logan.sears"
+        },
+        {
+          "ts": "1780593862.593869",
+          "user": "W018UD886C8",
+          "text": "<@W0184Q05TSP> can you help out here? I'm not sure how this is all setup on the redis side, but I know you've helped fix this in the past.",
+          "thread_ts": "1780591946.851469",
+          "userName": "Brady"
+        },
+        {
+          "ts": "1780593929.035589",
+          "user": "W018UD886C8",
+          "text": "or <@WU96RPKT2> - I know you've both helped get this unstuck in the past. I'm not sure why our feature redis is timing out, but I know that you've cleared it in the past and maybe you can help Logan get this unstuck",
+          "thread_ts": "1780591946.851469",
+          "userName": "Brady"
+        },
+        {
+          "ts": "1780594107.294099",
+          "user": "W018UD886C8",
+          "text": "FWIW <@U07LF0S5CR4> this variable: `SITE_ROOT_PATHS_CACHE_KEY` is not set anywhere in our code base and not in our secrets - so I don't know where that's being set.",
+          "thread_ts": "1780591946.851469",
+          "userName": "Brady"
+        },
+        {
+          "ts": "1780594753.366799",
+          "user": "U07LF0S5CR4",
+          "text": "The Redis instances that are setup in SM for the ascent in development/feature are all staging instances.",
+          "thread_ts": "1780591946.851469",
+          "userName": "logan.sears"
+        },
+        {
+          "ts": "1780594863.861139",
+          "user": "U07DF9NFCD7",
+          "text": "The data-combined instance is accessible from dev and staging, unless there has been some networking changes recently",
+          "thread_ts": "1780591946.851469",
+          "userName": "daniel.shin"
+        },
+        {
+          "ts": "1780594887.333079",
+          "user": "W018UD886C8",
+          "text": "I looked for the variable SITE_ROOT_PATHS_CACHE_KEY in\n• Development\n• Staging\n• Production \nAWS secrets manager - it's not present in any of our secrets. It's not present in any of our code.",
+          "thread_ts": "1780591946.851469",
+          "userName": "Brady"
+        },
+        {
+          "ts": "1780594910.998989",
+          "user": "U07LF0S5CR4",
+          "text": "For some reason I can't find any of the files/snippets of code when searching the ascent repo",
+          "thread_ts": "1780591946.851469",
+          "userName": "logan.sears"
+        },
+        {
+          "ts": "1780594920.533129",
+          "user": "U07LF0S5CR4",
+          "text": "either github search is broken or I'm missing something",
+          "thread_ts": "1780591946.851469",
+          "userName": "logan.sears"
+        },
+        {
+          "ts": "1780594987.154219",
+          "user": "W018UD886C8",
+          "text": "This might be what you're looking for?\n<https://github.com/themotleyfool/the-ascent/blob/master/project/settings/feature.py#L10>",
+          "thread_ts": "1780591946.851469",
+          "userName": "Brady"
+        },
+        {
+          "ts": "1780595166.013209",
+          "user": "U07LF0S5CR4",
+          "text": "so that's pointing at `<redis://cache:6379>` which is the local redis instance that get's deployed alongside the app:",
+          "thread_ts": "1780591946.851469",
+          "userName": "logan.sears"
+        },
+        {
+          "ts": "1780595351.230919",
+          "user": "U07LF0S5CR4",
+          "text": "but none of these config files have changed in 2 months",
+          "thread_ts": "1780591946.851469",
+          "userName": "logan.sears"
+        },
+        {
+          "ts": "1780595387.959109",
+          "user": "W018UD886C8",
+          "text": "There's also this:\n<https://github.com/themotleyfool/the-ascent/blob/master/project/settings/modules/redis.py>\n\nWhich has the \"default\" set to look at `env.cache(\"CACHE_URL\")` and CACHE_URL is set to the same.\n\nBUT\n\nREDIS_HOST which is coming from our defaults.py is set to `<http://master.data-combined-main.vyvbsx.use1.cache.amazonaws.com|master.data-combined-main.vyvbsx.use1.cache.amazonaws.com>` (Seen in Stagings secrets manager in AWS)",
+          "thread_ts": "1780591946.851469",
+          "userName": "Brady"
+        },
+        {
+          "ts": "1780595439.943999",
+          "user": "W018UD886C8",
+          "text": "none of ours have changed either - we don't really use redis extensively like other projects, so clearing it out is fine too. It was working earlier this week FWIW (Maybe not helpful, but a data point regardless)",
+          "thread_ts": "1780591946.851469",
+          "userName": "Brady"
+        },
+        {
+          "ts": "1780595470.500869",
+          "user": "W018UD886C8",
+          "text": "we prefix our redis cache with `mfm` if that wasn't clear in the settings either.",
+          "thread_ts": "1780591946.851469",
+          "userName": "Brady"
+        },
+        {
+          "ts": "1780595710.629599",
+          "user": "U07LF0S5CR4",
+          "text": "What's this comment all about: <https://github.com/themotleyfool/the-ascent/blob/master/project/settings/modules/redis.py#L5>",
+          "thread_ts": "1780591946.851469",
+          "userName": "logan.sears"
+        },
+        {
+          "ts": "1780595963.208399",
+          "user": "W018UD886C8",
+          "text": "CloudOps put that in there back in 2022",
+          "thread_ts": "1780591946.851469",
+          "userName": "Brady"
+        },
+        {
+          "ts": "1780595988.337219",
+          "user": "W018UD886C8",
+          "text": "so I don't know what that comment is all about.",
+          "thread_ts": "1780591946.851469",
+          "userName": "Brady"
+        },
+        {
+          "ts": "1780596058.372029",
+          "user": "W018UD886C8",
+          "text": "That was in the before times when we had more cloudops support and they did things to the apps like that. Which again is why I'm coming to y'all for support on this redis issue, but if you are floundering I can flounder on my own as well.",
+          "thread_ts": "1780591946.851469",
+          "userName": "Brady"
+        },
+        {
+          "ts": "1780596336.335379",
+          "user": "U07LF0S5CR4",
+          "text": "We're here to help, but not many folks are still in cloudops from 2022 so we're discovering and asking questions the same as you :slightly_smiling_face:\n\nOne thing I'm noticing is that the smoke tests are _definitely_ pointing at the previous release of the feature branch, not the current, new one that Jenkins is actually deploying. I can see this in the container logs. What's happening is the cache instance is being restarted on deploy, which sends the previous release that's running into a frenzy of redis disconnect errors until it restarts, which causes the smoke tests which shouldn't even be going there to fail / flail",
+          "thread_ts": "1780591946.851469",
+          "userName": "logan.sears"
+        },
+        {
+          "ts": "1780596390.174969",
+          "user": "U07LF0S5CR4",
+          "text": "I'm going to nuke this feature namespace and start fresh",
+          "thread_ts": "1780591946.851469",
+          "userName": "logan.sears"
+        },
+        {
+          "ts": "1780597528.120559",
+          "user": "U07LF0S5CR4",
+          "text": "That seems to have fixed it.",
+          "thread_ts": "1780591946.851469",
+          "userName": "logan.sears"
+        }
+      ],
+      "tags": [
+        "redis",
+        "feature-deployment",
+        "smoke-tests"
+      ],
+      "confidence": "high",
+      "id": "C04P43P89A4-1780591946.851469",
+      "scannedAt": "2026-06-04T20:27:48.605Z"
+    }
+  ]
+}
