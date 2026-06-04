@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useApi } from '../hooks/use-api';
-import { ConfidenceMeter, TagChip, StatusBanner } from './shared';
+import { StatusBanner } from './shared';
+import { EntryCard } from './entry-card';
 import type { LookupRequest, LookupResponse } from '../types';
 
 /**
@@ -200,18 +201,7 @@ export function LookupThread() {
               {relatedOpen && (
                 <div style={{ borderTop: '1px solid #EBEBEF', padding: 12, display: 'flex', flexDirection: 'column', gap: 8 }}>
                   {data.relatedEntries.map(entry => (
-                    <div key={entry.id} className="entry-card">
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, marginBottom: 6 }}>
-                        <p style={{ fontSize: 13, fontWeight: 700, color: '#0A0A0A', margin: 0, lineHeight: 1.4 }}>{entry.problem}</p>
-                        <ConfidenceMeter level={entry.confidence} />
-                      </div>
-                      <p style={{ fontSize: 13, color: '#515151', margin: '0 0 8px', lineHeight: 1.55 }}>{entry.solution}</p>
-                      {entry.tags.length > 0 && (
-                        <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
-                          {entry.tags.map(t => <TagChip key={t} label={t} />)}
-                        </div>
-                      )}
-                    </div>
+                    <EntryCard key={entry.id} entry={entry} />
                   ))}
                 </div>
               )}

@@ -154,6 +154,36 @@ export function ProgressStepper({ steps, currentStep }: { steps: Step[]; current
   );
 }
 
+/** Amber badge shown on entries that have not yet been admin-verified. */
+export function NeedsReviewBadge() {
+  return (
+    <span className="badge badge-needs-review">
+      <svg width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true">
+        <circle cx="4.5" cy="4.5" r="4" stroke="currentColor" strokeWidth="1.2"/>
+        <path d="M4.5 2.5v2.25l1.25 1" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+      </svg>
+      Needs review
+    </span>
+  );
+}
+
+/**
+ * Green badge shown on entries that an admin has verified.
+ * @param verifiedBy - Name of the admin who verified the entry.
+ * @param verifiedAt - ISO 8601 timestamp of when the entry was verified.
+ */
+export function VerifiedBadge({ verifiedBy, verifiedAt }: { verifiedBy: string; verifiedAt: string }) {
+  const date = new Date(verifiedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  return (
+    <span className="badge badge-verified" title={`Verified by ${verifiedBy} · ${date}`}>
+      <svg width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true">
+        <path d="M1.5 4.5L3.5 6.5L7.5 2.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+      Verified
+    </span>
+  );
+}
+
 /**
  * Renders a centered empty state with an icon, title, description, and optional action.
  * @param icon - An SVG or React node to display as the empty state illustration.

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ConfidenceMeter, TagChip } from './shared';
+import { slackLink } from '../utils/format';
 import type { KnowledgeEntry } from '../types';
 
 export interface EntryDetailModalProps {
@@ -8,22 +9,6 @@ export interface EntryDetailModalProps {
   onClose: () => void;
   onEdit: () => void;
   onDelete: () => void;
-}
-
-/**
- * Builds a Slack deep link URL for a message or thread.
- * @param workspaceUrl - The base workspace URL (e.g. "https://fool.slack.com/").
- * @param channelId - The Slack channel ID.
- * @param ts - The timestamp of the specific message to link to.
- * @param threadTs - The parent thread timestamp; omit or pass the same value as ts for root.
- * @returns A full Slack permalink URL.
- */
-function slackLink(workspaceUrl: string, channelId: string, ts: string, threadTs?: string): string {
-  const pTs = 'p' + ts.replace('.', '');
-  const base = `${workspaceUrl}archives/${channelId}/${pTs}`;
-  return threadTs && threadTs !== ts
-    ? `${base}?thread_ts=${threadTs}&cid=${channelId}`
-    : base;
 }
 
 /**

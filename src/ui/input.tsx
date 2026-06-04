@@ -77,13 +77,13 @@ export function ComboboxInput({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Reset active index on each new query so navigation starts fresh
-  useEffect(() => { setActiveIndex(-1); }, [value]);
-
-  // Clear suggestions when the parent resets the input externally
-  useEffect(() => {
+  // Reset navigation state when value changes (handles both internal typing and external resets).
+  const [prevValue, setPrevValue] = useState(value);
+  if (prevValue !== value) {
+    setPrevValue(value);
+    setActiveIndex(-1);
     if (!value) { setSuggestions([]); setOpen(false); }
-  }, [value]);
+  }
 
   // Scroll the highlighted option into view
   useEffect(() => {
@@ -105,7 +105,11 @@ export function ComboboxInput({
       setSuggestions(filtered);
       setOpen(filtered.length > 0);
     };
-    debounceMs > 0 ? (debounceRef.current = setTimeout(run, debounceMs)) : run();
+    if (debounceMs > 0) {
+      debounceRef.current = setTimeout(run, debounceMs);
+    } else {
+      run();
+    }
   }
 
   /**

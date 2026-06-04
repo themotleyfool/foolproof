@@ -1,84 +1,15 @@
-import { useEffect, useState, useMemo } from 'react';
-import { ComboboxInput } from '../ui/input';
-import { ConfidenceMeter, EmptyState, SkeletonCard, StatusBanner, TagChip } from './shared';
-import { VerifyModal } from './verify-modal';
-import { ConfirmModal } from './confirm-modal';
-import { EntryDetailModal } from './entry-detail-modal';
+import { useEffect, useMemo, useState } from 'react';
 import type { KnowledgeEntry } from '../types';
+import { ComboboxInput } from '../ui/input';
+import { ConfirmModal } from './confirm-modal';
+import { EntryCard } from './entry-card';
+import { EntryDetailModal } from './entry-detail-modal';
+import { EmptyState, SkeletonCard, StatusBanner } from './shared';
+import { VerifyModal } from './verify-modal';
 
 interface KbResponse {
   entries: KnowledgeEntry[];
   total: number;
-}
-
-/**
- * Builds a Slack deep link URL for a message or thread.
- * For replies, appends thread_ts and cid query params so Slack opens the message in-thread.
- * @param workspaceUrl - The base workspace URL (e.g. "https://fool.slack.com/").
- * @param channelId - The Slack channel ID.
- * @param ts - The timestamp of the specific message to link to.
- * @param threadTs - The parent thread timestamp; omit or pass the same value as ts for the root message.
- * @returns A full Slack permalink URL.
- */
-function slackLink(workspaceUrl: string, channelId: string, ts: string, threadTs?: string): string {
-  const pTs = 'p' + ts.replace('.', '');
-  const base = `${workspaceUrl}archives/${channelId}/${pTs}`;
-  return threadTs && threadTs !== ts
-    ? `${base}?thread_ts=${threadTs}&cid=${channelId}`
-    : base;
-}
-
-/**
- * An icon-only anchor that opens a Slack permalink in a new tab.
- * @param href - The Slack deep link URL to navigate to.
- */
-function SlackLinkIcon({ href }: { href: string }) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      title="Open in Slack"
-      onClick={e => e.stopPropagation()}
-      style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: '#9DA0B2', flexShrink: 0, lineHeight: 1, textDecoration: 'none' }}
-      className="slack-link-icon"
-    >
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-        <path d="M5 2H2a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V7" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M8 1h3m0 0v3m0-3L5.5 6.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    </a>
-  );
-}
-
-/** Amber badge shown on entries that have not yet been admin-verified. */
-function NeedsReviewBadge() {
-  return (
-    <span className="badge badge-needs-review">
-      <svg width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true">
-        <circle cx="4.5" cy="4.5" r="4" stroke="currentColor" strokeWidth="1.2"/>
-        <path d="M4.5 2.5v2.25l1.25 1" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-      </svg>
-      Needs review
-    </span>
-  );
-}
-
-/**
- * Green badge shown on entries that an admin has verified.
- * @param verifiedBy - Name of the admin who verified the entry.
- * @param verifiedAt - ISO 8601 timestamp of when the entry was verified.
- */
-function VerifiedBadge({ verifiedBy, verifiedAt }: { verifiedBy: string; verifiedAt: string }) {
-  const date = new Date(verifiedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-  return (
-    <span className="badge badge-verified" title={`Verified by ${verifiedBy} · ${date}`}>
-      <svg width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true">
-        <path d="M1.5 4.5L3.5 6.5L7.5 2.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-      Verified
-    </span>
-  );
 }
 
 /**
@@ -88,6 +19,7 @@ function VerifiedBadge({ verifiedBy, verifiedAt }: { verifiedBy: string; verifie
  */
 export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
   const [channels, setChannels] = useState<string[]>([]);
+  const [channelSearch, setChannelSearch] = useState('');
   const [selectedChannel, setSelectedChannel] = useState('');
   const [allTags, setAllTags] = useState<string[]>([]);
   const [tag, setTag] = useState('');
@@ -129,8 +61,6 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
 
   useEffect(() => {
     if (!selectedChannel) return;
-    setTag('');
-    setTagSearch('');
     void fetchEntries(selectedChannel, '', '');
     void fetchAllTags(selectedChannel);
   }, [selectedChannel]);
@@ -160,6 +90,8 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
    * @param q - Text search query; pass an empty string to skip.
    */
   async function fetchEntries(channel: string, tg: string, q: string) {
+    setTag(tg);
+    setTagSearch(tg);
     setLoading(true);
     setError(null);
     try {
@@ -259,18 +191,13 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
     }
   }
 
-  /**
-   * Formats an ISO 8601 timestamp as a short human-readable date (e.g. "Jun 4, 2026").
-   * @param iso - An ISO 8601 date string.
-   * @returns A localized short date string.
-   */
-  function formatDate(iso: string) {
-    return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-  }
-
   const tagOptions = useMemo(
     () => allTags.map(t => ({ value: t, label: t })),
     [allTags]
+  );
+  const filteredChannels = useMemo(
+    () => channels.filter(ch => ch.toLowerCase().includes(channelSearch.toLowerCase())),
+    [channels, channelSearch]
   );
   const entries = data?.entries ?? [];
 
@@ -299,156 +226,152 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-      {/* Filter card */}
-      <div className="card card-pad">
-        {/* Channel selector */}
-        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 14 }}>
-          {channels.map(ch => (
-            <button
-              key={ch}
-              onClick={() => { setSelectedChannel(ch); handleClear(); }}
-              className={'channel-chip' + (selectedChannel === ch ? ' active' : '')}
-            >
-              #{ch}
-            </button>
+    <>
+      <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+        {/* Channel sidebar */}
+        <div className="card" style={{ width: 200, flexShrink: 0, position: 'sticky', top: 28, alignSelf: 'flex-start', overflow: 'hidden' }}>
+          {/* Header */}
+          <div style={{ padding: '11px 14px', borderBottom: '1px solid #EBEBEF', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <span style={{ fontSize: 11, fontWeight: 700, color: '#9DA0B2', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+              Channels
+            </span>
+            <span style={{ fontSize: 11, fontWeight: 700, background: '#EBEDF9', color: '#0522BA', borderRadius: 99, padding: '1px 7px' }}>
+              {channels.length}
+            </span>
+          </div>
+
+          {/* Search */}
+          <div style={{ padding: '7px 10px', borderBottom: '1px solid #EBEBEF', display: 'flex', alignItems: 'center', gap: 7 }}>
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" style={{ flexShrink: 0 }}>
+              <circle cx="5" cy="5" r="4" stroke="#C2C4CF" strokeWidth="1.3"/>
+              <path d="M10 10L8 8" stroke="#C2C4CF" strokeWidth="1.3" strokeLinecap="round"/>
+            </svg>
+            <input
+              value={channelSearch}
+              onChange={e => setChannelSearch(e.target.value)}
+              placeholder="Search…"
+              style={{ flex: 1, border: 'none', outline: 'none', fontSize: 13, color: '#0A0A0A', background: 'transparent', fontFamily: 'var(--font-sans)', minWidth: 0 }}
+            />
+            {channelSearch && (
+              <button
+                type="button"
+                onClick={() => setChannelSearch('')}
+                style={{ border: 'none', background: 'none', cursor: 'pointer', padding: 0, color: '#C2C4CF', display: 'flex', alignItems: 'center', flexShrink: 0 }}
+              >
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                  <path d="M1 1l8 8M9 1L1 9" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+                </svg>
+              </button>
+            )}
+          </div>
+
+          {/* Channel list */}
+          <div style={{ overflowY: 'auto', maxHeight: 'calc(100vh - 260px)' }}>
+            {filteredChannels.length === 0 ? (
+              <p style={{ fontSize: 13, color: '#9DA0B2', padding: '12px 14px', margin: 0 }}>No channels found</p>
+            ) : filteredChannels.map(ch => (
+              <button
+                key={ch}
+                className={'kb-channel-btn' + (selectedChannel === ch ? ' active' : '')}
+                onClick={() => { setSelectedChannel(ch); setQuery(''); }}
+              >
+                <span className="kb-channel-hash" style={{ color: '#C2C4CF', fontWeight: 400, fontSize: 12, flexShrink: 0 }}>#</span>
+                {ch}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Main content */}
+        <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 14 }}>
+          {/* Filter card */}
+          <div className="card card-pad">
+            <form onSubmit={handleSearch} style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+              <ComboboxInput
+                id="tag"
+                options={tagOptions}
+                value={tagSearch}
+                onChange={text => { setTagSearch(text); setTag(''); }}
+                onSelect={option => selectTag(option.value)}
+                onClear={clearTag}
+                placeholder="Filter by tag"
+                style={{ width: 154 }}
+              />
+              <div style={{ flex: 1, minWidth: 180 }}>
+                <input
+                  className="input"
+                  value={query}
+                  onChange={e => setQuery(e.target.value)}
+                  placeholder="Search problems and solutions"
+                />
+              </div>
+              <button type="submit" className="btn btn-primary" style={{ flexShrink: 0 }}>Search</button>
+              {(tag || query) && (
+                <button type="button" className="btn btn-secondary" style={{ height: 40 }} onClick={handleClear}>
+                  Clear
+                </button>
+              )}
+            </form>
+          </div>
+
+          {/* Results count */}
+          {!loading && data && (
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <p style={{ fontSize: 13, color: '#6F6F6F', margin: 0 }}>
+                <strong style={{ color: '#0A0A0A' }}>{entries.length}</strong>{' '}
+                {entries.length === 1 ? 'entry' : 'entries'}
+                {selectedChannel && <> in <strong style={{ color: '#0A0A0A' }}>#{selectedChannel}</strong></>}
+                {(tag || query) && <span style={{ color: '#9DA0B2' }}> · filtered</span>}
+              </p>
+            </div>
+          )}
+
+          {error && <StatusBanner type="error" message={error} />}
+
+          {loading && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {[1, 2].map(i => <SkeletonCard key={i} />)}
+            </div>
+          )}
+
+          {/* Empty filtered state */}
+          {!loading && data && entries.length === 0 && (
+            <div className="card">
+              <EmptyState
+                icon={
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <circle cx="11" cy="11" r="7" stroke="#C3CAEE" strokeWidth="1.8"/>
+                    <path d="M20 20l-3-3" stroke="#C3CAEE" strokeWidth="1.8" strokeLinecap="round"/>
+                  </svg>
+                }
+                title="No matching entries"
+                description="Try adjusting your filters or search query."
+                action={
+                  <button className="btn btn-secondary" style={{ height: 36, fontSize: 13 }} onClick={handleClear}>
+                    Clear filters
+                  </button>
+                }
+              />
+            </div>
+          )}
+
+          {/* Entry list */}
+          {!loading && entries.map(entry => (
+            <EntryCard
+              key={entry.id}
+              entry={entry}
+              deleting={deletingId === entry.id}
+              onClick={() => setViewingEntry(entry)}
+              onEdit={setEditingEntry}
+              onDelete={e => setPendingDeleteId(e.id)}
+              activeTag={tag}
+              onTagClick={selectTag}
+              workspaceUrl={workspaceUrl}
+              clampSolution
+            />
           ))}
         </div>
-
-        {/* Search row */}
-        <form onSubmit={handleSearch} style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
-          {/* Tag dropdown */}
-          <ComboboxInput
-            id="tag"
-            options={tagOptions}
-            value={tagSearch}
-            onChange={text => { setTagSearch(text); setTag(''); }}
-            onSelect={option => selectTag(option.value)}
-            onClear={clearTag}
-            placeholder="Filter by tag"
-            style={{ width: 154 }}
-          />
-
-          {/* Text search */}
-          <div style={{ flex: 1, minWidth: 180 }}>
-            <input
-              className="input"
-              value={query}
-              onChange={e => setQuery(e.target.value)}
-              placeholder="Search problems and solutions"
-            />
-          </div>
-
-          <button type="submit" className="btn btn-primary" style={{ flexShrink: 0 }}>Search</button>
-          {(tag || query) && (
-            <button type="button" className="btn btn-secondary" style={{ height: 40 }} onClick={handleClear}>
-              Clear
-            </button>
-          )}
-        </form>
       </div>
-
-      {/* Results count */}
-      {!loading && data && (
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <p style={{ fontSize: 13, color: '#6F6F6F', margin: 0 }}>
-            <strong style={{ color: '#0A0A0A' }}>{entries.length}</strong>{' '}
-            {entries.length === 1 ? 'entry' : 'entries'}
-            {selectedChannel && <> in <strong style={{ color: '#0A0A0A' }}>#{selectedChannel}</strong></>}
-            {(tag || query) && <span style={{ color: '#9DA0B2' }}> · filtered</span>}
-          </p>
-        </div>
-      )}
-
-      {error && <StatusBanner type="error" message={error} />}
-
-      {loading && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          {[1, 2].map(i => <SkeletonCard key={i} />)}
-        </div>
-      )}
-
-      {/* Empty filtered state */}
-      {!loading && data && entries.length === 0 && (
-        <div className="card">
-          <EmptyState
-            icon={
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <circle cx="11" cy="11" r="7" stroke="#C3CAEE" strokeWidth="1.8"/>
-                <path d="M20 20l-3-3" stroke="#C3CAEE" strokeWidth="1.8" strokeLinecap="round"/>
-              </svg>
-            }
-            title="No matching entries"
-            description="Try adjusting your filters or search query."
-            action={
-              <button className="btn btn-secondary" style={{ height: 36, fontSize: 13 }} onClick={handleClear}>
-                Clear filters
-              </button>
-            }
-          />
-        </div>
-      )}
-
-      {/* Entry list */}
-      {!loading && entries.map(entry => {
-        const deleting = deletingId === entry.id;
-        return (
-          <div
-            key={entry.id}
-            className="entry-card animate-in"
-            onClick={() => setViewingEntry(entry)}
-            style={{ opacity: deleting ? 0 : 1, transform: deleting ? 'scale(0.98)' : 'scale(1)', transition: 'opacity 0.25s, transform 0.25s', cursor: 'pointer' }}
-          >
-            <div style={{ position: 'absolute', top: 12, right: 12, display: 'flex', gap: 4 }}>
-              <button
-                className="entry-action-btn"
-                onClick={e => { e.stopPropagation(); setEditingEntry(entry); }}
-                title="Edit & verify solution"
-              >
-                <svg width="9" height="9" viewBox="0 0 11 11" fill="none">
-                  <path d="M7.5 1.5L9.5 3.5L3.5 9.5H1.5V7.5L7.5 1.5Z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round"/>
-                </svg>
-              </button>
-              <button
-                className="entry-action-btn entry-action-btn--delete"
-                onClick={e => { e.stopPropagation(); setPendingDeleteId(entry.id); }}
-                title="Delete entry"
-              >
-                <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
-                  <path d="M1 1l7 7M8 1L1 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                </svg>
-              </button>
-            </div>
-
-            <p style={{ fontSize: 14, fontWeight: 700, color: '#0A0A0A', margin: '0 48px 6px 0', lineHeight: 1.4 }}>
-              {entry.problem}
-            </p>
-
-            <p style={{ fontSize: 13, color: '#515151', margin: '0 0 10px', lineHeight: 1.6, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' as const, overflow: 'hidden' }}>
-              {entry.solution}
-            </p>
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-              <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', flex: 1 }} onClick={e => e.stopPropagation()}>
-                {entry.tags.map(t => (
-                  <TagChip key={t} label={t} active={t === tag} onClick={() => selectTag(t)} />
-                ))}
-              </div>
-              {!entry.verification && <ConfidenceMeter level={entry.confidence} />}
-              {entry.verification
-                ? <VerifiedBadge verifiedBy={entry.verification.verifiedBy} verifiedAt={entry.verification.verifiedAt} />
-                : <NeedsReviewBadge />
-              }
-              <span style={{ fontSize: 11, color: '#9DA0B2', fontWeight: 500, whiteSpace: 'nowrap' }}>
-                {formatDate(entry.scannedAt)}
-              </span>
-              {workspaceUrl && (
-                <SlackLinkIcon href={slackLink(workspaceUrl, entry.channelId, entry.threadTs)} />
-              )}
-            </div>
-          </div>
-        );
-      })}
 
       {viewingEntry && (
         <EntryDetailModal
@@ -480,6 +403,6 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
           onClose={() => setPendingDeleteId(null)}
         />
       )}
-    </div>
+    </>
   );
 }
