@@ -1,10 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { ProgressStepper, StatusBanner } from './shared';
-import type { ScanRequest, ScanResponse } from '../types';
-
-function today(): string {
-  return new Date().toISOString().slice(0, 10);
-}
+// ScanChannel tab component
+const { useState } = React;
 
 const SCAN_STEPS = [
   { label: 'Resolving channel and verifying access...' },
@@ -13,75 +8,57 @@ const SCAN_STEPS = [
   { label: 'Saving entries to knowledge base...' },
 ];
 
-// Cumulative delays (ms) to reach steps 1, 2, 3 while API call runs
-const STEP_DELAYS = [900, 2500, 5500];
+const STEP_DELAYS = [900, 1600, 3000, 700];
 
-export function ScanChannel({ onScanComplete }: { onScanComplete?: () => void }) {
+function ScanChannel({ onAddEntries }) {
   const [channelId, setChannelId] = useState('');
-  const [startDate, setStartDate] = useState(today());
-  const [phase, setPhase] = useState<'idle' | 'scanning' | 'done' | 'error'>('idle');
+  const [startDate, setStartDate] = useState(new Date().toISOString().slice(0, 10));
+  const [phase, setPhase] = useState('idle'); // idle | scanning | done | error
   const [currentStep, setCurrentStep] = useState(-1);
-  const [result, setResult] = useState<ScanResponse | null>(null);
-  const [errorMsg, setErrorMsg] = useState('');
-  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const [result, setResult] = useState(null);
 
-  useEffect(() => () => { timersRef.current.forEach(clearTimeout); }, []);
-
-  function clearTimers() {
-    timersRef.current.forEach(clearTimeout);
-    timersRef.current = [];
-  }
-
-  async function handleSubmit(e: React.FormEvent) {
+  function handleSubmit(e) {
     e.preventDefault();
     if (!channelId.trim() || phase === 'scanning') return;
-
     setPhase('scanning');
     setCurrentStep(0);
     setResult(null);
-    setErrorMsg('');
-    clearTimers();
 
-    timersRef.current = STEP_DELAYS.map((delay, i) =>
-      setTimeout(() => setCurrentStep(i + 1), delay)
-    );
+    const startMs = Date.now();
+    let step = 0;
 
-    try {
-      const body: ScanRequest = { channelId: channelId.trim() };
-      if (startDate) body.startDate = startDate;
-
-      const res = await fetch('/api/scan', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      });
-      clearTimers();
-
-      if (!res.ok) {
-        const err = await res.json() as { error: string };
-        setErrorMsg(err.error ?? 'Scan failed');
-        setPhase('error');
-        setCurrentStep(-1);
-        return;
-      }
-
-      const data = await res.json() as ScanResponse;
-      setCurrentStep(SCAN_STEPS.length);
-      setPhase('done');
-      setResult(data);
-      onScanComplete?.();
-    } catch (e) {
-      clearTimers();
-      setErrorMsg(e instanceof Error ? e.message : 'Network error');
-      setPhase('error');
-      setCurrentStep(-1);
+    function advance() {
+      setTimeout(() => {
+        step++;
+        if (step < SCAN_STEPS.length) {
+          setCurrentStep(step);
+          advance();
+        } else {
+          setTimeout(() => {
+            const elapsed = Date.now() - startMs;
+            const newResult = {
+              channelName: channelId.trim(),
+              threadsScanned: 47,
+              entriesAdded: 23,
+              entriesSkipped: 24,
+              durationMs: elapsed,
+            };
+            setCurrentStep(SCAN_STEPS.length);
+            setPhase('done');
+            setResult(newResult);
+            if (onAddEntries) onAddEntries(newResult.entriesAdded);
+          }, 400);
+        }
+      }, STEP_DELAYS[step]);
     }
+    advance();
   }
 
   const scanning = phase === 'scanning';
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+
       {/* Form card */}
       <div className="card card-pad">
         <div style={{ marginBottom: 20 }}>
@@ -158,10 +135,7 @@ export function ScanChannel({ onScanComplete }: { onScanComplete?: () => void })
       {phase === 'done' && result && (
         <div className="card card-pad animate-in" style={{ background: '#EEF7EE', borderColor: 'rgba(67,176,42,0.22)' }}>
           <p style={{ fontSize: 14, fontWeight: 700, color: '#178217', margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: 6 }}>
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <circle cx="7" cy="7" r="6.5" fill="#43B02A"/>
-              <path d="M4.2 7l2.2 2.2L9.8 5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6.5" fill="#43B02A"/><path d="M4.2 7l2.2 2.2L9.8 5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
             #{result.channelName} scanned successfully
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10 }}>
@@ -171,7 +145,10 @@ export function ScanChannel({ onScanComplete }: { onScanComplete?: () => void })
               { label: 'Skipped',         value: result.entriesSkipped, accent: false },
               { label: 'Duration',        value: `${(result.durationMs / 1000).toFixed(1)}s`, accent: false },
             ].map(stat => (
-              <div key={stat.label} style={{ background: 'white', borderRadius: 8, border: '1px solid rgba(67,176,42,0.2)', padding: '12px 14px' }}>
+              <div key={stat.label} style={{
+                background: 'white', borderRadius: 8,
+                border: '1px solid rgba(67,176,42,0.2)', padding: '12px 14px',
+              }}>
                 <div style={{ fontSize: 26, fontWeight: 900, color: stat.accent ? '#178217' : '#0A0A0A', lineHeight: 1.1 }}>
                   {stat.value}
                 </div>
@@ -184,9 +161,8 @@ export function ScanChannel({ onScanComplete }: { onScanComplete?: () => void })
         </div>
       )}
 
-      {phase === 'error' && (
-        <StatusBanner type="error" message={errorMsg || 'Scan failed. Please try again.'} />
-      )}
     </div>
   );
 }
+
+Object.assign(window, { ScanChannel });

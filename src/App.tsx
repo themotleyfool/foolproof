@@ -1,48 +1,113 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ScanChannel } from './components/scan-channel';
 import { LookupThread } from './components/lookup-thread';
 import { KnowledgeBasePanel } from './components/knowledge-base-panel';
 
-type Tab = 'scan' | 'lookup' | 'knowledge';
+type Tab = 'scan' | 'lookup' | 'kb';
 
-const tabs: { id: Tab; label: string }[] = [
-  { id: 'scan', label: 'Scan Channel' },
-  { id: 'lookup', label: 'Lookup Thread' },
-  { id: 'knowledge', label: 'Knowledge Base' },
+const TABS: { id: Tab; label: string }[] = [
+  { id: 'scan',   label: 'Scan channel'   },
+  { id: 'lookup', label: 'Look up thread' },
+  { id: 'kb',     label: 'Knowledge base' },
 ];
+
+interface HeaderStats {
+  entriesCount: number;
+  channelsCount: number;
+}
 
 function App() {
   const [activeTab, setActiveTab] = useState<Tab>('scan');
+  const [stats, setStats] = useState<HeaderStats>({ entriesCount: 0, channelsCount: 0 });
+  const [statsKey, setStatsKey] = useState(0);
+
+  useEffect(() => {
+    async function loadStats() {
+      try {
+        const res = await fetch('/api/knowledge');
+        if (!res.ok) return;
+        const { channels } = await res.json() as { channels: string[] };
+        if (channels.length === 0) {
+          setStats({ entriesCount: 0, channelsCount: 0 });
+          return;
+        }
+        const totals = await Promise.all(
+          channels.map(ch =>
+            fetch(`/api/knowledge/${ch}`)
+              .then(r => r.json())
+              .then((d: { total: number }) => d.total)
+              .catch(() => 0)
+          )
+        );
+        setStats({
+          channelsCount: channels.length,
+          entriesCount: totals.reduce((a, b) => a + b, 0),
+        });
+      } catch {
+        // header stats are non-critical
+      }
+    }
+    void loadStats();
+  }, [statsKey]);
+
+  function refreshStats() {
+    setStatsKey(k => k + 1);
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-3xl mx-auto px-4 py-8">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">Slack AI Knowledge Extractor</h1>
-
-        <div className="border-b border-gray-200 mb-6">
-          <nav className="flex gap-1">
-            {tabs.map(tab => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`px-4 py-2 text-sm font-medium border-b-2 -mb-px transition-colors cursor-pointer ${
-                  activeTab === tab.id
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </nav>
+    <div className="app-shell">
+      <header className="app-header">
+        <div className="header-left">
+          <img
+            src="/assets/logo-jester-hat.svg"
+            alt="Motley Fool"
+            className="header-logo"
+            style={{ filter: 'brightness(0) invert(1)' }}
+          />
+          <div style={{ display: 'flex', alignItems: 'baseline' }}>
+            <span className="header-title-main">Slack AI</span>
+            <span className="header-title-sep">·</span>
+            <span className="header-title-sub">Knowledge Extractor</span>
+          </div>
         </div>
+        <div className="header-stats">
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+            <rect x="0.5" y="0.5" width="4" height="4" rx="0.5" stroke="#9DA0B2" strokeWidth="1"/>
+            <rect x="6.5" y="0.5" width="4" height="4" rx="0.5" stroke="#9DA0B2" strokeWidth="1"/>
+            <rect x="0.5" y="6.5" width="4" height="4" rx="0.5" stroke="#9DA0B2" strokeWidth="1"/>
+            <rect x="6.5" y="6.5" width="4" height="4" rx="0.5" stroke="#9DA0B2" strokeWidth="1"/>
+          </svg>
+          <span className="header-stats-text">
+            <strong style={{ color: '#C2C4CF' }}>{stats.entriesCount}</strong>
+            {' '}entr{stats.entriesCount === 1 ? 'y' : 'ies'}
+          </span>
+          <span className="header-stats-dot" />
+          <span className="header-stats-text">
+            <strong style={{ color: '#C2C4CF' }}>{stats.channelsCount}</strong>
+            {' '}{stats.channelsCount === 1 ? 'channel' : 'channels'}
+          </span>
+        </div>
+      </header>
 
-        <div>
-          {activeTab === 'scan' && <ScanChannel />}
+      <nav className="tab-nav">
+        {TABS.map(tab => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id)}
+            className={'tab-btn' + (activeTab === tab.id ? ' active' : '')}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </nav>
+
+      <main style={{ flex: 1, padding: '28px 24px' }}>
+        <div style={{ maxWidth: 860, margin: '0 auto', width: '100%' }}>
+          {activeTab === 'scan'   && <ScanChannel onScanComplete={refreshStats} />}
           {activeTab === 'lookup' && <LookupThread />}
-          {activeTab === 'knowledge' && <KnowledgeBasePanel />}
+          {activeTab === 'kb'     && <KnowledgeBasePanel onDelete={refreshStats} />}
         </div>
-      </div>
+      </main>
     </div>
   );
 }

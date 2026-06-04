@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { StatusMessage } from './status-message';
+import { ConfidenceMeter, EmptyState, SkeletonCard, StatusBanner, TagChip } from './shared';
 import type { KnowledgeEntry } from '../types';
 
 interface KbResponse {
@@ -7,23 +7,48 @@ interface KbResponse {
   total: number;
 }
 
-const confidenceClasses: Record<KnowledgeEntry['confidence'], string> = {
-  high: 'bg-green-100 text-green-800',
-  medium: 'bg-yellow-100 text-yellow-800',
-  low: 'bg-red-100 text-red-800',
-};
+function slackLink(workspaceUrl: string, channelId: string, ts: string, threadTs?: string): string {
+  const pTs = 'p' + ts.replace('.', '');
+  const base = `${workspaceUrl}archives/${channelId}/${pTs}`;
+  return threadTs && threadTs !== ts
+    ? `${base}?thread_ts=${threadTs}&cid=${channelId}`
+    : base;
+}
 
-export function KnowledgeBasePanel() {
+function SlackLinkIcon({ href }: { href: string }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      title="Open in Slack"
+      onClick={e => e.stopPropagation()}
+      style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: '#9DA0B2', flexShrink: 0, lineHeight: 1, textDecoration: 'none' }}
+      className="slack-link-icon"
+    >
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+        <path d="M5 2H2a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V7" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M8 1h3m0 0v3m0-3L5.5 6.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    </a>
+  );
+}
+
+export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
   const [channels, setChannels] = useState<string[]>([]);
-  const [selectedChannel, setSelectedChannel] = useState<string>('');
+  const [selectedChannel, setSelectedChannel] = useState('');
   const [allTags, setAllTags] = useState<string[]>([]);
   const [tag, setTag] = useState('');
   const [tagSearch, setTagSearch] = useState('');
   const [tagOpen, setTagOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [data, setData] = useState<KbResponse | null>(null);
+  const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const workspaceUrl = import.meta.env.VITE_SLACK_WORKSPACE_URL as string ?? '';
   const tagRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -31,11 +56,16 @@ export function KnowledgeBasePanel() {
       try {
         const res = await fetch('/api/knowledge');
         if (!res.ok) throw new Error('Failed to load channels');
-        const json = (await res.json()) as { channels: string[] };
+        const json = await res.json() as { channels: string[] };
         setChannels(json.channels);
-        if (json.channels.length > 0) setSelectedChannel(json.channels[0]);
+        if (json.channels.length > 0) {
+          setSelectedChannel(json.channels[0]);
+        } else {
+          setInitialLoading(false);
+        }
       } catch (e) {
         setError(e instanceof Error ? e.message : 'Failed to load');
+        setInitialLoading(false);
       }
     }
     void loadChannels();
@@ -45,7 +75,7 @@ export function KnowledgeBasePanel() {
     if (!selectedChannel) return;
     setTag('');
     setTagSearch('');
-    void fetchEntries(selectedChannel, '', query);
+    void fetchEntries(selectedChannel, '', '');
     void fetchAllTags(selectedChannel);
   }, [selectedChannel]);
 
@@ -63,11 +93,11 @@ export function KnowledgeBasePanel() {
     try {
       const res = await fetch(`/api/knowledge/${channel}`);
       if (!res.ok) return;
-      const json = (await res.json()) as KbResponse;
+      const json = await res.json() as KbResponse;
       const tags = [...new Set(json.entries.flatMap(e => e.tags))].sort();
       setAllTags(tags);
     } catch {
-      // non-critical, tag dropdown just stays empty
+      // non-critical — tag filter just stays empty
     }
   }
 
@@ -81,11 +111,12 @@ export function KnowledgeBasePanel() {
       const qs = params.toString();
       const res = await fetch(`/api/knowledge/${channel}${qs ? `?${qs}` : ''}`);
       if (!res.ok) throw new Error('Failed to load entries');
-      setData((await res.json()) as KbResponse);
+      setData(await res.json() as KbResponse);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Failed to load');
     } finally {
       setLoading(false);
+      setInitialLoading(false);
     }
   }
 
@@ -106,164 +137,259 @@ export function KnowledgeBasePanel() {
     setTagOpen(false);
   }
 
-  const filteredTags = allTags.filter(t =>
-    t.toLowerCase().includes(tagSearch.toLowerCase())
-  );
+  function handleClear() {
+    clearTag();
+    setQuery('');
+    if (selectedChannel) void fetchEntries(selectedChannel, '', '');
+  }
+
+  function toggleExpand(id: string) {
+    setExpandedIds(prev => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  }
 
   async function handleDelete(id: string) {
-    await fetch(`/api/knowledge/${selectedChannel}/${encodeURIComponent(id)}`, {
-      method: 'DELETE',
-    });
-    await fetchEntries(selectedChannel, tag, query);
+    setDeletingId(id);
+    await new Promise(res => setTimeout(res, 300));
+    try {
+      await fetch(`/api/knowledge/${selectedChannel}/${encodeURIComponent(id)}`, { method: 'DELETE' });
+      setDeletingId(null);
+      await fetchEntries(selectedChannel, tag, query);
+      onDelete?.();
+    } catch {
+      setDeletingId(null);
+    }
+  }
+
+  function formatDate(iso: string) {
+    return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+
+  const filteredTags = allTags.filter(t => t.toLowerCase().includes(tagSearch.toLowerCase()));
+  const entries = data?.entries ?? [];
+
+  if (initialLoading) {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        {[1, 2, 3].map(i => <SkeletonCard key={i} />)}
+      </div>
+    );
+  }
+
+  if (channels.length === 0) {
+    return (
+      <div className="card">
+        <EmptyState
+          icon={
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M4 6h16M4 10h16M4 14h10" stroke="#C3CAEE" strokeWidth="1.8" strokeLinecap="round"/>
+            </svg>
+          }
+          title="No knowledge bases yet"
+          description="Scan a Slack channel to start extracting problem/solution pairs."
+        />
+      </div>
+    );
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-xl font-semibold text-gray-900">Knowledge Base</h2>
-        <p className="text-sm text-gray-500 mt-1">
-          Browse and search extracted problem/solution pairs by channel.
-        </p>
-      </div>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+      {/* Filter card */}
+      <div className="card card-pad">
+        {/* Channel selector */}
+        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 14 }}>
+          {channels.map(ch => (
+            <button
+              key={ch}
+              onClick={() => { setSelectedChannel(ch); handleClear(); }}
+              className={'channel-chip' + (selectedChannel === ch ? ' active' : '')}
+            >
+              #{ch}
+            </button>
+          ))}
+        </div>
 
-      {channels.length === 0 && !error && (
-        <StatusMessage
-          type="info"
-          message="No knowledge bases yet. Scan a channel to get started."
-        />
-      )}
-
-      {channels.length > 0 && (
-        <>
-          <div className="flex gap-2 flex-wrap">
-            {channels.map(ch => (
-              <button
-                key={ch}
-                onClick={() => setSelectedChannel(ch)}
-                className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors cursor-pointer ${
-                  selectedChannel === ch
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                }`}
-              >
-                #{ch}
-              </button>
-            ))}
-          </div>
-
-          <form onSubmit={handleSearch} className="flex gap-3 flex-wrap">
-            <div ref={tagRef} className="relative">
-              <div className="flex items-center border rounded bg-white focus-within:ring-2 focus-within:ring-blue-500">
-                <input
-                  type="text"
-                  value={tagSearch}
-                  onChange={e => {
-                    setTagSearch(e.target.value);
-                    setTag('');
-                    setTagOpen(true);
-                  }}
-                  onFocus={() => setTagOpen(true)}
-                  placeholder="Filter by tag"
-                  className="px-3 py-2 text-sm outline-none bg-transparent w-36"
-                />
-                {tag && (
-                  <button
-                    type="button"
-                    onClick={clearTag}
-                    className="px-2 text-gray-400 hover:text-gray-600 cursor-pointer"
-                    aria-label="Clear tag"
-                  >
-                    ✕
-                  </button>
-                )}
-              </div>
-              {tagOpen && filteredTags.length > 0 && (
-                <ul className="absolute z-10 mt-1 w-full bg-white border rounded shadow-lg max-h-48 overflow-y-auto text-sm">
-                  {filteredTags.map(t => (
-                    <li
-                      key={t}
-                      onMouseDown={() => selectTag(t)}
-                      className={`px-3 py-1.5 cursor-pointer hover:bg-blue-50 ${
-                        t === tag ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700'
-                      }`}
-                    >
-                      {t}
-                    </li>
-                  ))}
-                </ul>
+        {/* Search row */}
+        <form onSubmit={handleSearch} style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+          {/* Tag dropdown */}
+          <div ref={tagRef} style={{ position: 'relative' }}>
+            <div style={{ display: 'flex', alignItems: 'center', border: '1px solid #D7DCF4', borderRadius: 4, background: 'white', overflow: 'hidden', width: 154 }}>
+              <input
+                className="input"
+                style={{ border: 'none', borderRadius: 0, boxShadow: 'none', padding: '9px 10px', width: '100%' }}
+                value={tagSearch}
+                onChange={e => { setTagSearch(e.target.value); setTag(''); setTagOpen(true); }}
+                onFocus={() => setTagOpen(true)}
+                placeholder="Filter by tag"
+              />
+              {tag && (
+                <button
+                  type="button"
+                  onClick={clearTag}
+                  style={{ border: 'none', background: 'none', cursor: 'pointer', padding: '0 8px', color: '#9DA0B2', flexShrink: 0, lineHeight: 1 }}
+                >
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                    <path d="M2 2l6 6M8 2l-6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                  </svg>
+                </button>
               )}
             </div>
+            {tagOpen && filteredTags.length > 0 && (
+              <ul style={{ position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 20, marginTop: 4, background: 'white', border: '1px solid #EBEBEF', borderRadius: 6, boxShadow: '0 8px 24px rgba(2,10,56,0.1)', maxHeight: 200, overflowY: 'auto', padding: '4px 0', listStyle: 'none', margin: '4px 0 0' }}>
+                {filteredTags.map(t => (
+                  <li
+                    key={t}
+                    onMouseDown={() => selectTag(t)}
+                    style={{ padding: '8px 12px', cursor: 'pointer', fontSize: 13, fontWeight: t === tag ? 700 : 400, color: t === tag ? '#0522BA' : '#0A0A0A', background: t === tag ? '#F5F6FC' : 'transparent', transition: 'background 0.1s' }}
+                  >
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          {/* Text search */}
+          <div style={{ flex: 1, minWidth: 180 }}>
             <input
-              type="text"
+              className="input"
               value={query}
               onChange={e => setQuery(e.target.value)}
-              placeholder="Search problem / solution"
-              className="border rounded px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500 bg-white flex-1 min-w-48"
+              placeholder="Search problems and solutions"
             />
-            <button
-              type="submit"
-              className="bg-blue-600 text-white rounded px-4 py-2 text-sm font-medium hover:bg-blue-700 cursor-pointer transition-colors"
-            >
-              Search
+          </div>
+
+          <button type="submit" className="btn btn-primary" style={{ flexShrink: 0 }}>Search</button>
+          {(tag || query) && (
+            <button type="button" className="btn btn-secondary" style={{ height: 40 }} onClick={handleClear}>
+              Clear
             </button>
-          </form>
-        </>
-      )}
-
-      {error && <StatusMessage type="error" message={error} />}
-      {loading && <p className="text-sm text-gray-500">Loading…</p>}
-
-      {data && (
-        <>
-          <p className="text-sm text-gray-500">
-            {data.total} {data.total === 1 ? 'entry' : 'entries'} in #{selectedChannel}
-          </p>
-          {data.entries.length === 0 ? (
-            <StatusMessage type="info" message="No entries match your filters." />
-          ) : (
-            <div className="space-y-3">
-              {data.entries.map(entry => (
-                <div key={entry.id} className="bg-white border rounded-lg p-4 shadow-sm">
-                  <div className="flex items-start justify-between gap-2 mb-2">
-                    <p className="text-sm font-semibold text-gray-900">{entry.problem}</p>
-                    <div className="flex items-center gap-2 shrink-0">
-                      <span
-                        className={`text-xs px-2 py-0.5 rounded-full font-medium ${confidenceClasses[entry.confidence]}`}
-                      >
-                        {entry.confidence}
-                      </span>
-                      <button
-                        onClick={() => handleDelete(entry.id)}
-                        className="text-gray-300 hover:text-red-500 transition-colors cursor-pointer text-sm leading-none"
-                        title="Delete entry"
-                        aria-label="Delete entry"
-                      >
-                        ✕
-                      </button>
-                    </div>
-                  </div>
-                  <p className="text-sm text-gray-600 mb-2">{entry.solution}</p>
-                  <div className="flex items-center justify-between gap-2">
-                    <div className="flex gap-1 flex-wrap">
-                      {entry.tags.map(t => (
-                        <span
-                          key={t}
-                          className="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded-full"
-                        >
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                    <span className="text-xs text-gray-400 shrink-0">
-                      {new Date(entry.scannedAt).toLocaleDateString()}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
           )}
-        </>
+        </form>
+      </div>
+
+      {/* Results count */}
+      {!loading && data && (
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <p style={{ fontSize: 13, color: '#6F6F6F', margin: 0 }}>
+            <strong style={{ color: '#0A0A0A' }}>{entries.length}</strong>{' '}
+            {entries.length === 1 ? 'entry' : 'entries'}
+            {selectedChannel && <> in <strong style={{ color: '#0A0A0A' }}>#{selectedChannel}</strong></>}
+            {(tag || query) && <span style={{ color: '#9DA0B2' }}> · filtered</span>}
+          </p>
+        </div>
       )}
+
+      {error && <StatusBanner type="error" message={error} />}
+
+      {loading && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {[1, 2].map(i => <SkeletonCard key={i} />)}
+        </div>
+      )}
+
+      {/* Empty filtered state */}
+      {!loading && data && entries.length === 0 && (
+        <div className="card">
+          <EmptyState
+            icon={
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <circle cx="11" cy="11" r="7" stroke="#C3CAEE" strokeWidth="1.8"/>
+                <path d="M20 20l-3-3" stroke="#C3CAEE" strokeWidth="1.8" strokeLinecap="round"/>
+              </svg>
+            }
+            title="No matching entries"
+            description="Try adjusting your filters or search query."
+            action={
+              <button className="btn btn-secondary" style={{ height: 36, fontSize: 13 }} onClick={handleClear}>
+                Clear filters
+              </button>
+            }
+          />
+        </div>
+      )}
+
+      {/* Entry list */}
+      {!loading && entries.map(entry => {
+        const expanded = expandedIds.has(entry.id);
+        const deleting = deletingId === entry.id;
+        return (
+          <div
+            key={entry.id}
+            className="entry-card animate-in"
+            style={{ opacity: deleting ? 0 : 1, transform: deleting ? 'scale(0.98)' : 'scale(1)', transition: 'opacity 0.25s, transform 0.25s' }}
+          >
+            <button className="entry-delete-btn" onClick={() => void handleDelete(entry.id)} title="Delete entry">
+              <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
+                <path d="M1 1l7 7M8 1L1 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+              </svg>
+            </button>
+
+            <p style={{ fontSize: 14, fontWeight: 700, color: '#0A0A0A', margin: '0 24px 6px 0', lineHeight: 1.4 }}>
+              {entry.problem}
+            </p>
+
+            <p style={{
+              fontSize: 13, color: '#515151', margin: '0 0 10px', lineHeight: 1.6,
+              display: '-webkit-box', WebkitLineClamp: expanded ? 'unset' : 2,
+              WebkitBoxOrient: 'vertical' as const, overflow: expanded ? 'visible' : 'hidden',
+            }}>
+              {entry.solution}
+            </p>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', flex: 1 }}>
+                {entry.tags.map(t => (
+                  <TagChip key={t} label={t} active={t === tag} onClick={() => selectTag(t)} />
+                ))}
+              </div>
+              <ConfidenceMeter level={entry.confidence} />
+              <span style={{ fontSize: 11, color: '#9DA0B2', fontWeight: 500, whiteSpace: 'nowrap', marginLeft: 4 }}>
+                {formatDate(entry.scannedAt)}
+              </span>
+              {workspaceUrl && (
+                <SlackLinkIcon href={slackLink(workspaceUrl, entry.channelId, entry.threadTs)} />
+              )}
+            </div>
+
+            {entry.rawMessages.length > 0 && (
+              <div style={{ marginTop: 10, borderTop: '1px solid #EBEBEF', paddingTop: 8 }}>
+                <button
+                  onClick={() => toggleExpand(entry.id)}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5, color: '#0522BA', fontSize: 12, fontWeight: 700, padding: 0, fontFamily: 'var(--font-sans)' }}
+                >
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{ transform: expanded ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>
+                    <path d="M1.5 3.5L5 7l3.5-3.5" stroke="#0522BA" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  {expanded ? 'Hide' : 'Show'} {entry.rawMessages.length} messages
+                </button>
+
+                {expanded && (
+                  <div style={{ marginTop: 10, display: 'flex', flexDirection: 'column', gap: 0, background: '#F5F6FC', borderRadius: 6, overflow: 'hidden', border: '1px solid #EBEDF9' }}>
+                    {entry.rawMessages.map((msg, i) => (
+                      <div key={msg.ts} style={{ padding: '8px 12px', borderBottom: i < entry.rawMessages.length - 1 ? '1px solid #EBEDF9' : 'none', display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                        <div style={{ width: 24, height: 24, borderRadius: '50%', background: '#EBEDF9', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 10, fontWeight: 700, color: '#80849B' }}>
+                          {msg.user.charAt(0).toUpperCase()}
+                        </div>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <span style={{ fontSize: 11, fontWeight: 700, color: '#373D5B', marginRight: 6 }}>{msg.user}</span>
+                          <span style={{ fontSize: 12, color: '#515151', lineHeight: 1.5 }}>{msg.text}</span>
+                        </div>
+                        {workspaceUrl && (
+                          <SlackLinkIcon href={slackLink(workspaceUrl, entry.channelId, msg.ts, entry.threadTs)} />
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }
