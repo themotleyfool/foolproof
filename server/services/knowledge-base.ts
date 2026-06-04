@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import type { KnowledgeBase, KnowledgeEntry } from '../../src/types/index.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const KB_DIR = path.resolve(__dirname, '../../knowledge-bases');
+const KB_DIR = path.resolve(__dirname, '../../lib/knowledge-bases');
 
 /**
  * Resolves the file path for a channel's knowledge base JSON file.

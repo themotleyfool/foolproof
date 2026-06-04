@@ -16,8 +16,10 @@ Vite proxies `/api/*` to `localhost:3001`, so all frontend fetches use `/api/...
 ## Directory structure
 
 ```
-data/                       # Static data files (e.g. Slack channels)
-scripts/                    # One-off scripts (e.g. for seeding data or testing API calls)
+lib/
+  data/                     # Static data files (e.g. Slack channel list)
+  knowledge-bases/          # Runtime-generated JSON files, one per channel
+  scripts/                  # One-off utility scripts (e.g. fetch-channels.ts)
 server/
   index.ts                  # Express entry point
   routes/
@@ -39,7 +41,6 @@ src/
     use-api.ts              # Typed fetch wrapper
   types/index.ts            # Shared TypeScript interfaces (used by both src/ and server/)
   index.css                 # Design system tokens and component styles
-knowledge-bases/            # Runtime-generated JSON files, one per channel (gitignored)
 ```
 
 ## Documentation
@@ -61,7 +62,7 @@ async function resolveUserName(userId: string): Promise<string>
 
 **LLM calls go through `server/services/claude.ts`**, which uses the OpenAI-compatible client pointed at a LiteLLM proxy (`litellm.fool.com`). The model is set by `LLM_MODEL` in `.env`. Do not add direct Anthropic SDK calls — route everything through this service.
 
-**Knowledge bases are per-channel JSON files** at `knowledge-bases/{channelName}.json`. All reads/writes go through `server/services/knowledge-base.ts`. The save is atomic (write to `.tmp`, then rename).
+**Knowledge bases are per-channel JSON files** at `lib/knowledge-bases/{channelName}.json`. All reads/writes go through `server/services/knowledge-base.ts`. The save is atomic (write to `.tmp`, then rename).
 
 **Entry IDs** are `{channelId}-{threadTs}` and are used for deduplication on every scan.
 

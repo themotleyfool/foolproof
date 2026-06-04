@@ -87,7 +87,7 @@ The app runs the React frontend (Vite) and Express backend concurrently. The fro
 
 - **Frontend:** React 19 + TypeScript + Vite + Tailwind v4 (`src/`)
 - **Backend:** Express + TypeScript via `tsx` (`server/`)
-- **Knowledge base:** JSON files at `knowledge-bases/{channel-name}.json`
+- **Knowledge base:** JSON files at `lib/knowledge-bases/{channel-name}.json`
 
 ### Key Files
 
