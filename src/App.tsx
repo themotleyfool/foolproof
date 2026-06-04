@@ -15,11 +15,11 @@ function App() {
       <main className="flex-1 py-7 px-6">
         <div className="max-w-[860px] mx-auto w-full">
           <Routes>
-            <Route index element={<Navigate to="/build" replace />} />
+            <Route index element={<Navigate to="/find" replace />} />
             <Route path="/build"  element={<BuildKnowledgePage />} />
             <Route path="/find"   element={<FindAnswerPage />} />
             <Route path="/browse" element={<BrowsePage />} />
-            <Route path="*"       element={<Navigate to="/build" replace />} />
+            <Route path="*"       element={<Navigate to="/find" replace />} />
           </Routes>
         </div>
       </main>

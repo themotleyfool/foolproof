@@ -4,9 +4,9 @@ import { NavLink } from 'react-router-dom';
 import { fetchStats } from '../utils/api';
 
 const TABS = [
-  { path: '/build',  label: 'Build Knowledge' },
   { path: '/find',   label: 'Find Answer'     },
   { path: '/browse', label: 'Browse'          },
+  { path: '/build',  label: 'Build Knowledge' },
 ];
 
 /**
