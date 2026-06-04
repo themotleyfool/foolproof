@@ -78,33 +78,56 @@ export function LookupThread() {
       {/* Results */}
       {data && (
         <>
-          {/* Thread summary */}
+          {/* Section divider */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '2px 0' }}>
+            <span style={{ fontSize: 11, fontWeight: 700, color: '#C2C4CF', textTransform: 'uppercase', letterSpacing: '0.1em', flexShrink: 0 }}>
+              Results
+            </span>
+            <div style={{ flex: 1, height: 1, background: '#EBEBEF' }} />
+          </div>
+
+          {/* Thread context card */}
           <div className="card animate-in" style={{ overflow: 'hidden' }}>
-            <div style={{ padding: '12px 16px', background: '#F5F6FC', borderBottom: '1px solid #EBEBEF' }}>
+            <div style={{ padding: '10px 16px', background: '#F5F5F7', borderBottom: '1px solid #EBEBEF', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                   <path d="M1 1h10v8H7l-3 2V9H1V1z" stroke="#80849B" strokeWidth="1.2" strokeLinejoin="round"/>
                 </svg>
                 <span style={{ fontSize: 11, fontWeight: 700, color: '#80849B', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                  Thread · #{data.thread.channelName}
+                  Thread context
                 </span>
               </div>
+              <span style={{ fontSize: 12, fontWeight: 700, color: '#0522BA', background: '#EBEDF9', border: '1px solid #D7DCF4', borderRadius: 999, padding: '2px 10px' }}>
+                #{data.thread.channelName}
+              </span>
             </div>
             <div style={{ padding: '14px 16px' }}>
-              <p style={{ fontSize: 14, color: '#0A0A0A', margin: '0 0 8px', lineHeight: 1.6 }}>
-                {data.thread.parentMessage.text}
-              </p>
+              <div style={{ borderLeft: '3px solid #D7DCF4', paddingLeft: 12 }}>
+                <p style={{ fontSize: 14, color: '#0A0A0A', margin: 0, lineHeight: 1.65 }}>
+                  {data.thread.parentMessage.text}
+                </p>
+                {data.thread.parentMessage.userName && (
+                  <span style={{ fontSize: 12, color: '#9DA0B2', fontWeight: 600, marginTop: 5, display: 'block' }}>
+                    @{data.thread.parentMessage.userName}
+                  </span>
+                )}
+              </div>
               {data.thread.replies.length > 0 && (
-                <span style={{ fontSize: 12, color: '#9DA0B2', fontWeight: 500 }}>
-                  {data.thread.replies.length} {data.thread.replies.length === 1 ? 'reply' : 'replies'}
-                </span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginTop: 10, paddingTop: 10, borderTop: '1px solid #F5F5F7' }}>
+                  <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
+                    <path d="M10 1H2a1 1 0 00-1 1v6a1 1 0 001 1h1v2l3-2h4a1 1 0 001-1V2a1 1 0 00-1-1z" stroke="#C2C4CF" strokeWidth="1.2" strokeLinejoin="round"/>
+                  </svg>
+                  <span style={{ fontSize: 12, color: '#9DA0B2', fontWeight: 600 }}>
+                    {data.thread.replies.length} {data.thread.replies.length === 1 ? 'reply' : 'replies'}
+                  </span>
+                </div>
               )}
             </div>
           </div>
 
-          {/* Suggested solution */}
-          <div className="card animate-in" style={{ overflow: 'hidden' }}>
-            <div style={{ padding: '12px 16px', background: '#F5F6FC', borderBottom: '1px solid #EBEBEF', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          {/* Suggested solution card */}
+          <div className="card animate-in" style={{ overflow: 'hidden', border: '1px solid #C3CAEE' }}>
+            <div style={{ padding: '12px 16px', background: '#F5F6FC', borderBottom: '1px solid #D7DCF4', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                   <path d="M6 1l1.2 3.6H11L8.4 6.8l1 3.2L6 8.2 2.6 10l1-3.2L1 4.6h3.8L6 1z" stroke="#0522BA" strokeWidth="1.1" strokeLinejoin="round"/>
@@ -137,10 +160,13 @@ export function LookupThread() {
                 )}
               </button>
             </div>
-            <div style={{ padding: 16 }}>
-              <p style={{ fontSize: 14, color: '#0A0A0A', margin: 0, lineHeight: 1.75, whiteSpace: 'pre-wrap', fontFamily: 'var(--font-sans)' }}>
-                {data.suggestedSolution}
-              </p>
+            <div style={{ display: 'flex' }}>
+              <div style={{ width: 3, background: '#0522BA', flexShrink: 0 }} />
+              <div style={{ padding: 16, flex: 1 }}>
+                <p style={{ fontSize: 14, color: '#0A0A0A', margin: 0, lineHeight: 1.8, whiteSpace: 'pre-wrap', fontFamily: 'var(--font-sans)' }}>
+                  {data.suggestedSolution}
+                </p>
+              </div>
             </div>
           </div>
 
@@ -172,17 +198,19 @@ export function LookupThread() {
               </button>
 
               {relatedOpen && (
-                <div style={{ borderTop: '1px solid #EBEBEF' }}>
-                  {data.relatedEntries.map((entry, i) => (
-                    <div key={entry.id} style={{ padding: '12px 16px', borderBottom: i < data.relatedEntries.length - 1 ? '1px solid #EBEBEF' : 'none' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, marginBottom: 4 }}>
+                <div style={{ borderTop: '1px solid #EBEBEF', padding: 12, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  {data.relatedEntries.map(entry => (
+                    <div key={entry.id} className="entry-card">
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, marginBottom: 6 }}>
                         <p style={{ fontSize: 13, fontWeight: 700, color: '#0A0A0A', margin: 0, lineHeight: 1.4 }}>{entry.problem}</p>
                         <ConfidenceMeter level={entry.confidence} />
                       </div>
-                      <p style={{ fontSize: 13, color: '#515151', margin: '0 0 8px', lineHeight: 1.5 }}>{entry.solution}</p>
-                      <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
-                        {entry.tags.map(t => <TagChip key={t} label={t} />)}
-                      </div>
+                      <p style={{ fontSize: 13, color: '#515151', margin: '0 0 8px', lineHeight: 1.55 }}>{entry.solution}</p>
+                      {entry.tags.length > 0 && (
+                        <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+                          {entry.tags.map(t => <TagChip key={t} label={t} />)}
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>

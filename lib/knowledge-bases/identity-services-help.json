@@ -1,20 +1,59 @@
 {
   "version": 1,
-  "lastUpdated": "2026-06-04T18:40:36.071Z",
+  "lastUpdated": "2026-06-04T18:56:51.032Z",
   "entries": [
     {
       "channelId": "CK9GZ4KCL",
       "channelName": "identity-services-help",
+      "threadTs": "1780407415.732859",
+      "problem": "A new SA member was unable to set their password. Their account information was not fully loaded in Legacy Admin, preventing the support agent from sending a password reset link.",
+      "solution": "An admin fixed the account on the backend (exact steps unspecified), after which the member was able to perform a password reset, or a reset link could be sent via the Legacy Admin member page.",
+      "rawMessages": [
+        {
+          "ts": "1780407415.732859",
+          "user": "U01CX34UDLK",
+          "text": "Hello Fools! I have a new SA member trying to set their password but needed some assistance so I went into Legacy admin but noticed their information is not fully loaded on there, and I am unable to send a reset pw link for them. Any help here would be great, TYIA!\n\nSukhvinder Aujla\n•  Email: *s@aujla.org*\n• <https://admin.fool.com/members/207343150/order-history|Legacy admin link>\n• <https://commerce-gateway-backoffice.fool.com/usmf/customers/207343150|Backoffice link>",
+          "thread_ts": "1780407415.732859",
+          "reply_count": 2,
+          "userName": "elise.le"
+        },
+        {
+          "ts": "1780412067.509939",
+          "user": "U02C82MRNHX",
+          "text": "they should be able to do a password reset now or you can <https://admin.fool.com/members/207343150|send them a link>. not sure what happened with this one...",
+          "thread_ts": "1780407415.732859",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780412116.075919",
+          "user": "U01CX34UDLK",
+          "text": "Thank you for the quick fix!",
+          "thread_ts": "1780407415.732859",
+          "userName": "elise.le"
+        }
+      ],
+      "tags": [
+        "password-reset",
+        "legacy-admin",
+        "account-setup"
+      ],
+      "confidence": "high",
+      "id": "CK9GZ4KCL-1780407415.732859",
+      "scannedAt": "2026-06-04T18:56:34.556Z"
+    },
+    {
+      "channelId": "CK9GZ4KCL",
+      "channelName": "identity-services-help",
       "threadTs": "1780344571.560629",
-      "problem": "A member (UID 2069311732) submitted a GDPR/DSAR request which triggered partial deletion of their account, leaving them in a half-deleted state — present in Backoffice/Stripe but anonymized or deleted from core systems (VSDB02, auth0, etc.) — blocking login. The member was unaware the DSAR would delete their account and wanted it stopped and restored.",
-      "solution": "Stop the in-progress DSAR deletion. To rebuild the account: remove the old anonymized registration record and re-register the user using the same email address, which should pull the existing Account ID and UID from the email address record (e-cap/email address API). The email record still exists and Backoffice/Stripe retain their data, so re-registration should reconstitute the account without needing a full manual rebuild.",
+      "problem": "A member submitted a GDPR/DSAR request which triggered partial deletion of their account, leaving them in a broken half-deleted state (removed from VSDB02 and Auth0 but still present in email address API and Backoffice/Stripe). The member was unaware the request would delete their account and could no longer log in despite having an active subscription.",
+      "solution": "The user's account was rebuilt by first deleting their Auth0 account (which had been missed during the DSAR process and was causing a 409 conflict on re-registration), then re-creating the user via the registration API. The existing email record allowed the same Account ID and UID to be reassociated. The member then needed to reset their password via the login page password reset link.",
       "rawMessages": [
         {
           "ts": "1780344571.560629",
           "user": "W01AMQDTXL5",
           "text": "Hi team! I have a member with an active Stock Advisor subscription in Backoffice, but there is no information listed in Legacy Admin. The login log shows they are blocked and the member is not able to log-in, which is why they reached out to MS. Could someone take a look and see if things can be fixed? Thanks!\nMember info:\n*Gareth Haigh*\n<mailto:ghaigh1988@gmail.com|ghaigh1988@gmail.com>\nUID 2069311732",
           "thread_ts": "1780344571.560629",
-          "reply_count": 31,
+          "reply_count": 34,
           "userName": "Natasha.f"
         },
         {
@@ -226,27 +265,44 @@
           "text": "It pulls from stripe",
           "thread_ts": "1780344571.560629",
           "userName": "jeremiah.anschau"
+        },
+        {
+          "ts": "1780599287.445769",
+          "user": "U02C82MRNHX",
+          "text": "<@W01AMQDTXL5> Ok I have re-created this user -- they will need to reset their password. They should be able to from the link on the log in page, or someone can send them a password reset link directly",
+          "thread_ts": "1780344571.560629",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780599357.072949",
+          "user": "U09R4DC8FGF",
+          "text": "<@U02C82MRNHX> Did you just recreate the user in reg api?",
+          "thread_ts": "1780344571.560629",
+          "userName": "tcaish"
+        },
+        {
+          "ts": "1780599392.471889",
+          "user": "U02C82MRNHX",
+          "text": "I had to delete their Auth0 account first. I think that part was missed on their DSAR so reg api would `409` if you just tried to recreate it without deleting that auth0 one first",
+          "thread_ts": "1780344571.560629",
+          "userName": "donald.furnival"
         }
       ],
       "tags": [
-        "gdpr-dsar",
-        "account-deletion",
-        "identity-services"
+        "gdpr",
+        "auth0",
+        "account-recovery"
       ],
       "confidence": "high",
       "id": "CK9GZ4KCL-1780344571.560629",
-      "scannedAt": "2026-06-04T17:25:03.790Z",
-      "verification": {
-        "verifiedBy": "Test Testerson",
-        "verifiedAt": "2026-06-04T18:40:36.071Z"
-      }
+      "scannedAt": "2026-06-04T18:56:42.033Z"
     },
     {
       "channelId": "CK9GZ4KCL",
       "channelName": "identity-services-help",
       "threadTs": "1780336093.289099",
-      "problem": "A new member's registration did not complete during purchase, leaving the account in a 'Not Registered' state in Admin and absent from Auth0, despite Back Office and Stripe showing valid subscription and member details. Password reset was unavailable and generating a reset link returned an 'unable to find user' error.",
-      "solution": "An admin manually registered the user directly via the Admin UI, after which the member was able to reset their password using the reset password link on the login page or via a generated link in the Admin UI.",
+      "problem": "A new member purchased Stock Advisor and received a confirmation email, but the registration did not complete — the account showed as 'Not Registered' in Admin and the user did not exist in Auth0. Password reset was unavailable and generating a reset link returned an 'unable to find user' error.",
+      "solution": "An admin manually registered the user in Auth0 via the Admin UI. The member was then directed to reset their password either via the 'Reset Password' link on the login page or via a generated link from the Admin UI.",
       "rawMessages": [
         {
           "ts": "1780336093.289099",
@@ -301,12 +357,149 @@
       ],
       "tags": [
         "auth0",
-        "registration",
+        "user-registration",
         "identity-services"
       ],
       "confidence": "high",
       "id": "CK9GZ4KCL-1780336093.289099",
-      "scannedAt": "2026-06-04T17:25:08.904Z"
+      "scannedAt": "2026-06-04T18:56:46.051Z"
+    },
+    {
+      "channelId": "CK9GZ4KCL",
+      "channelName": "identity-services-help",
+      "threadTs": "1780330649.901219",
+      "problem": "Admins were unable to generate password reset links for users via the Admin UI, receiving an error when attempting to send reset emails. Affected users also reported receiving 'link already expired' errors. The issue appeared intermittent and was linked to Auth0 connectivity problems.",
+      "solution": "The issue was intermittent due to Auth0 instability. Workarounds included: retrying the reset link generation multiple times, or manually searching the member in Legacy Admin and navigating to Auth0 from there. In at least one case, the underlying cause was a duplicate account where the email address needed to be liberated from the duplicate account and reassigned to the main account.",
+      "rawMessages": [
+        {
+          "ts": "1780330649.901219",
+          "user": "W018APDN2CU",
+          "text": "Hey folks! Hoping to get some help here uid 2053129700\nemail   <mailto:beau.jul66202@gmail.com|beau.jul66202@gmail.com> is getting the below error when we try to reset the pw- We tried and got a _successful sent_ as well but then the member says she is only getting a \"this link is already expired\" error. This is the first time I am seeing this error- any help here is appreciated!",
+          "thread_ts": "1780330649.901219",
+          "reply_count": 16,
+          "userName": "sbhatti"
+        },
+        {
+          "ts": "1780332358.569239",
+          "user": "U02C82MRNHX",
+          "text": "Getting the same error, something is definitely up with admin ui and that link generator, which I am looking into.  But also this user does not exist in auth0, have they come back to TMF after a long time? (like 5 years?)",
+          "thread_ts": "1780330649.901219",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780335570.377009",
+          "user": "U02C82MRNHX",
+          "text": "this is some intermittent connection error that I can't pin down, sometimes it works and sometimes it doesn't still investigating that but if you try a few times it should work",
+          "thread_ts": "1780330649.901219",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780335926.515839",
+          "user": "U01T0GKV0J1",
+          "text": "The member mentioned having a service in the past, but I'm not locating anything. They did recently rejoin last month",
+          "thread_ts": "1780330649.901219",
+          "userName": "nikera.scott"
+        },
+        {
+          "ts": "1780335966.423019",
+          "user": "U01T0GKV0J1",
+          "text": "I just tried again and am still receiving the same error, unfortunately",
+          "thread_ts": "1780330649.901219",
+          "userName": "nikera.scott"
+        },
+        {
+          "ts": "1780336541.614889",
+          "user": "U02C82MRNHX",
+          "text": "did you happen to try a few times? It was not working a minute ago but now it is.",
+          "thread_ts": "1780330649.901219",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780336558.921749",
+          "user": "U02C82MRNHX",
+          "text": "I can DM you a good link to send them if you want if after a few tries it is still failing for you",
+          "thread_ts": "1780330649.901219",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780336642.797429",
+          "user": "U01T0GKV0J1",
+          "text": "If you could please, that would be great. I just tried 3 times with no luck.",
+          "thread_ts": "1780330649.901219",
+          "userName": "nikera.scott"
+        },
+        {
+          "ts": "1780425832.503979",
+          "user": "W0184PZHAR1",
+          "text": "Hey hey. I'm getting this as well but sometimes (few) it works and then doesn't work. It finally worked for me by manually searching the member in Legacy Admin and going to Auth0 that way. It will only work once because when I try again I get the error message again.",
+          "thread_ts": "1780330649.901219",
+          "userName": "TaVon"
+        },
+        {
+          "ts": "1780426201.149019",
+          "user": "U02C82MRNHX",
+          "text": "<@W0184PZHAR1> is this happening like ,right now, or just yesterday? Auth0 was having issues yesterday that seemed to be related and have supposedly been solved, but if you're still seeing the issue today then something is still up!",
+          "thread_ts": "1780330649.901219",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780426239.924389",
+          "user": "U02C82MRNHX",
+          "text": "and also is there a specific user you are having trouble with that I can generate a link for or is this just a general thing?",
+          "thread_ts": "1780330649.901219",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780426269.014259",
+          "user": "W0184PZHAR1",
+          "text": "It was today. I just got off a call with them like 10 min ago.",
+          "thread_ts": "1780330649.901219",
+          "userName": "TaVon"
+        },
+        {
+          "ts": "1780426289.295149",
+          "user": "W0184PZHAR1",
+          "text": "And yes, the UID for the user is 1920198102",
+          "thread_ts": "1780330649.901219",
+          "userName": "TaVon"
+        },
+        {
+          "ts": "1780426303.774639",
+          "user": "U02C82MRNHX",
+          "text": "ah ok. I will have a look and get you a link if needed",
+          "thread_ts": "1780330649.901219",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780426364.646019",
+          "user": "W0184PZHAR1",
+          "text": "He's good to go so you don't have to send a link. I just wanted to bring it up. One of the attempts where it did provide a link worked.",
+          "thread_ts": "1780330649.901219",
+          "userName": "TaVon"
+        },
+        {
+          "ts": "1780426413.661069",
+          "user": "W0184PZHAR1",
+          "text": "He did have a dup. acct. where I had to liberate the email address from the dup acct and put it on his main acct so maybe that could be the reason why it was working here and there. :shruggy:",
+          "thread_ts": "1780330649.901219",
+          "userName": "TaVon"
+        },
+        {
+          "ts": "1780426455.377219",
+          "user": "U02C82MRNHX",
+          "text": "oh interesting. possibly related but hard to tell for sure! going to look into it. Thanks for the extra context",
+          "thread_ts": "1780330649.901219",
+          "userName": "donald.furnival"
+        }
+      ],
+      "tags": [
+        "auth0",
+        "password-reset",
+        "identity-services"
+      ],
+      "confidence": "medium",
+      "id": "CK9GZ4KCL-1780330649.901219",
+      "scannedAt": "2026-06-04T18:56:51.031Z"
     }
   ]
 }
