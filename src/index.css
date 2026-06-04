@@ -189,6 +189,12 @@ button, input, select, textarea { font-family: var(--font-sans); }
 .btn-secondary:hover:not(:disabled)  { background: var(--mf-primary-8); }
 .btn-ghost       { background: transparent; color: var(--fg-muted); border: none !important; height: auto; }
 .btn-ghost:hover { color: var(--fg-strong); background: var(--mf-primary-4); }
+.btn-confirm-danger                        { background: var(--mf-secondary-red-50); color: #fff; }
+.btn-confirm-danger:hover:not(:disabled)   { background: #C41520; }
+.btn-confirm-danger:disabled               { background: var(--mf-secondary-red-4); color: #C41520; cursor: not-allowed; }
+.btn-confirm-success                       { background: var(--mf-secondary-green-50); color: #fff; }
+.btn-confirm-success:hover:not(:disabled)  { background: var(--mf-secondary-green-80); }
+.btn-confirm-success:disabled              { background: var(--mf-secondary-green-4); color: var(--mf-secondary-green-80); cursor: not-allowed; }
 
 /* ── Channel chips ───────────────────────────────────────────────────── */
 .channel-chip {

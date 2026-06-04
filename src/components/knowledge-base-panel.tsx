@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { ComboboxInput } from '../ui/input';
 import { ConfidenceMeter, EmptyState, SkeletonCard, StatusBanner, TagChip } from './shared';
 import { VerifyModal } from './verify-modal';
+import { ConfirmModal } from './confirm-modal';
 import type { KnowledgeEntry } from '../types';
 
 interface KbResponse {
@@ -94,6 +95,7 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
   const [data, setData] = useState<KbResponse | null>(null);
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
   const [editingEntry, setEditingEntry] = useState<KnowledgeEntry | null>(null);
   const [savingId, setSavingId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -224,17 +226,21 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
 
   /**
    * Animates an entry out, deletes it via the API, then refreshes the entry list.
-   * @param id - The entry ID to delete.
+   * Called after the user confirms the deletion in the confirm modal.
    */
-  async function handleDelete(id: string) {
+  async function handleDelete() {
+    if (!pendingDeleteId) return;
+    const id = pendingDeleteId;
     setDeletingId(id);
     await new Promise(res => setTimeout(res, 300));
     try {
       await fetch(`/api/knowledge/${selectedChannel}/${encodeURIComponent(id)}`, { method: 'DELETE' });
+      setPendingDeleteId(null);
       setDeletingId(null);
       await fetchEntries(selectedChannel, tag, query);
       onDelete?.();
     } catch {
+      setPendingDeleteId(null);
       setDeletingId(null);
     }
   }
@@ -409,7 +415,7 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
                   <path d="M7.5 1.5L9.5 3.5L3.5 9.5H1.5V7.5L7.5 1.5Z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round"/>
                 </svg>
               </button>
-              <button className="entry-action-btn entry-action-btn--delete" onClick={() => void handleDelete(entry.id)} title="Delete entry">
+              <button className="entry-action-btn entry-action-btn--delete" onClick={() => setPendingDeleteId(entry.id)} title="Delete entry">
                 <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
                   <path d="M1 1l7 7M8 1L1 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
                 </svg>
@@ -489,6 +495,18 @@ export function KnowledgeBasePanel({ onDelete }: { onDelete?: () => void }) {
           saving={savingId === editingEntry.id}
           onSubmit={(solution, verifierName) => void handleVerify(editingEntry.id, solution, verifierName)}
           onClose={() => setEditingEntry(null)}
+        />
+      )}
+
+      {pendingDeleteId && (
+        <ConfirmModal
+          theme="danger"
+          title="Delete entry"
+          description="This will permanently remove the entry from the knowledge base. This cannot be undone."
+          confirmLabel="Delete"
+          confirming={deletingId === pendingDeleteId}
+          onConfirm={() => void handleDelete()}
+          onClose={() => setPendingDeleteId(null)}
         />
       )}
     </div>
