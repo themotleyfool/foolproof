@@ -214,9 +214,26 @@ export function BrowsePage() {
 
   return (
     <>
+      {/* Mobile channel strip */}
+      <div className="md:hidden -mx-6 px-6 mb-4 overflow-x-auto flex gap-2 pb-1 scrollbar-none">
+        {channels.map(ch => (
+          <button
+            key={ch}
+            onClick={() => selectChannel(ch)}
+            className={`shrink-0 h-8 px-3 rounded-full border text-[13px] font-semibold cursor-pointer transition-colors duration-[120ms] whitespace-nowrap ${
+              effectiveChannel === ch
+                ? 'bg-primary-100 border-primary-100 text-white'
+                : 'bg-white border-divider text-fg-default hover:border-primary-24 hover:text-primary-100'
+            }`}
+          >
+            #{ch}
+          </button>
+        ))}
+      </div>
+
       <div className="flex gap-4 items-start">
-        {/* Channel sidebar */}
-        <div className="bg-white border border-divider rounded-[8px] shadow-card w-[200px] shrink-0 sticky top-7 self-start overflow-hidden">
+        {/* Channel sidebar — desktop only */}
+        <div className="hidden md:block bg-white border border-divider rounded-[8px] shadow-card w-[200px] shrink-0 sticky top-7 self-start overflow-hidden">
           {/* Header */}
           <div className="px-[14px] py-[11px] border-b border-divider flex items-center justify-between">
             <span className="text-[11px] font-bold text-content-36 uppercase tracking-[0.08em]">
@@ -276,8 +293,8 @@ export function BrowsePage() {
         {/* Main content */}
         <div className="flex-1 min-w-0 flex flex-col gap-[14px]">
           {/* Filter card */}
-          <div className="bg-white border border-divider rounded-[8px] shadow-card p-6">
-            <form onSubmit={handleSearch} className="flex gap-2 items-center flex-wrap">
+          <div className="bg-white border border-divider rounded-[8px] shadow-card p-4 sm:p-6">
+            <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-2">
               <ComboboxInput
                 id="tag"
                 options={tagOptions}
@@ -286,9 +303,9 @@ export function BrowsePage() {
                 onSelect={option => selectTag(option.value)}
                 onClear={clearTag}
                 placeholder="Filter by tag"
-                style={{ width: 154 }}
+                style={{ width: '100%', maxWidth: 200 }}
               />
-              <div className="flex-1 min-w-[180px]">
+              <div className="flex-1">
                 <input
                   className={inputCls}
                   value={draftQuery}
@@ -296,21 +313,23 @@ export function BrowsePage() {
                   placeholder="Search problems and solutions"
                 />
               </div>
-              <button
-                type="submit"
-                className="h-10 px-5 rounded-[8px] border-0 bg-primary-100 text-sm font-bold text-white cursor-pointer inline-flex items-center outline-none transition-colors duration-[120ms] hover:bg-primary-120 shrink-0"
-              >
-                Search
-              </button>
-              {(activeTag || activeQuery) && (
+              <div className="flex gap-2">
                 <button
-                  type="button"
-                  className="h-10 px-5 rounded-[8px] border border-primary-24 bg-white text-sm font-bold text-primary-100 cursor-pointer inline-flex items-center outline-none transition-colors duration-[120ms] hover:bg-primary-8"
-                  onClick={handleClear}
+                  type="submit"
+                  className="flex-1 sm:flex-none h-10 px-5 rounded-[8px] border-0 bg-primary-100 text-sm font-bold text-white cursor-pointer inline-flex items-center justify-center outline-none transition-colors duration-[120ms] hover:bg-primary-120 shrink-0"
                 >
-                  Clear
+                  Search
                 </button>
-              )}
+                {(activeTag || activeQuery) && (
+                  <button
+                    type="button"
+                    className="flex-1 sm:flex-none h-10 px-5 rounded-[8px] border border-primary-24 bg-white text-sm font-bold text-primary-100 cursor-pointer inline-flex items-center justify-center outline-none transition-colors duration-[120ms] hover:bg-primary-8"
+                    onClick={handleClear}
+                  >
+                    Clear
+                  </button>
+                )}
+              </div>
             </form>
           </div>
 

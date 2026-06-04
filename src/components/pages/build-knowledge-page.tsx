@@ -131,7 +131,7 @@ export function BuildKnowledgePage() {
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div className="flex gap-3 items-end mb-5">
+          <div className="flex flex-col sm:flex-row gap-3 sm:items-end mb-5">
             <div className="flex-1">
               <label className="block text-[13px] font-bold text-fg-strong mb-[6px]">Channel</label>
               <ComboboxInput
@@ -146,25 +146,27 @@ export function BuildKnowledgePage() {
                 disabled={scanning}
               />
             </div>
-            <div>
-              <label className="block text-[13px] font-bold text-fg-strong mb-[6px]">Start date</label>
-              <input
-                className={`${inputCls} w-auto`}
-                type="date"
-                value={startDate}
-                onChange={e => setStartDate(e.target.value)}
-                disabled={scanning}
-              />
-            </div>
-            <div>
-              <label className="block text-[13px] font-bold text-fg-strong mb-[6px]">End date</label>
-              <input
-                className={`${inputCls} w-auto`}
-                type="date"
-                value={endDate}
-                onChange={e => setEndDate(e.target.value)}
-                disabled={scanning}
-              />
+            <div className="flex gap-3">
+              <div className="flex-1 sm:flex-none">
+                <label className="block text-[13px] font-bold text-fg-strong mb-[6px]">Start date</label>
+                <input
+                  className={`${inputCls} w-full sm:w-auto`}
+                  type="date"
+                  value={startDate}
+                  onChange={e => setStartDate(e.target.value)}
+                  disabled={scanning}
+                />
+              </div>
+              <div className="flex-1 sm:flex-none">
+                <label className="block text-[13px] font-bold text-fg-strong mb-[6px]">End date</label>
+                <input
+                  className={`${inputCls} w-full sm:w-auto`}
+                  type="date"
+                  value={endDate}
+                  onChange={e => setEndDate(e.target.value)}
+                  disabled={scanning}
+                />
+              </div>
             </div>
           </div>
           <button
@@ -212,7 +214,7 @@ export function BuildKnowledgePage() {
             </svg>
             #{result.channelName} scanned successfully
           </p>
-          <div className="grid grid-cols-4 gap-[10px]">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-[10px]">
             {[
               { label: 'Threads scanned', value: result.threadsScanned, accent: false },
               { label: 'Entries added',   value: result.entriesAdded,   accent: true  },
