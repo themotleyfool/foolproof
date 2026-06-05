@@ -97,11 +97,11 @@ The app runs the React frontend (Vite) and Express backend concurrently. The fro
 |---|---|
 | `server/services/slack.ts` | Slack Web API wrapper |
 | `server/services/claude.ts` | LLM calls via LiteLLM proxy |
-| `server/services/knowledgeBase.ts` | Knowledge base CRUD |
-| `server/routes/scan.ts` | `POST /api/scan` — scan a channel |
+| `server/services/knowledge-base.ts` | Knowledge base CRUD |
+| `server/routes/scan.ts` | `POST /api/scan` — scan a channel (streams SSE progress events) |
 | `server/routes/lookup.ts` | `POST /api/lookup` — look up by permalink |
-| `server/routes/knowledge.ts` | `GET/DELETE /api/knowledge` |
+| `server/routes/knowledge.ts` | `GET/PATCH/DELETE /api/knowledge` + `POST /api/knowledge/:channel/:id/refresh` |
 | `src/types/index.ts` | Shared types |
-| `src/components/tabs/` | Top-level tab panel components |
+| `src/components/pages/` | Top-level page components |
 | `src/components/modals/` | Modal dialog components |
 | `src/components/ui/` | Generic, stateless UI primitives |
