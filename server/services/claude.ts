@@ -4,7 +4,18 @@ import type { KnowledgeBase, KnowledgeEntry, SlackThread } from '../../src/types
 const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
   baseURL: 'https://litellm.fool.com/',
+  timeout: 30_000,
 });
+
+/**
+ * Escapes XML special characters in user-provided text before interpolating into prompt templates.
+ * Prevents structural XML injection (e.g. </parent><system>...) from altering prompt shape.
+ * @param text - Raw user-provided string.
+ * @returns The string with &, <, and > replaced by their XML entities.
+ */
+function escapeXml(text: string): string {
+  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
 const MODEL = process.env.LLM_MODEL ?? 'anthropic/claude-sonnet-4-6';
 
 const EXTRACT_SYSTEM_PROMPT = `You are analyzing Slack thread data to extract a problem/solution pair for a knowledge base.
@@ -33,11 +44,11 @@ Confidence: high = solution confirmed resolved; medium = likely helped; low = sp
 export async function extractKnowledge(
   thread: SlackThread
 ): Promise<Omit<KnowledgeEntry, 'id' | 'scannedAt'> | null> {
-  const repliesText = thread.replies.map(r => `<reply user="${r.user}">${r.text}</reply>`).join('\n') || '(none)';
+  const repliesText = thread.replies.map(r => `<reply user="${escapeXml(r.user)}">${escapeXml(r.text)}</reply>`).join('\n') || '(none)';
 
   // Thread data is placed in the user message so it cannot override the system prompt instructions
-  const userContent = `<thread channel="${thread.channelName}">
-<parent user="${thread.parentMessage.user}">${thread.parentMessage.text}</parent>
+  const userContent = `<thread channel="${escapeXml(thread.channelName)}">
+<parent user="${escapeXml(thread.parentMessage.user)}">${escapeXml(thread.parentMessage.text)}</parent>
 <replies>
 ${repliesText}
 </replies>
@@ -105,7 +116,7 @@ export async function suggestSolution(
 ): Promise<{ suggestedSolution: string; relatedEntries: KnowledgeEntry[] }> {
   const repliesText =
     thread.replies.length > 0
-      ? thread.replies.map(r => `<reply user="${r.user}">${r.text}</reply>`).join('\n')
+      ? thread.replies.map(r => `<reply user="${escapeXml(r.user)}">${escapeXml(r.text)}</reply>`).join('\n')
       : '(no replies yet)';
 
   const entriesText =
@@ -118,8 +129,8 @@ export async function suggestSolution(
       .join('\n\n') || '(empty)';
 
   // Thread and KB data are in the user message to prevent overriding system instructions
-  const userContent = `<thread channel="${thread.channelName}">
-<parent user="${thread.parentMessage.user}">${thread.parentMessage.text}</parent>
+  const userContent = `<thread channel="${escapeXml(thread.channelName)}">
+<parent user="${escapeXml(thread.parentMessage.user)}">${escapeXml(thread.parentMessage.text)}</parent>
 <replies>
 ${repliesText}
 </replies>
@@ -148,7 +159,7 @@ ${entriesText}
   }
 
   const suggestedSolution = typeof parsed.suggestedSolution === 'string'
-    ? parsed.suggestedSolution
+    ? parsed.suggestedSolution.slice(0, 3000)
     : 'Unable to generate a suggestion at this time.';
   const relatedEntries = Array.isArray(parsed.relatedEntryIds)
     ? kb.entries.filter(e => (parsed.relatedEntryIds as string[]).includes(e.id))

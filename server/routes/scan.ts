@@ -6,6 +6,8 @@ import * as slack from '../services/slack.js';
 
 const router = Router();
 
+const activeScans = new Set<string>();
+
 /**
  * POST /api/scan
  * Scans a Slack channel for threaded conversations and extracts problem/solution pairs
@@ -31,6 +33,12 @@ router.post('/', async (req, res) => {
     return;
   }
 
+  if (activeScans.has(channelId)) {
+    res.status(409).json({ error: 'A scan is already in progress for this channel' });
+    return;
+  }
+
+  activeScans.add(channelId);
   const start = Date.now();
 
   const oldest = startDate ? String(new Date(startDate).getTime() / 1000) : undefined;
@@ -90,6 +98,8 @@ router.post('/', async (req, res) => {
     } else {
       res.status(502).json({ error: 'Scan failed. Please try again.' });
     }
+  } finally {
+    activeScans.delete(channelId);
   }
 });
 
