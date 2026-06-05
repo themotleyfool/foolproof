@@ -12,25 +12,30 @@ function maskEmail(email: string): string {
 }
 
 /**
- * Replaces all email addresses in a block of text with their masked equivalents.
- * @param text - Free-form text that may contain email addresses.
- * @returns The same text with emails masked.
+ * Masks PII in a block of text: email addresses and numeric UIDs (e.g. "UID 2069311732").
+ * @param text - Free-form text that may contain emails or UIDs.
+ * @returns The same text with PII masked.
  */
-function maskEmailsInText(text: string): string {
-  return text.replace(
-    /\b[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}\b/g,
-    match => maskEmail(match),
-  );
+function maskText(text: string): string {
+  return text
+    .replace(
+      /\b[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}\b/g,
+      match => maskEmail(match),
+    )
+    .replace(
+      /\bUID (\d+)/g,
+      (_, digits) => `UID ${digits.slice(0, 4)}***`,
+    );
 }
 
 /**
- * Returns a copy of a SlackMessage with email addresses in the message text masked.
+ * Returns a copy of a SlackMessage with PII in the message text masked.
  * The author fields (user ID and userName) are left untouched.
  * @param msg - The original SlackMessage.
- * @returns A new SlackMessage with emails in the text field masked.
+ * @returns A new SlackMessage with PII in the text field masked.
  */
 export function maskMessage(msg: SlackMessage): SlackMessage {
-  return { ...msg, text: maskEmailsInText(msg.text) };
+  return { ...msg, text: maskText(msg.text) };
 }
 
 /**
@@ -44,7 +49,7 @@ export function maskEntry(entry: KnowledgeEntry): KnowledgeEntry {
   return {
     ...entry,
     rawMessages: entry.rawMessages.map(maskMessage),
-    problem: maskEmailsInText(entry.problem),
-    solution: maskEmailsInText(entry.solution),
+    problem: maskText(entry.problem),
+    solution: maskText(entry.solution),
   };
 }

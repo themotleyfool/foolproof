@@ -1,0 +1,949 @@
+{
+  "version": 1,
+  "lastUpdated": "2026-06-05T15:02:14.982Z",
+  "entries": [
+    {
+      "channelId": "CK9GZ4KCL",
+      "channelName": "identity-services-help",
+      "threadTs": "1780665916.265559",
+      "problem": "A Safari/iOS-only unhandled TypeError ('Load failed') occurs on every sign-out in the auth library's sign-out flow (~2.2k Sentry events). The default SignOut path routes the external Auth0 logout through Next.js server-action redirect() chain without catching the rejection, causing Safari to surface the failed cross-origin leg as an unhandled promise rejection. Logout still completes, but the errors are noisy.",
+      "solution": "A fix is proposed in a pull request (PR #1149) with full root cause analysis, a Safari reproduction case, and two proposed fixes described in the PR description. The solution involves handling the rejection from the cross-origin redirect leg in the sign-out flow.",
+      "rawMessages": [
+        {
+          "ts": "1780665916.265559",
+          "user": "U089QLLS0FJ",
+          "text": "Hi team — we're seeing a Safari-only error in fool/fool-auth-js's sign-out flow: an `unhandled TypeError: Load` failed on every sign-out (Sentry FOOLCOM-9, ~2.2k events, Safari/iOS only). Logout still completes — it's noise, but it's noisy.\n\nShort version: the default &lt;SignOut&gt; path routes the external Auth0 logout through Next's server-action redirect() chain and doesn't catch the rejection, so Safari surfaces the failed cross-origin leg as an unhandled rejection.\n\nFull write-up — root cause, a Safari repro, and two proposed fixes — is in the PR description here: <https://github.com/themotleyfool/foolcom/pull/1149>\n\nWould appreciate a look when someone has a moment.",
+          "thread_ts": "1780665916.265559",
+          "reply_count": 1,
+          "userName": "german.guerci"
+        },
+        {
+          "ts": "1780666014.487389",
+          "user": "U089QLLS0FJ",
+          "text": "Just in case, pr description here:",
+          "thread_ts": "1780665916.265559",
+          "userName": "german.guerci"
+        }
+      ],
+      "tags": [
+        "safari",
+        "auth0",
+        "next.js"
+      ],
+      "confidence": "low",
+      "id": "CK9GZ4KCL-1780665916.265559",
+      "scannedAt": "2026-06-05T15:01:32.631Z"
+    },
+    {
+      "channelId": "CK9GZ4KCL",
+      "channelName": "identity-services-help",
+      "threadTs": "1780595959.768949",
+      "problem": "A member successfully logged in after clearing cache and cookies but receives an 'Oops! Something's happened!' error when trying to access articles or My Services. There were no visible account blocks and no widespread issues, but recent Auth0 issues earlier in the week prompted investigation of potential backend causes.",
+      "solution": "The identity/Auth0 backend was confirmed to be functioning correctly — the member's account showed successful login logs and had premium services properly assigned. The issue was determined to be unrelated to Auth0 or identity services, and the case was escalated to the appropriate product/tech channel for premium access errors.",
+      "rawMessages": [
+        {
+          "ts": "1780595959.768949",
+          "user": "W017PRH8HL7",
+          "text": "Hey team! I have a member who was walked through clearing cache and cookies on his phone, got logged in successfully, but when trying to access articles or My Services he gets the error message \"Oops! Something's happened!\" Site usage tool's been acting a little wonky for me so having trouble getting the exact URLs the member was trying to visit. Admin shows the member is Registered and there's no Blocks I can see that would interrupt the account. No widespread issues occurring right now either. Due to the Auth0 issues earlier in the week, I wanted to check here first and see if there's anything on the back end that could be interrupting this member's access please:\n• Admin: <https://admin.fool.com/members/2045807311>\n• Back Office:  <https://commerce-gateway-backoffice.fool.com/usmf/customers/cust_01kpffj4d2eez9p1vs1yfr8jts>\n• Stripe: <https://dashboard.stripe.com/acct_1PpxIrCMHajUdFI8/customers/cus_UM9Lu3eXr1Oi7M>",
+          "thread_ts": "1780595959.768949",
+          "reply_count": 2,
+          "userName": "Izzy"
+        },
+        {
+          "ts": "1780596949.693209",
+          "user": "U09R4DC8FGF",
+          "text": "His account looks good from our end. Logs showing he's able to successfully login and has a bunch of services assigned to his user, so he can access premium. I'm not sure how to debug premium errors like that, so I'd imagine this would be a question for a different channel. Possibly <#C4FMLSU84>? I'm not sure if there is a slack channel for premium help.",
+          "thread_ts": "1780595959.768949",
+          "userName": "tcaish"
+        },
+        {
+          "ts": "1780603840.929409",
+          "user": "W017PRH8HL7",
+          "text": "Thanks Timothy! We have a product tech channel for premium errors as well so I'll pop this over there. Appreciate you taking a look and confirming all's well on the Auth0 end!",
+          "thread_ts": "1780595959.768949",
+          "userName": "Izzy"
+        }
+      ],
+      "tags": [
+        "auth0",
+        "premium-access",
+        "account-troubleshooting"
+      ],
+      "confidence": "medium",
+      "id": "CK9GZ4KCL-1780595959.768949",
+      "scannedAt": "2026-06-05T15:01:38.303Z"
+    },
+    {
+      "channelId": "CK9GZ4KCL",
+      "channelName": "identity-services-help",
+      "threadTs": "1780407415.732859",
+      "problem": "A new member's account was not fully loaded in the legacy admin system, preventing a password reset link from being sent to them.",
+      "solution": "The issue was resolved by an admin who fixed the account on the backend, after which the password reset functionality became available in the legacy admin system.",
+      "rawMessages": [
+        {
+          "ts": "1780407415.732859",
+          "user": "U01CX34UDLK",
+          "text": "Hello Fools! I have a new SA member trying to set their password but needed some assistance so I went into Legacy admin but noticed their information is not fully loaded on there, and I am unable to send a reset pw link for them. Any help here would be great, TYIA!\n\nSukhvinder Aujla\n•  Email: *s***@aujla.org*\n• <https://admin.fool.com/members/207343150/order-history|Legacy admin link>\n• <https://commerce-gateway-backoffice.fool.com/usmf/customers/207343150|Backoffice link>",
+          "thread_ts": "1780407415.732859",
+          "reply_count": 2,
+          "userName": "elise.le"
+        },
+        {
+          "ts": "1780412067.509939",
+          "user": "U02C82MRNHX",
+          "text": "they should be able to do a password reset now or you can <https://admin.fool.com/members/207343150|send them a link>. not sure what happened with this one...",
+          "thread_ts": "1780407415.732859",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780412116.075919",
+          "user": "U01CX34UDLK",
+          "text": "Thank you for the quick fix!",
+          "thread_ts": "1780407415.732859",
+          "userName": "elise.le"
+        }
+      ],
+      "tags": [
+        "account-management",
+        "password-reset",
+        "legacy-admin"
+      ],
+      "confidence": "high",
+      "id": "CK9GZ4KCL-1780407415.732859",
+      "scannedAt": "2026-06-05T15:01:41.783Z"
+    },
+    {
+      "channelId": "CK9GZ4KCL",
+      "channelName": "identity-services-help",
+      "threadTs": "1780344571.560629",
+      "problem": "A member with an active subscription was unable to log in because they had previously submitted a GDPR/DSAR deletion request, which partially deleted their account. Their account was in a half-deleted state — removed from the primary user database but not fully processed through all systems (Auth0, Hubspot, Braze, etc.), causing a login block.",
+      "solution": "The member confirmed they did not want their account deleted. To rebuild the account: (1) Delete the user's Auth0 account first (required because a lingering Auth0 record was causing a 409 conflict on re-registration). (2) Re-create the user via the registration API, which pulled the existing account ID and UID from the still-intact email address record. (3) The member then needed to reset their password via the login page password reset link.",
+      "rawMessages": [
+        {
+          "ts": "1780344571.560629",
+          "user": "W01AMQDTXL5",
+          "text": "Hi team! I have a member with an active Stock Advisor subscription in Backoffice, but there is no information listed in Legacy Admin. The login log shows they are blocked and the member is not able to log-in, which is why they reached out to MS. Could someone take a look and see if things can be fixed? Thanks!\nMember info:\n*Gareth Haigh*\n<mailto:gha***@gmail.com|gha***@gmail.com>\nUID 2069***",
+          "thread_ts": "1780344571.560629",
+          "reply_count": 38,
+          "userName": "Natasha.f"
+        },
+        {
+          "ts": "1780345080.031089",
+          "user": "U02C82MRNHX",
+          "text": "It looks like this user must have submitted a GDPR request at some point and so were deleted from our systems. I am not sure why they are in back office, I think they are working on getting that all GDPR compliant. But that is why they cannot log in. Did they recently make this new stock advisor purchase on the same email they used before? <@U0743LN5XAQ> do you have any insight on the state of this user (exist in stripe/backoffice, email still associated with UID in email address /e-cap but not registration (anonymized in user API)\nI think we might have a gap (or HAD a gap) that this user got through to not have their account fully reset when they GDPRd.... I can fix I think if they want to keep using that same email address.",
+          "thread_ts": "1780344571.560629",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780345781.956729",
+          "user": "U0743LN5XAQ",
+          "text": "If they submit a DSAR we block them so this happens. Tell them they filed a DSAR request that will delete all their data. \n\nIf they want to stop the deletion process, we can go ahead and cancel the deletion. \n\nOtherwise, currently they are en route to get deleted  \n\nI haven’t checked yet, but if they’re request is older than 10 days, they’ve likely already been deleted out of VSDB02",
+          "thread_ts": "1780344571.560629",
+          "userName": "jeremiah.anschau"
+        },
+        {
+          "ts": "1780347575.201779",
+          "user": "U02C82MRNHX",
+          "text": "Oh this is interesting but may be a different strand to worry about, but it sounds like there is still a disconnect in the email address api vs user api for DSARs -- email address api still gets you an existing uid, e.g.\n`<https://api-staging.fool.com/email-addresses/v1/gha***@gmail.com>`  -&gt; ... `\"Uid\": 2069311732,\"AccountId\": \"5effa71a-e0b0-401a-82ba-599e0714d7d0\",`\nso the account ID is still associated with the original email, but only in email address api (e-cap) we maybe need to nuke that as well on DSAR, right? I am assuming that that UID got pulled for the email on the latest purchase",
+          "thread_ts": "1780344571.560629",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780347709.209129",
+          "user": "U0743LN5XAQ",
+          "text": "So it depends where they are on in the flow. \n\nI'm currently waiting for VSDB02 to process and once it does I'll process the rest (auth0, hubspot, braze, etc). \n\nStripe is currently not being DSARd and I know a couple locations that pulls from stripe that is re-injecting user data. Working on that though with Michal",
+          "thread_ts": "1780344571.560629",
+          "userName": "jeremiah.anschau"
+        },
+        {
+          "ts": "1780348155.703979",
+          "user": "U02C82MRNHX",
+          "text": "so this user was not completely zapped before now?",
+          "thread_ts": "1780344571.560629",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780348742.083789",
+          "user": "U0743LN5XAQ",
+          "text": "I'll check tomorrow morning when I'm back to see where everything is at and get back here",
+          "thread_ts": "1780344571.560629",
+          "userName": "jeremiah.anschau"
+        },
+        {
+          "ts": "1780348803.479179",
+          "user": "U02C82MRNHX",
+          "text": "just wondering if you did anything on this user since this thread started because I thought I was getting back an anonymized user when searching by UID on user api, but now I get 404. I might be mistaken on what I was seeing before so just wanted to verify if something might have changed",
+          "thread_ts": "1780344571.560629",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780350486.451389",
+          "user": "U0743LN5XAQ",
+          "text": "I have not. There is likely a VSDB02 script running now from <@U055Z0SEYMN> ",
+          "thread_ts": "1780344571.560629",
+          "userName": "jeremiah.anschau"
+        },
+        {
+          "ts": "1780350509.741739",
+          "user": "U0743LN5XAQ",
+          "text": "Also, sometimes there are replications from VSDBO2 that take a while. So potentially it was deleted there and just didn’t propagate yet.",
+          "thread_ts": "1780344571.560629",
+          "userName": "jeremiah.anschau"
+        },
+        {
+          "ts": "1780350582.640369",
+          "user": "U02C82MRNHX",
+          "text": "so for the root issue, i think we need to just completely delete their account and re-create. and this assumes I guess that they didn't really mean it with the DSAR?",
+          "thread_ts": "1780344571.560629",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780350606.123739",
+          "user": "U02C82MRNHX",
+          "text": "I can try to do the re-registering, if that seems like the right appraoch",
+          "thread_ts": "1780344571.560629",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780351441.891689",
+          "user": "U0743LN5XAQ",
+          "text": "We should wait and see if they want to be deleted and go from there. <@W01AMQDTXL5> let us know if they want to proceed",
+          "thread_ts": "1780344571.560629",
+          "userName": "jeremiah.anschau"
+        },
+        {
+          "ts": "1780413306.338619",
+          "user": "U0743LN5XAQ",
+          "text": "This particular user is likely half deleted.\n\nTheir account is probably deleted from VSDB02 but I have not finished their DSAR. They submitted the request 50 days ago. Weird they are just messaging us now.\n\nConfirm with them if they want it deleted still, if so we continue, if not we need to rebuild their account.",
+          "thread_ts": "1780344571.560629",
+          "userName": "jeremiah.anschau"
+        },
+        {
+          "ts": "1780496777.099129",
+          "user": "W01AMQDTXL5",
+          "text": "I could not find any email communication in Hubspot, so I did not know they were in the middle of a data deletion. I'll follow up once I hear back from the member. Thank you both!!",
+          "thread_ts": "1780344571.560629",
+          "userName": "Natasha.f"
+        },
+        {
+          "ts": "1780501562.063689",
+          "user": "W01AMQDTXL5",
+          "text": "Member responded that he was not aware it would delete his account. Please stop the deletion and rebuild the members account.",
+          "thread_ts": "1780344571.560629",
+          "userName": "Natasha.f"
+        },
+        {
+          "ts": "1780501607.747929",
+          "user": "U0743LN5XAQ",
+          "text": "Understood! We need to loop in <@U055Z0SEYMN> I believe to assist with this.",
+          "thread_ts": "1780344571.560629",
+          "userName": "jeremiah.anschau"
+        },
+        {
+          "ts": "1780503703.178029",
+          "user": "U055Z0SEYMN",
+          "text": "for the last list processed, the first two steps were already processed, the third step that changes their email is still pending due to an error, I don't have any scripts for undoing a deletion",
+          "thread_ts": "1780344571.560629",
+          "userName": "patrick.loftus"
+        },
+        {
+          "ts": "1780510252.650019",
+          "user": "U0743LN5XAQ",
+          "text": "Understood.\n\nI don't know who to bug anymore for issues like this. I used to bug Manaen - do you have any idea how we can rebuild a new account for them?",
+          "thread_ts": "1780344571.560629",
+          "userName": "jeremiah.anschau"
+        },
+        {
+          "ts": "1780510464.743599",
+          "user": "U055Z0SEYMN",
+          "text": "unfortunately I was never involved in that",
+          "thread_ts": "1780344571.560629",
+          "userName": "patrick.loftus"
+        },
+        {
+          "ts": "1780510744.686849",
+          "user": "U09R4DC8FGF",
+          "text": "I'm curious if we could restore his information from a PartyDB backup, so we have him in our database, and then all he'd need to do is reset his password to log in.",
+          "thread_ts": "1780344571.560629",
+          "userName": "tcaish"
+        },
+        {
+          "ts": "1780511687.227279",
+          "user": "U055Z0SEYMN",
+          "text": "remember this GDPR process does not delete anything",
+          "thread_ts": "1780344571.560629",
+          "userName": "patrick.loftus"
+        },
+        {
+          "ts": "1780511702.403059",
+          "user": "U055Z0SEYMN",
+          "text": "it applies \"magic\" to make the person disappear",
+          "thread_ts": "1780344571.560629",
+          "userName": "patrick.loftus"
+        },
+        {
+          "ts": "1780511717.634479",
+          "user": "U0743LN5XAQ",
+          "text": "lol yeah",
+          "thread_ts": "1780344571.560629",
+          "userName": "jeremiah.anschau"
+        },
+        {
+          "ts": "1780511745.264919",
+          "user": "U055Z0SEYMN",
+          "text": "unfortunately, it does not prevent them from still reaching out and bothering us",
+          "thread_ts": "1780344571.560629",
+          "userName": "patrick.loftus"
+        },
+        {
+          "ts": "1780511761.785459",
+          "user": "U0743LN5XAQ",
+          "text": "I have a feature request for you",
+          "thread_ts": "1780344571.560629",
+          "userName": "jeremiah.anschau"
+        },
+        {
+          "ts": "1780511784.959819",
+          "user": "U055Z0SEYMN",
+          "text": "Total Legacy Member Block - working on it",
+          "thread_ts": "1780344571.560629",
+          "userName": "patrick.loftus"
+        },
+        {
+          "ts": "1780512022.053239",
+          "user": "U055Z0SEYMN",
+          "text": "so I think its a matter of finding the person in PartyDB by alternate means and then fixing their record, I assume this is what Manaen would do",
+          "thread_ts": "1780344571.560629",
+          "userName": "patrick.loftus"
+        },
+        {
+          "ts": "1780513051.402299",
+          "user": "U02C82MRNHX",
+          "text": "the email record still exists. I will double check but I am pretty sure we just need to remove the old registration record and then re-register, it will pull the same account ID and UID from the email record.",
+          "thread_ts": "1780344571.560629",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780513475.691389",
+          "user": "U0743LN5XAQ",
+          "text": "Backoffice has their data for sure",
+          "thread_ts": "1780344571.560629",
+          "userName": "jeremiah.anschau"
+        },
+        {
+          "ts": "1780513482.126869",
+          "user": "U0743LN5XAQ",
+          "text": "It pulls from stripe",
+          "thread_ts": "1780344571.560629",
+          "userName": "jeremiah.anschau"
+        },
+        {
+          "ts": "1780599287.445769",
+          "user": "U02C82MRNHX",
+          "text": "<@W01AMQDTXL5> Ok I have re-created this user -- they will need to reset their password. They should be able to from the link on the log in page, or someone can send them a password reset link directly",
+          "thread_ts": "1780344571.560629",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780599357.072949",
+          "user": "U09R4DC8FGF",
+          "text": "<@U02C82MRNHX> Did you just recreate the user in reg api?",
+          "thread_ts": "1780344571.560629",
+          "userName": "tcaish"
+        },
+        {
+          "ts": "1780599392.471889",
+          "user": "U02C82MRNHX",
+          "text": "I had to delete their Auth0 account first. I think that part was missed on their DSAR so reg api would `409` if you just tried to recreate it without deleting that auth0 one first",
+          "thread_ts": "1780344571.560629",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780601937.444889",
+          "user": "U0743LN5XAQ",
+          "text": "(Hasn't been run yet)",
+          "thread_ts": "1780344571.560629",
+          "userName": "jeremiah.anschau"
+        },
+        {
+          "ts": "1780601941.069709",
+          "user": "U0743LN5XAQ",
+          "text": "On my side anyway ",
+          "thread_ts": "1780344571.560629",
+          "userName": "jeremiah.anschau"
+        },
+        {
+          "ts": "1780602557.811669",
+          "user": "U02C82MRNHX",
+          "text": "I think they should be good, with just a password reset; their auth0 account is good now and admin and backoffice seem correct, and they are not blocked",
+          "thread_ts": "1780344571.560629",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780602579.606439",
+          "user": "U0743LN5XAQ",
+          "text": "Sweet! Thanks for the work here I appreciate you",
+          "thread_ts": "1780344571.560629",
+          "userName": "jeremiah.anschau"
+        }
+      ],
+      "tags": [
+        "gdpr-dsar",
+        "account-recovery",
+        "auth0"
+      ],
+      "confidence": "high",
+      "id": "CK9GZ4KCL-1780344571.560629",
+      "scannedAt": "2026-06-05T15:01:48.200Z"
+    },
+    {
+      "channelId": "CK9GZ4KCL",
+      "channelName": "identity-services-help",
+      "threadTs": "1780336093.289099",
+      "problem": "A member purchased a subscription and received an order confirmation, but their account showed as 'Not Registered' in Admin. The password reset option was unavailable and generated an 'unable to find user' error. Investigation revealed the user did not exist in Auth0, meaning the registration process did not complete during purchase.",
+      "solution": "An engineer manually registered the user in Auth0/the identity system. The member was then directed to use the 'reset password' link on the login page, or support staff could generate a reset password link via the Admin UI to grant account access.",
+      "rawMessages": [
+        {
+          "ts": "1780336093.289099",
+          "user": "W017PRH8HL7",
+          "text": "Hey team! Got a bit of an odd one; Alvin Weiss purchased Stock Advisor earlier today and received the order confirmation email. Back Office and Stripe show the subscription and member details; however, Admin is still showing the account as \"Not Registered.\" The usual Password Reset option isn't available within Admin and trying to generate a link results in an error \"unable to find user.\" Member is 97 so there might've been user error during sign up that interrupted the Registration. Could we have someone take a look to get this sorted please?\n• Back Office: <https://commerce-gateway-backoffice.fool.com/usmf/customers/cust_01kt1x0658e6svtvczrwxybc0m>\n• Admin: <https://admin.fool.com/members/2069323245>\n• Stripe: <https://admin.fool.com/members/email-contents?email_log_id=archives/sent_messages/email/72aa1a43e2bc56e342b9ee5d3f0ef5b6/fb27d5ab-c1f9-43fd-b0ad-a27096a1d525/6a1da6312bfc6a9689b9704454602dbb.json.gz|https://admin.fool.com/members/email-contents?email_log_id=archives/sent_messages/em[…]fd-b0ad-a27096a1d525/6a1da6312bfc6a9689b9704454602dbb.json.gz>",
+          "thread_ts": "1780336093.289099",
+          "reply_count": 6,
+          "userName": "Izzy"
+        },
+        {
+          "ts": "1780336173.799429",
+          "user": "W017PRH8HL7",
+          "text": "If it helps/in case there are larger issues at play (I'm just noticing see there's another post above that's similar)  this member was using a desktop and signed up using Microsoft Edge as the browser",
+          "thread_ts": "1780336093.289099",
+          "userName": "Izzy"
+        },
+        {
+          "ts": "1780336247.890829",
+          "user": "U09R4DC8FGF",
+          "text": "<@U02C82MRNHX> This user also does not exist in Auth0.",
+          "thread_ts": "1780336093.289099",
+          "userName": "tcaish"
+        },
+        {
+          "ts": "1780336474.821179",
+          "user": "U02C82MRNHX",
+          "text": "yeah I was just looking into that sort of because I saw the error in auth0 logs as I was looking at the issue above that. the registration didn't complete on purchase so not sure what is going on there. Will look at how to clean it up in a bit. I think we need to just re-register the user then send them a password reset link. But the password reset is also not working consistently at the moment...",
+          "thread_ts": "1780336093.289099",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780341496.420369",
+          "user": "U02C82MRNHX",
+          "text": "<@W017PRH8HL7> I registered this user and they will have to reset their password now for access <https://admin.fool.com/members/2069323245>",
+          "thread_ts": "1780336093.289099",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780341577.455709",
+          "user": "U02C82MRNHX",
+          "text": "they shoul dbe able to use the reset password link on the log in page, or you can send them a link generated in admin ui",
+          "thread_ts": "1780336093.289099",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780513120.145369",
+          "user": "W017PRH8HL7",
+          "text": "Thanks Donald!!",
+          "thread_ts": "1780336093.289099",
+          "userName": "Izzy"
+        }
+      ],
+      "tags": [
+        "auth0",
+        "user-registration",
+        "identity-services"
+      ],
+      "confidence": "high",
+      "id": "CK9GZ4KCL-1780336093.289099",
+      "scannedAt": "2026-06-05T15:01:52.754Z"
+    },
+    {
+      "channelId": "CK9GZ4KCL",
+      "channelName": "identity-services-help",
+      "threadTs": "1780330649.901219",
+      "problem": "Admin UI password reset link generator is experiencing intermittent connection errors with Auth0, causing password reset links to either fail to generate or expire immediately upon delivery. Users are unable to reset passwords through the admin interface.",
+      "solution": "No permanent fix was identified during the thread. Workaround options include: (1) retrying the password reset link generation multiple times until it succeeds, (2) manually searching the member in Legacy Admin and navigating to Auth0 from there, or (3) directing members to use the public-facing password reset on the login page. The intermittent issue appeared related to Auth0 connectivity problems that were still under investigation.",
+      "rawMessages": [
+        {
+          "ts": "1780330649.901219",
+          "user": "W018APDN2CU",
+          "text": "Hey folks! Hoping to get some help here uid 2053129700\nemail   <mailto:bea***@gmail.com|bea***@gmail.com> is getting the below error when we try to reset the pw- We tried and got a _successful sent_ as well but then the member says she is only getting a \"this link is already expired\" error. This is the first time I am seeing this error- any help here is appreciated!",
+          "thread_ts": "1780330649.901219",
+          "reply_count": 26,
+          "userName": "sbhatti"
+        },
+        {
+          "ts": "1780332358.569239",
+          "user": "U02C82MRNHX",
+          "text": "Getting the same error, something is definitely up with admin ui and that link generator, which I am looking into.  But also this user does not exist in auth0, have they come back to TMF after a long time? (like 5 years?)",
+          "thread_ts": "1780330649.901219",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780335570.377009",
+          "user": "U02C82MRNHX",
+          "text": "this is some intermittent connection error that I can't pin down, sometimes it works and sometimes it doesn't still investigating that but if you try a few times it should work",
+          "thread_ts": "1780330649.901219",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780335926.515839",
+          "user": "U01T0GKV0J1",
+          "text": "The member mentioned having a service in the past, but I'm not locating anything. They did recently rejoin last month",
+          "thread_ts": "1780330649.901219",
+          "userName": "nikera.scott"
+        },
+        {
+          "ts": "1780335966.423019",
+          "user": "U01T0GKV0J1",
+          "text": "I just tried again and am still receiving the same error, unfortunately",
+          "thread_ts": "1780330649.901219",
+          "userName": "nikera.scott"
+        },
+        {
+          "ts": "1780336541.614889",
+          "user": "U02C82MRNHX",
+          "text": "did you happen to try a few times? It was not working a minute ago but now it is.",
+          "thread_ts": "1780330649.901219",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780336558.921749",
+          "user": "U02C82MRNHX",
+          "text": "I can DM you a good link to send them if you want if after a few tries it is still failing for you",
+          "thread_ts": "1780330649.901219",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780336642.797429",
+          "user": "U01T0GKV0J1",
+          "text": "If you could please, that would be great. I just tried 3 times with no luck.",
+          "thread_ts": "1780330649.901219",
+          "userName": "nikera.scott"
+        },
+        {
+          "ts": "1780425832.503979",
+          "user": "W0184PZHAR1",
+          "text": "Hey hey. I'm getting this as well but sometimes (few) it works and then doesn't work. It finally worked for me by manually searching the member in Legacy Admin and going to Auth0 that way. It will only work once because when I try again I get the error message again.",
+          "thread_ts": "1780330649.901219",
+          "userName": "TaVon"
+        },
+        {
+          "ts": "1780426201.149019",
+          "user": "U02C82MRNHX",
+          "text": "<@W0184PZHAR1> is this happening like ,right now, or just yesterday? Auth0 was having issues yesterday that seemed to be related and have supposedly been solved, but if you're still seeing the issue today then something is still up!",
+          "thread_ts": "1780330649.901219",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780426239.924389",
+          "user": "U02C82MRNHX",
+          "text": "and also is there a specific user you are having trouble with that I can generate a link for or is this just a general thing?",
+          "thread_ts": "1780330649.901219",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780426269.014259",
+          "user": "W0184PZHAR1",
+          "text": "It was today. I just got off a call with them like 10 min ago.",
+          "thread_ts": "1780330649.901219",
+          "userName": "TaVon"
+        },
+        {
+          "ts": "1780426289.295149",
+          "user": "W0184PZHAR1",
+          "text": "And yes, the UID for the user is 1920198102",
+          "thread_ts": "1780330649.901219",
+          "userName": "TaVon"
+        },
+        {
+          "ts": "1780426303.774639",
+          "user": "U02C82MRNHX",
+          "text": "ah ok. I will have a look and get you a link if needed",
+          "thread_ts": "1780330649.901219",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780426364.646019",
+          "user": "W0184PZHAR1",
+          "text": "He's good to go so you don't have to send a link. I just wanted to bring it up. One of the attempts where it did provide a link worked.",
+          "thread_ts": "1780330649.901219",
+          "userName": "TaVon"
+        },
+        {
+          "ts": "1780426413.661069",
+          "user": "W0184PZHAR1",
+          "text": "He did have a dup. acct. where I had to liberate the email address from the dup acct and put it on his main acct so maybe that could be the reason why it was working here and there. :shruggy:",
+          "thread_ts": "1780330649.901219",
+          "userName": "TaVon"
+        },
+        {
+          "ts": "1780426455.377219",
+          "user": "U02C82MRNHX",
+          "text": "oh interesting. possibly related but hard to tell for sure! going to look into it. Thanks for the extra context",
+          "thread_ts": "1780330649.901219",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780606245.226859",
+          "user": "W01ADQ799RN",
+          "text": "Hi there!  I have a member who reached out about this same issue.  They updated their password about 45 min ago, but didn't write it down and want to reset it again.  I just tried to send him a PW reset link, but got the same error that Nikera and Ta'Von mentioned.\n\n Howard Schlitt\nUID 2045***\nEmail: <mailto:hsc***@gmail.com|hsc***@gmail.com>",
+          "thread_ts": "1780330649.901219",
+          "userName": "JMurph"
+        },
+        {
+          "ts": "1780606379.332539",
+          "user": "U02C82MRNHX",
+          "text": "this is an ongoing intermittent issue that we haven't solved yet. Is the user unable to do the public-facing password reset through the login page? If not, do you know if they are getting errors, or is it just not something they want to do?",
+          "thread_ts": "1780330649.901219",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780606422.553779",
+          "user": "W01ADQ799RN",
+          "text": "I am not sure if they attempted to reset from the login page.  I will ask them to do so!",
+          "thread_ts": "1780330649.901219",
+          "userName": "JMurph"
+        },
+        {
+          "ts": "1780606426.529529",
+          "user": "U02C82MRNHX",
+          "text": "And unfortunately at the moment the only thing we can do to create the link on our side is keep trying till it works... which is a not great answer... but that is all I can do from my side!",
+          "thread_ts": "1780330649.901219",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780606450.633199",
+          "user": "U02C82MRNHX",
+          "text": "sometimes it seems to work just fine and sometimes I get a lot of timeouts...",
+          "thread_ts": "1780330649.901219",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780606461.768079",
+          "user": "W01ADQ799RN",
+          "text": "I understand!  Thanks for helping us out with these and keeping us updated, Donald.  It's so greatly appreciated.",
+          "thread_ts": "1780330649.901219",
+          "userName": "JMurph"
+        },
+        {
+          "ts": "1780606477.812279",
+          "user": "U02C82MRNHX",
+          "text": "but if you are unable to get a link with a few tries, let me know and I can try too and might get one created quicker",
+          "thread_ts": "1780330649.901219",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780606504.928239",
+          "user": "W01ADQ799RN",
+          "text": "Okie dokie.  I tried about 3-4 times within the last 10 min.  I'll give it another go and see what happens!",
+          "thread_ts": "1780330649.901219",
+          "userName": "JMurph"
+        },
+        {
+          "ts": "1780606770.394019",
+          "user": "W01ADQ799RN",
+          "text": "It worked that time!  Yay!  Thanks again.",
+          "thread_ts": "1780330649.901219",
+          "userName": "JMurph"
+        },
+        {
+          "ts": "1780606870.765819",
+          "user": "U02C82MRNHX",
+          "text": ":phew2: :shrug:",
+          "thread_ts": "1780330649.901219",
+          "userName": "donald.furnival"
+        }
+      ],
+      "tags": [
+        "auth0",
+        "password-reset",
+        "admin-ui"
+      ],
+      "confidence": "medium",
+      "id": "CK9GZ4KCL-1780330649.901219",
+      "scannedAt": "2026-06-05T15:01:57.976Z"
+    },
+    {
+      "channelId": "CK9GZ4KCL",
+      "channelName": "identity-services-help",
+      "threadTs": "1779995648.266199",
+      "problem": "Two members received an 'OOPS! There's a misconfiguration in your system or a service outage' error during login on Windows 11 desktop/laptop devices, raising concern about a potential broader outage.",
+      "solution": "Investigation revealed both users had attempted to enroll a device passkey at roughly the same time and did not complete the process, likely due to accidentally navigating into the device enrollment flow. One user resolved the issue by closing the browser and starting fresh; the other successfully completed a password reset and logged in afterward. No broader outage was identified — the errors were coincidental user-side enrollment mishaps.",
+      "rawMessages": [
+        {
+          "ts": "1779995648.266199",
+          "user": "W017PRH8HL7",
+          "text": "Hey team! I've had two members within the past hour report an error message that included \"OOPS! There's a misconfiguration in your system or a service outage\" while trying to log in. Both were using desktop/laptops. Michael Hannau I managed to get logged in successfully after just closing the browser and starting fresh but Brian McKeown's talked to a few reps and still hasn't been successful. While it is likely user error in Brian McKeown's case as well, having two  separate members with the same error message could be a flag for a broader outage. If someone could take a look, we'd appreciate it! Both members were on laptop/desktop devices running Windows 11\nMichael Hannau (resolved, member has been able to log in)\nUID 6652***\n<tel:3059656530|305) 965-6530>\n<mailto:mik***@hannau.com|mik***@hannau.com>\nand\nBrian McKeown (log in not successful)\nUID 2980***\n<tel:8594333113|859-433-3113>\n<mailto:bm***@russcap.com|bm***@russcap.com>",
+          "thread_ts": "1779995648.266199",
+          "reply_count": 6,
+          "userName": "Izzy"
+        },
+        {
+          "ts": "1779996122.395089",
+          "user": "U09R4DC8FGF",
+          "text": "For Brian, I'm seeing a successful password reset and then a successful login right after today. Can you confirm if the error is on a login page, or is it on <http://fool.com|fool.com> AFTER login? Not sure how much more info he gave you (e.g., screenshots, URLs, descriptions of what the page looked like, etc.)",
+          "thread_ts": "1779995648.266199",
+          "userName": "tcaish"
+        },
+        {
+          "ts": "1779996907.647299",
+          "user": "W017PRH8HL7",
+          "text": "Welp I guess he must've tried again after we hung up! My records show that was after we disconnected, so he might be good (he has called like 7 times so I might not have seen the update yet). Both described that it was happening as part of the log in process; that they would enter the password and after hitting enter/continue they would be redirected to that OOPS screen. Based on their descriptions it sounded like it was within the login page--Michael did mention the <http://auth.fool.com|auth.fool.com> url. Neither were tech savvy so a screenshot was unfortunately beyond their means :sweat_smile:",
+          "thread_ts": "1779995648.266199",
+          "userName": "Izzy"
+        },
+        {
+          "ts": "1779996955.998359",
+          "user": "W017PRH8HL7",
+          "text": "I'm going to send brian an email and just check to see if it's all set on his end -- thank you!!",
+          "thread_ts": "1779995648.266199",
+          "userName": "Izzy"
+        },
+        {
+          "ts": "1779996971.824399",
+          "user": "U02C82MRNHX",
+          "text": "It looks like both of those were trying to enroll a device passkey at around the same time, and did not complete, might be related.",
+          "thread_ts": "1779995648.266199",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1779997001.131449",
+          "user": "U02C82MRNHX",
+          "text": "(maybe they inadvertently were going through the device enrollment and something went wrong)",
+          "thread_ts": "1779995648.266199",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1779997380.326239",
+          "user": "W017PRH8HL7",
+          "text": "That sounds very likely to me Donald -- especially with the trouble both were having, they likely just mis clicked. Glad it was just a coincidence!",
+          "thread_ts": "1779995648.266199",
+          "userName": "Izzy"
+        }
+      ],
+      "tags": [
+        "authentication",
+        "passkey enrollment",
+        "login error"
+      ],
+      "confidence": "high",
+      "id": "CK9GZ4KCL-1779995648.266199",
+      "scannedAt": "2026-06-05T15:02:02.672Z"
+    },
+    {
+      "channelId": "CK9GZ4KCL",
+      "channelName": "identity-services-help",
+      "threadTs": "1779916648.580589",
+      "problem": "A user could not access a staging environment URL because their normal login credentials did not work on staging.",
+      "solution": "Staging uses a separate account from production. The user needed to perform a password reset on the staging login page to gain access. If credentials exist but seem stale, signing out of Okta and the staging auth endpoint before re-navigating can also help.",
+      "rawMessages": [
+        {
+          "ts": "1779916648.580589",
+          "user": "U08E9T13NKG",
+          "text": "Can someone help me with whatever staging access I need to access this link: <https://staging.www.fool.com/premium/databases/team-llama/ai>",
+          "thread_ts": "1779916648.580589",
+          "reply_count": 6,
+          "userName": "jhlechia.ervin"
+        },
+        {
+          "ts": "1779917306.315369",
+          "user": "U02C82MRNHX",
+          "text": "I _think_ you should have access already, but I don't see any recent staging logins. I think you may just need to sign out and sign in again on staging. To do that you can try:\n• <https://fool.okta.com/login/signout>\n• <https://staging.www.fool.com/api/auth/auth0-logout>\n• then try navigating to the page again <https://staging.www.fool.com/premium/databases/team-llama/ai>",
+          "thread_ts": "1779916648.580589",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1779917427.304289",
+          "user": "U02C82MRNHX",
+          "text": "if that doesn't work, can you navigate to <https://staging.www.fool.com/premium/whoami> and let me know what values you have in these fields:\n```isEmployee: true|false\nauthConnection: TMF-Reg-API|tmf-okta-sso\nisTestAccount: true|false\nisContractor: true|false\nisInTestGroup: true|false\nhasPreviewAccess: true|false\nmembershipLevel: 0-5```",
+          "thread_ts": "1779916648.580589",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1779975464.628299",
+          "user": "U08E9T13NKG",
+          "text": "<@U02C82MRNHX> do I have to create a new account on staging? My normal login information does not work.",
+          "thread_ts": "1779916648.580589",
+          "userName": "jhlechia.ervin"
+        },
+        {
+          "ts": "1779975696.724689",
+          "user": "U02C82MRNHX",
+          "text": "ah ok, you'll need to do a password reset on the staging login page. it is a separate account so it won't affect your other logins.",
+          "thread_ts": "1779916648.580589",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1779975777.663999",
+          "user": "U08E9T13NKG",
+          "text": "ok, taking a look at that now",
+          "thread_ts": "1779916648.580589",
+          "userName": "jhlechia.ervin"
+        },
+        {
+          "ts": "1779975990.100999",
+          "user": "U08E9T13NKG",
+          "text": "that worked! thanks for your help!",
+          "thread_ts": "1779916648.580589",
+          "userName": "jhlechia.ervin"
+        }
+      ],
+      "tags": [
+        "staging access",
+        "authentication",
+        "okta"
+      ],
+      "confidence": "high",
+      "id": "CK9GZ4KCL-1779916648.580589",
+      "scannedAt": "2026-06-05T15:02:06.849Z"
+    },
+    {
+      "channelId": "CK9GZ4KCL",
+      "channelName": "identity-services-help",
+      "threadTs": "1779823434.036299",
+      "problem": "A contractor needed initial access to community-staging.fool.com but the required CommunityStaging role was not yet available in the new Lumos request system.",
+      "solution": "The CommunityStaging role was added to the Lumos App Store. Steps for any staff user or contractor to gain access: (1) Request the `CommunityStaging` role in Lumos App Store under TMF Developer and Identity. (2) Log out of Okta and fool.com via the staging logout and Okta signout URLs. (3) Log back in to Okta through staging.www.fool.com to sync roles. (4) Navigate to community-staging.fool.com. Process is the same for full-time employees and contractors.",
+      "rawMessages": [
+        {
+          "ts": "1779823434.036299",
+          "user": "W018HDY1HMX",
+          "text": "<@U02C82MRNHX> can you help <@U083ESRGQ4D> gain access to <http://community-staging.fool.com|community-staging.fool.com>?  He's never been in so needs the initial steps. Thanks. ",
+          "thread_ts": "1779823434.036299",
+          "reply_count": 4,
+          "userName": "jenroberts"
+        },
+        {
+          "ts": "1779830107.570379",
+          "user": "U02C82MRNHX",
+          "text": "FYI the community staging role did not make it over to the new Lumos request system from Identity Now so waiting on that to get updated for the next step, which will be:\n\n*For ~employee~ staff user to get access to Community staging:* \n• request the role `CommunityStaging` in <https://app.lumosidentity.com/app_store?domainAppId=1685420|Lumos App Store> under TMF Developer and Identity\n• log out of Okta and <http://fool.com|fool.com>\n<https://staging.www.fool.com/auth/logout>\n<https://fool.okta.com/login/signout>\n• log _back_ in to Okta through <http://fool.com|fool.com> to get roles synced in\n<https://staging.www.fool.com/auth/whoami>  → click `Employee Sign In`\n• now navigate back to community staging\n<https://community-staging.fool.com>",
+          "thread_ts": "1779823434.036299",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1779830837.110929",
+          "user": "U02C82MRNHX",
+          "text": "ok the role is there now available to be requested",
+          "thread_ts": "1779823434.036299",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1779831608.609689",
+          "user": "W018HDY1HMX",
+          "text": "Thanks. I believe AJ is a contractor. Same or different steps?",
+          "thread_ts": "1779823434.036299",
+          "userName": "jenroberts"
+        },
+        {
+          "ts": "1779831633.497419",
+          "user": "U02C82MRNHX",
+          "text": "should be the same for FTE or contractor",
+          "thread_ts": "1779823434.036299",
+          "userName": "donald.furnival"
+        }
+      ],
+      "tags": [
+        "access-management",
+        "okta",
+        "lumos"
+      ],
+      "confidence": "high",
+      "id": "CK9GZ4KCL-1779823434.036299",
+      "scannedAt": "2026-06-05T15:02:11.177Z"
+    },
+    {
+      "channelId": "CK9GZ4KCL",
+      "channelName": "identity-services-help",
+      "threadTs": "1779804358.208549",
+      "problem": "The staging registration API was returning 500 errors due to failing 'get users' requests, caused by the service not connecting to the party database.",
+      "solution": "The issue was resolved by the infrastructure/backend team. The root cause appeared to be a database restore operation on staging that caused connectivity issues between approximately 8:00–8:20 AM EDT. Once the restore completed, the staging environment returned to normal operation.",
+      "rawMessages": [
+        {
+          "ts": "1779804358.208549",
+          "user": "W017PREFFRV",
+          "text": "<@U07JDCJQDG8> is running into issues with _staging_ regapi when testing out some new features in staging commerce gateway.",
+          "thread_ts": "1779804358.208549",
+          "reply_count": 9,
+          "userName": "bandrews"
+        },
+        {
+          "ts": "1779804543.261299",
+          "user": "U07JDCJQDG8",
+          "text": "<https://tmf.sentry.io/issues/7467283193/?environment=staging&amp;project=4508065768931328&amp;query=is%3Aunresolved&amp;referrer=issue-stream> - we see 500s on that",
+          "thread_ts": "1779804358.208549",
+          "userName": "tomasz.setner"
+        },
+        {
+          "ts": "1779805025.733269",
+          "user": "U02C82MRNHX",
+          "text": "yeah looks like all the get users is blowing up, it's not connecting to party DB. checking on that",
+          "thread_ts": "1779804358.208549",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1779808118.382309",
+          "user": "U02C82MRNHX",
+          "text": "FYI <https://fool.slack.com/archives/C04P43P89A4/p1779805340633079>",
+          "thread_ts": "1779804358.208549",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1779821860.025439",
+          "user": "U02C82MRNHX",
+          "text": "<@U07JDCJQDG8> this should be resolved now in staging",
+          "thread_ts": "1779804358.208549",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1779858755.231529",
+          "user": "U07JDCJQDG8",
+          "text": "thanks - looks like all is good now :pray:",
+          "thread_ts": "1779804358.208549",
+          "userName": "tomasz.setner"
+        },
+        {
+          "ts": "1780314020.389309",
+          "user": "U07JDCJQDG8",
+          "text": "<@U02C82MRNHX> same maybe :thinking_face:?",
+          "thread_ts": "1779804358.208549",
+          "userName": "tomasz.setner"
+        },
+        {
+          "ts": "1780318548.471579",
+          "user": "U02C82MRNHX",
+          "text": "Probably there was a restore going on but it looks to be OK now",
+          "thread_ts": "1779804358.208549",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780318625.878259",
+          "user": "U02C82MRNHX",
+          "text": "(saw those same increased errors on staging from 8AM EDT - about 8:20 AM EDT, but I am able to create users on staging now without error)",
+          "thread_ts": "1779804358.208549",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780318638.658829",
+          "user": "U07JDCJQDG8",
+          "text": ":+1: works now, thanks",
+          "thread_ts": "1779804358.208549",
+          "userName": "tomasz.setner"
+        }
+      ],
+      "tags": [
+        "database",
+        "staging",
+        "api-errors"
+      ],
+      "confidence": "high",
+      "id": "CK9GZ4KCL-1779804358.208549",
+      "scannedAt": "2026-06-05T15:02:14.981Z"
+    }
+  ]
+}
