@@ -24,3 +24,13 @@ export function slackLink(workspaceUrl: string, channelId: string, ts: string, t
 export function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
+
+/**
+ * Formats a Slack message timestamp (Unix seconds with microseconds, e.g. "1717000000.123456")
+ * into a short localized date.
+ * @param ts - A Slack timestamp string.
+ * @returns A localized short date string (e.g. "Jun 4, 2026").
+ */
+export function formatSlackTs(ts: string): string {
+  return new Date(parseFloat(ts) * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}

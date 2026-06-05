@@ -1,5 +1,5 @@
 import { ConfidenceMeter, NeedsReviewBadge, SlackLinkIcon, TagChip, VerifiedBadge } from './ui';
-import { formatDate, slackLink } from '../utils/format';
+import { formatSlackTs, slackLink } from '../utils/format';
 import type { KnowledgeEntry } from '../types';
 
 interface EntryCardProps {
@@ -16,7 +16,7 @@ interface EntryCardProps {
   activeTag?: string;
   /** Makes tags interactive; called with the tag string when clicked. */
   onTagClick?: (tag: string) => void;
-  /** When provided, shows the scan date and a Slack deep link in the footer. */
+  /** When provided, shows the original thread date and a Slack deep link in the footer. */
   workspaceUrl?: string;
   /** Clamps the solution text to 2 lines. Useful when a detail modal is available. */
   clampSolution?: boolean;
@@ -32,7 +32,7 @@ interface EntryCardProps {
  * @param onDelete - Optional delete callback; renders a delete button when provided.
  * @param activeTag - Tag to highlight as active in the tag list.
  * @param onTagClick - Optional callback for tag clicks; makes tags interactive.
- * @param workspaceUrl - When provided, shows the scan date and a Slack link.
+ * @param workspaceUrl - When provided, shows the original thread date and a Slack link.
  * @param clampSolution - Whether to clamp solution text to 2 lines.
  */
 export function EntryCard({
@@ -118,7 +118,7 @@ export function EntryCard({
         {workspaceUrl && (
           <>
             <span className="text-[11px] text-content-36 font-medium whitespace-nowrap">
-              {formatDate(entry.scannedAt)}
+              {formatSlackTs(entry.threadTs)}
             </span>
             <SlackLinkIcon href={slackLink(workspaceUrl, entry.channelId, entry.threadTs)} />
           </>
