@@ -1,8 +1,8 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useRef, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import channelList from '../../../lib/data/slack-channels.json';
-import type { ScanRequest, ScanResponse } from '../../types';
-import { scanChannel } from '../../utils/api';
+import type { ScanProgressEvent, ScanRequest, ScanResponse } from '../../types';
+import { streamScan } from '../../utils/api';
 import { usePageTitle } from '../../hooks/use-page-title';
 import { ProgressStepper, StatusBanner, inputCls } from '../ui';
 import type { ComboboxOption } from '../ui/input';
@@ -31,15 +31,13 @@ function yesterday(): string {
   return d.toISOString().slice(0, 10);
 }
 
-const SCAN_STEPS = [
-  { label: 'Resolving channel and verifying access...' },
-  { label: 'Fetching messages from Slack...' },
-  { label: 'Analyzing threads with Claude AI...' },
-  { label: 'Saving entries to knowledge base...' },
-];
-
-// Cumulative delays (ms) to reach steps 1, 2, 3 while API call runs
-const STEP_DELAYS = [900, 2500, 5500];
+/** Maps each SSE phase to its zero-based stepper index. */
+const PHASE_TO_STEP: Record<string, number> = {
+  resolving: 0,
+  fetching: 1,
+  analyzing: 2,
+  saving: 3,
+};
 
 const channelOptions: ComboboxOption[] = (channelList as SlackChannel[]).map(c => ({
   value: c.id,
@@ -49,7 +47,8 @@ const channelOptions: ComboboxOption[] = (channelList as SlackChannel[]).map(c =
 
 /**
  * Tab panel for scanning a Slack channel and extracting knowledge base entries.
- * Displays a progress stepper during the scan and a results summary on completion.
+ * Displays a live progress stepper driven by SSE events from the server and a
+ * results summary on completion.
  */
 export function BuildKnowledgePage() {
   usePageTitle('Build Knowledge');
@@ -61,60 +60,71 @@ export function BuildKnowledgePage() {
   const [currentStep, setCurrentStep] = useState(-1);
   const [result, setResult] = useState<ScanResponse | null>(null);
   const [errorMsg, setErrorMsg] = useState('');
-  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const [analyzeProgress, setAnalyzeProgress] = useState<{ processed: number; total: number } | null>(null);
+  const abortRef = useRef<AbortController | null>(null);
   const queryClient = useQueryClient();
 
-  useEffect(() => () => { timersRef.current.forEach(clearTimeout); }, []);
+  // Abort any in-flight scan on unmount
+  useEffect(() => () => { abortRef.current?.abort(); }, []);
+
+  // Step labels are derived so the "analyzing" step shows a live (N / M) counter
+  const steps = useMemo(() => [
+    { label: 'Resolving channel and verifying access...' },
+    { label: 'Fetching messages from Slack...' },
+    { label: analyzeProgress && analyzeProgress.total > 0
+        ? `Analyzing threads with AI... (${analyzeProgress.processed} / ${analyzeProgress.total})`
+        : 'Analyzing threads with AI...' },
+    { label: 'Saving entries to knowledge base...' },
+  ], [analyzeProgress]);
 
   /**
-   * Cancels all pending step-advance timers and clears the ref array.
+   * Handles a progress event from the scan SSE stream, advancing the stepper
+   * and updating the per-thread counter when in the analyzing phase.
+   * @param event - The progress event received from the server.
    */
-  function clearTimers() {
-    timersRef.current.forEach(clearTimeout);
-    timersRef.current = [];
+  function handleProgress(event: ScanProgressEvent) {
+    setCurrentStep(PHASE_TO_STEP[event.phase] ?? 0);
+    if (event.phase === 'analyzing') {
+      setAnalyzeProgress({ processed: event.processed ?? 0, total: event.total ?? 0 });
+    }
   }
 
-  const scanMutation = useMutation({
-    mutationFn: (body: ScanRequest) => scanChannel(body),
-    onSuccess: (data) => {
-      clearTimers();
-      setCurrentStep(SCAN_STEPS.length);
-      setPhase('done');
-      setResult(data);
-      void queryClient.invalidateQueries({ queryKey: ['knowledge'] });
-      void queryClient.invalidateQueries({ queryKey: ['stats'] });
-    },
-    onError: (e) => {
-      clearTimers();
-      setErrorMsg(e instanceof Error ? e.message : 'Network error');
-      setPhase('error');
-      setCurrentStep(-1);
-    },
-  });
-
   /**
-   * Handles form submission: starts the scan, advances the progress stepper
-   * on a timer, and delegates to the scan mutation.
+   * Handles form submission: cancels any prior scan, starts a new SSE stream,
+   * and drives the progress stepper from real server events.
    * @param e - The form submit event.
    */
-  function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!channelId.trim() || scanMutation.isPending) return;
+    if (!channelId.trim() || phase === 'scanning') return;
+
+    abortRef.current?.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
 
     setPhase('scanning');
     setCurrentStep(0);
     setResult(null);
     setErrorMsg('');
-    clearTimers();
-
-    timersRef.current = STEP_DELAYS.map((delay, i) =>
-      setTimeout(() => setCurrentStep(i + 1), delay)
-    );
+    setAnalyzeProgress(null);
 
     const body: ScanRequest = { channelId: channelId.trim() };
     if (startDate) body.startDate = startDate;
     if (endDate) body.endDate = endDate;
-    scanMutation.mutate(body);
+
+    try {
+      const scanResult = await streamScan(body, handleProgress, controller.signal);
+      setCurrentStep(steps.length);
+      setPhase('done');
+      setResult(scanResult);
+      void queryClient.invalidateQueries({ queryKey: ['knowledge'] });
+      void queryClient.invalidateQueries({ queryKey: ['stats'] });
+    } catch (err) {
+      if (err instanceof Error && err.name === 'AbortError') return;
+      setErrorMsg(err instanceof Error ? err.message : 'Network error');
+      setPhase('error');
+      setCurrentStep(-1);
+    }
   }
 
   const scanning = phase === 'scanning';
@@ -130,7 +140,7 @@ export function BuildKnowledgePage() {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={e => { void handleSubmit(e); }}>
           <div className="flex flex-col sm:flex-row gap-3 sm:items-end mb-5">
             <div className="flex-1">
               <label className="block text-[13px] font-bold text-fg-strong mb-[6px]">Channel</label>
@@ -200,7 +210,7 @@ export function BuildKnowledgePage() {
               {scanning ? 'In progress' : 'Scan complete'}
             </span>
           </div>
-          <ProgressStepper steps={SCAN_STEPS} currentStep={currentStep} />
+          <ProgressStepper steps={steps} currentStep={currentStep} />
         </div>
       )}
 

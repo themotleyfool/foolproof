@@ -3,6 +3,7 @@ import type {
   LookupRequest,
   LookupResponse,
   RefreshEntryResponse,
+  ScanProgressEvent,
   ScanRequest,
   ScanResponse,
 } from '../types';
@@ -95,16 +96,68 @@ export async function patchEntry(
 }
 
 /**
- * Scans a Slack channel for threads and extracts knowledge base entries.
- * @param body - The scan request payload with channelId and optional startDate.
- * @returns Scan result statistics.
+ * Initiates a channel scan and streams progress events via SSE.
+ * Calls `onProgress` for each progress event and resolves with the final ScanResponse.
+ * Pre-flight errors (bad input, duplicate scan) reject immediately with a thrown Error
+ * before any progress events are fired.
+ * @param body - The scan request payload with channelId and optional date range.
+ * @param onProgress - Callback invoked for each progress event from the server.
+ * @param signal - Optional AbortSignal to cancel the in-flight stream.
+ * @returns The final scan result when the stream completes successfully.
  */
-export async function scanChannel(body: ScanRequest): Promise<ScanResponse> {
-  return apiFetch<ScanResponse>('/api/scan', {
+export async function streamScan(
+  body: ScanRequest,
+  onProgress: (event: ScanProgressEvent) => void,
+  signal?: AbortSignal,
+): Promise<ScanResponse> {
+  const res = await fetch('/api/scan', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
+    signal,
   });
+
+  // Pre-flight errors (400, 409, etc.) are still plain JSON
+  if (!res.ok) {
+    const json = await res.json() as { error?: string };
+    throw new Error(json.error ?? 'Scan failed');
+  }
+
+  if (!res.body) throw new Error('No response body');
+
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = '';
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+
+    buffer += decoder.decode(value, { stream: true });
+    // SSE events are separated by double newlines
+    const blocks = buffer.split('\n\n');
+    buffer = blocks.pop() ?? '';
+
+    for (const block of blocks) {
+      let type = '';
+      let data = '';
+      for (const line of block.split('\n')) {
+        if (line.startsWith('event: ')) type = line.slice(7).trim();
+        else if (line.startsWith('data: ')) data = line.slice(6).trim();
+      }
+      if (!type || !data) continue;
+      const parsed = JSON.parse(data) as Record<string, unknown>;
+      if (type === 'progress') {
+        onProgress(parsed as ScanProgressEvent);
+      } else if (type === 'done') {
+        return parsed as ScanResponse;
+      } else if (type === 'error') {
+        throw new Error(String(parsed.error ?? 'Scan failed'));
+      }
+    }
+  }
+
+  throw new Error('Scan stream ended unexpectedly');
 }
 
 /**

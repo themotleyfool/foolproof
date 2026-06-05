@@ -45,6 +45,16 @@ export interface ScanRequest {
   endDate?: string;   // ISO 8601 date string, e.g. "2024-03-02"
 }
 
+export type ScanPhase = 'resolving' | 'fetching' | 'analyzing' | 'saving';
+
+export interface ScanProgressEvent {
+  phase: ScanPhase;
+  /** Total number of new threads to analyze (set when phase is 'analyzing'). */
+  total?: number;
+  /** Number of threads analyzed so far (set when phase is 'analyzing'). */
+  processed?: number;
+}
+
 export interface ScanResponse {
   channelId: string;
   channelName: string;

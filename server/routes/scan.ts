@@ -9,11 +9,25 @@ const router = Router();
 const activeScans = new Set<string>();
 
 /**
+ * Writes a single SSE event to the response.
+ * @param res - The Express response object.
+ * @param eventType - The SSE event name (e.g. "progress", "done", "error").
+ * @param data - The payload to JSON-encode as the event data.
+ */
+function emit(res: import('express').Response, eventType: string, data: object): void {
+  res.write(`event: ${eventType}\ndata: ${JSON.stringify(data)}\n\n`);
+}
+
+/**
  * POST /api/scan
  * Scans a Slack channel for threaded conversations and extracts problem/solution pairs
- * into the knowledge base. Skips threads already present in the knowledge base.
+ * into the knowledge base. Responds with a Server-Sent Events stream so the client can
+ * display live progress. Emits `progress` events as work proceeds, then a final `done`
+ * or `error` event.
  * @body {ScanRequest} - `channelId` (required), `startDate` and `endDate` (optional ISO date strings).
- * @returns {ScanResponse} - Summary of threads scanned, entries added, and entries skipped.
+ * @streams progress { phase: ScanPhase, processed?: number, total?: number }
+ * @streams done {ScanResponse}
+ * @streams error { error: string }
  */
 router.post('/', async (req, res) => {
   const { channelId, startDate, endDate } = req.body as ScanRequest;
@@ -38,6 +52,12 @@ router.post('/', async (req, res) => {
     return;
   }
 
+  // Switch to SSE mode — headers must be set before any write
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.flushHeaders();
+
   activeScans.add(channelId);
   const start = Date.now();
 
@@ -48,37 +68,42 @@ router.post('/', async (req, res) => {
     : undefined;
 
   try {
+    emit(res, 'progress', { phase: 'resolving' });
     const channelName = await slack.getChannelName(channelId);
     await slack.joinChannelIfNeeded(channelId);
+
+    emit(res, 'progress', { phase: 'fetching' });
     const messages = await slack.fetchAllMessages(channelId, oldest, latest);
     const threaded = messages.filter(m => (m.reply_count ?? 0) > 0);
 
     const existingKb = kb.load(channelName);
     const existingIds = new Set(existingKb.entries.map(e => e.id));
+    const toProcess = threaded.filter(m => !existingIds.has(`${channelId}-${m.ts}`));
 
-    let entriesSkipped = 0;
+    let entriesSkipped = threaded.length - toProcess.length;
     const newEntries = [];
+    let processed = 0;
 
-    for (const msg of threaded) {
+    emit(res, 'progress', { phase: 'analyzing', processed: 0, total: toProcess.length });
+
+    for (const msg of toProcess) {
       const id = `${channelId}-${msg.ts}`;
-      if (existingIds.has(id)) {
-        entriesSkipped++;
-        continue;
-      }
-
       try {
         const thread = await slack.fetchThread(channelId, msg.ts);
         const extracted = await claude.extractKnowledge(thread);
         if (!extracted) {
           entriesSkipped++;
-          continue;
+        } else {
+          newEntries.push({ ...extracted, id, scannedAt: new Date().toISOString() });
         }
-        newEntries.push({ ...extracted, id, scannedAt: new Date().toISOString() });
       } catch {
         entriesSkipped++;
       }
+      processed++;
+      emit(res, 'progress', { phase: 'analyzing', processed, total: toProcess.length });
     }
 
+    emit(res, 'progress', { phase: 'saving' });
     const entriesAdded = kb.addEntries(channelName, newEntries);
 
     const response: ScanResponse = {
@@ -89,15 +114,15 @@ router.post('/', async (req, res) => {
       entriesSkipped,
       durationMs: Date.now() - start,
     };
-    res.json(response);
+    emit(res, 'done', response);
+    res.end();
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown error';
     console.error('[scan] error:', message);
-    if (message.includes('not found')) {
-      res.status(404).json({ error: 'Channel not found' });
-    } else {
-      res.status(502).json({ error: 'Scan failed. Please try again.' });
-    }
+    emit(res, 'error', {
+      error: message.includes('not found') ? 'Channel not found' : 'Scan failed. Please try again.',
+    });
+    res.end();
   } finally {
     activeScans.delete(channelId);
   }
