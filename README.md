@@ -17,6 +17,9 @@ The Slack app name is [FoolProof](https://api.slack.com/apps/A0B87TMUS4W).
    cp .env.example .env
    ```
 2. Fill in the values from the 1Password entry.
+
+> Note: You will want to get a new OpenAI API key from the Orion Keyring (at some point) so you're not using Timothy Caish's key that is in 1Password. Follow the instructions in the "Get LLM API Access" section below to create your own key.
+
 3. Install dependencies and run:
    ```bash
    npm i
