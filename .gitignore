@@ -13,6 +13,7 @@ dist-ssr
 *.local
 
 .env
+lib/knowledge-bases/
 
 # Editor directories and files
 .vscode/*
