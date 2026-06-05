@@ -1,4 +1,4 @@
-import type { KnowledgeEntry } from '../../src/types/index.js';
+import type { KnowledgeEntry, SlackMessage } from '../../src/types/index.js';
 
 /**
  * Masks an email address by keeping the first three characters of the local part.
@@ -24,15 +24,26 @@ function maskEmailsInText(text: string): string {
 }
 
 /**
- * Returns a copy of a KnowledgeEntry with PII masked in the AI-generated fields only.
- * Raw Slack message data is left untouched. Email addresses in the problem and solution
- * summaries are masked; full names are suppressed at the prompt level.
+ * Returns a copy of a SlackMessage with email addresses in the message text masked.
+ * The author fields (user ID and userName) are left untouched.
+ * @param msg - The original SlackMessage.
+ * @returns A new SlackMessage with emails in the text field masked.
+ */
+export function maskMessage(msg: SlackMessage): SlackMessage {
+  return { ...msg, text: maskEmailsInText(msg.text) };
+}
+
+/**
+ * Returns a copy of a KnowledgeEntry with PII masked across all text fields:
+ * email addresses in raw message text, and in the AI-generated problem and solution summaries.
+ * Author fields (user IDs, usernames) are left untouched.
  * @param entry - The original KnowledgeEntry.
- * @returns A new KnowledgeEntry with PII masked in problem and solution.
+ * @returns A new KnowledgeEntry with PII masked.
  */
 export function maskEntry(entry: KnowledgeEntry): KnowledgeEntry {
   return {
     ...entry,
+    rawMessages: entry.rawMessages.map(maskMessage),
     problem: maskEmailsInText(entry.problem),
     solution: maskEmailsInText(entry.solution),
   };

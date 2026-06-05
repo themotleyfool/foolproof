@@ -1,18 +1,89 @@
 {
   "version": 1,
-  "lastUpdated": "2026-06-04T23:48:50.833Z",
+  "lastUpdated": "2026-06-05T14:55:41.779Z",
   "entries": [
     {
       "channelId": "CK9GZ4KCL",
       "channelName": "identity-services-help",
+      "threadTs": "1780665916.265559",
+      "problem": "A Safari/iOS-only unhandled TypeError ('Load failed') occurs on every sign-out in the auth library's sign-out flow. The default SignOut path routes the external Auth0 logout through Next.js server-action redirect() chain without catching the rejection, causing Safari to surface the failed cross-origin leg as an unhandled rejection (~2.2k Sentry events). Logout still completes but generates significant noise.",
+      "solution": "A fix is proposed in a pull request. The PR description includes a root cause analysis, a Safari repro case, and two proposed fixes to handle the rejection from the cross-origin redirect leg in the sign-out flow.",
+      "rawMessages": [
+        {
+          "ts": "1780665916.265559",
+          "user": "U089QLLS0FJ",
+          "text": "Hi team — we're seeing a Safari-only error in fool/fool-auth-js's sign-out flow: an `unhandled TypeError: Load` failed on every sign-out (Sentry FOOLCOM-9, ~2.2k events, Safari/iOS only). Logout still completes — it's noise, but it's noisy.\n\nShort version: the default &lt;SignOut&gt; path routes the external Auth0 logout through Next's server-action redirect() chain and doesn't catch the rejection, so Safari surfaces the failed cross-origin leg as an unhandled rejection.\n\nFull write-up — root cause, a Safari repro, and two proposed fixes — is in the PR description here: <https://github.com/themotleyfool/foolcom/pull/1149>\n\nWould appreciate a look when someone has a moment.",
+          "thread_ts": "1780665916.265559",
+          "reply_count": 1,
+          "userName": "german.guerci"
+        },
+        {
+          "ts": "1780666014.487389",
+          "user": "U089QLLS0FJ",
+          "text": "Just in case, pr description here:",
+          "thread_ts": "1780665916.265559",
+          "userName": "german.guerci"
+        }
+      ],
+      "tags": [
+        "safari",
+        "nextjs",
+        "auth0"
+      ],
+      "confidence": "low",
+      "id": "CK9GZ4KCL-1780665916.265559",
+      "scannedAt": "2026-06-05T14:55:00.153Z"
+    },
+    {
+      "channelId": "CK9GZ4KCL",
+      "channelName": "identity-services-help",
+      "threadTs": "1780595959.768949",
+      "problem": "A member successfully logged in after clearing cache and cookies but received an 'Oops! Something's happened!' error when trying to access articles or My Services. The support agent wanted to rule out backend/Auth0 issues as the cause.",
+      "solution": "The identity services team confirmed the member's account was in good standing on the Auth0 side — login was successful and multiple services were assigned to the user. The issue was determined to be unrelated to Auth0 or account access, and was escalated to a product tech channel for premium content errors.",
+      "rawMessages": [
+        {
+          "ts": "1780595959.768949",
+          "user": "W017PRH8HL7",
+          "text": "Hey team! I have a member who was walked through clearing cache and cookies on his phone, got logged in successfully, but when trying to access articles or My Services he gets the error message \"Oops! Something's happened!\" Site usage tool's been acting a little wonky for me so having trouble getting the exact URLs the member was trying to visit. Admin shows the member is Registered and there's no Blocks I can see that would interrupt the account. No widespread issues occurring right now either. Due to the Auth0 issues earlier in the week, I wanted to check here first and see if there's anything on the back end that could be interrupting this member's access please:\n• Admin: <https://admin.fool.com/members/2045807311>\n• Back Office:  <https://commerce-gateway-backoffice.fool.com/usmf/customers/cust_01kpffj4d2eez9p1vs1yfr8jts>\n• Stripe: <https://dashboard.stripe.com/acct_1PpxIrCMHajUdFI8/customers/cus_UM9Lu3eXr1Oi7M>",
+          "thread_ts": "1780595959.768949",
+          "reply_count": 2,
+          "userName": "Izzy"
+        },
+        {
+          "ts": "1780596949.693209",
+          "user": "U09R4DC8FGF",
+          "text": "His account looks good from our end. Logs showing he's able to successfully login and has a bunch of services assigned to his user, so he can access premium. I'm not sure how to debug premium errors like that, so I'd imagine this would be a question for a different channel. Possibly <#C4FMLSU84>? I'm not sure if there is a slack channel for premium help.",
+          "thread_ts": "1780595959.768949",
+          "userName": "tcaish"
+        },
+        {
+          "ts": "1780603840.929409",
+          "user": "W017PRH8HL7",
+          "text": "Thanks Timothy! We have a product tech channel for premium errors as well so I'll pop this over there. Appreciate you taking a look and confirming all's well on the Auth0 end!",
+          "thread_ts": "1780595959.768949",
+          "userName": "Izzy"
+        }
+      ],
+      "tags": [
+        "auth0",
+        "premium-access",
+        "account-troubleshooting"
+      ],
+      "confidence": "medium",
+      "id": "CK9GZ4KCL-1780595959.768949",
+      "scannedAt": "2026-06-05T14:55:04.662Z"
+    },
+    {
+      "channelId": "CK9GZ4KCL",
+      "channelName": "identity-services-help",
       "threadTs": "1780407415.732859",
-      "problem": "AA new SA member was unable to set their password. Their account information was not fully loaded in Legacy Admin, preventing the support agent from sending a password reset link.",
-      "solution": "An admin fixed the account on the backend (exact steps unspecified), after which the member was able to perform a password reset, or a reset link could be sent via the Legacy Admin member page.",
+      "problem": "A new SA member's account was not fully loaded in the Legacy admin system, preventing a password reset link from being sent to them.",
+      "solution": "An admin resolved the account loading issue on the backend, after which the password reset could be performed either by the member directly or by sending them a reset link via Legacy admin.",
       "rawMessages": [
         {
           "ts": "1780407415.732859",
           "user": "U01CX34UDLK",
-          "text": "Hello Fools! I have a new SA member trying to set their password but needed some assistance so I went into Legacy admin but noticed their information is not fully loaded on there, and I am unable to send a reset pw link for them. Any help here would be great, TYIA!\n\nSukhvinder Aujla\n•  Email: *s@aujla.org*\n• <https://admin.fool.com/members/207343150/order-history|Legacy admin link>\n• <https://commerce-gateway-backoffice.fool.com/usmf/customers/207343150|Backoffice link>",
+          "text": "Hello Fools! I have a new SA member trying to set their password but needed some assistance so I went into Legacy admin but noticed their information is not fully loaded on there, and I am unable to send a reset pw link for them. Any help here would be great, TYIA!\n\nSukhvinder Aujla\n•  Email: *s***@aujla.org*\n• <https://admin.fool.com/members/207343150/order-history|Legacy admin link>\n• <https://commerce-gateway-backoffice.fool.com/usmf/customers/207343150|Backoffice link>",
           "thread_ts": "1780407415.732859",
           "reply_count": 2,
           "userName": "elise.le"
@@ -33,31 +104,27 @@
         }
       ],
       "tags": [
+        "account-management",
         "password-reset",
-        "legacy-admin",
-        "account-setup"
+        "legacy-admin"
       ],
       "confidence": "high",
       "id": "CK9GZ4KCL-1780407415.732859",
-      "scannedAt": "2026-06-04T18:56:34.556Z",
-      "verification": {
-        "verifiedBy": "Timothy",
-        "verifiedAt": "2026-06-04T19:12:27.646Z"
-      }
+      "scannedAt": "2026-06-05T14:55:08.733Z"
     },
     {
       "channelId": "CK9GZ4KCL",
       "channelName": "identity-services-help",
       "threadTs": "1780344571.560629",
-      "problem": "A member submitted a GDPR/DSAR request which triggered partial deletion of their account, leaving them in a broken half-deleted state (removed from VSDB02 and Auth0 but still present in email address API and Backoffice/Stripe). The member was unaware the request would delete their account and could no longer log in despite having an active subscription.",
-      "solution": "The user's account was rebuilt by first deleting their Auth0 account (which had been missed during the DSAR process and was causing a 409 conflict on re-registration), then re-creating the user via the registration API. The existing email record allowed the same Account ID and UID to be reassociated. The member then needed to reset their password via the login page password reset link.",
+      "problem": "A member with an active subscription was unable to log in because they had previously submitted a GDPR/DSAR deletion request, which partially deleted their account. Their account was in a half-deleted state: removed from the primary user database but still present in Backoffice (via Stripe) and the email address API, and their Auth0 account had not yet been deleted.",
+      "solution": "The team confirmed the member did not want their account deleted and chose to rebuild it. The resolution involved: (1) deleting the member's Auth0 account (which had been missed in the partial DSAR process and was causing a 409 conflict on re-registration), then (2) re-creating the user via the registration API (which pulled the same Account ID and UID from the still-existing email address record). The member then needed to reset their password via the login page password reset link.",
       "rawMessages": [
         {
           "ts": "1780344571.560629",
           "user": "W01AMQDTXL5",
-          "text": "Hi team! I have a member with an active Stock Advisor subscription in Backoffice, but there is no information listed in Legacy Admin. The login log shows they are blocked and the member is not able to log-in, which is why they reached out to MS. Could someone take a look and see if things can be fixed? Thanks!\nMember info:\n*Gareth Haigh*\n<mailto:ghaigh1988@gmail.com|ghaigh1988@gmail.com>\nUID 2069311732",
+          "text": "Hi team! I have a member with an active Stock Advisor subscription in Backoffice, but there is no information listed in Legacy Admin. The login log shows they are blocked and the member is not able to log-in, which is why they reached out to MS. Could someone take a look and see if things can be fixed? Thanks!\nMember info:\n*Gareth Haigh*\n<mailto:gha***@gmail.com|gha***@gmail.com>\nUID 2069311732",
           "thread_ts": "1780344571.560629",
-          "reply_count": 34,
+          "reply_count": 38,
           "userName": "Natasha.f"
         },
         {
@@ -77,7 +144,7 @@
         {
           "ts": "1780347575.201779",
           "user": "U02C82MRNHX",
-          "text": "Oh this is interesting but may be a different strand to worry about, but it sounds like there is still a disconnect in the email address api vs user api for DSARs -- email address api still gets you an existing uid, e.g.\n`<https://api-staging.fool.com/email-addresses/v1/ghaigh1988@gmail.com>`  -&gt; ... `\"Uid\": 2069311732,\"AccountId\": \"5effa71a-e0b0-401a-82ba-599e0714d7d0\",`\nso the account ID is still associated with the original email, but only in email address api (e-cap) we maybe need to nuke that as well on DSAR, right? I am assuming that that UID got pulled for the email on the latest purchase",
+          "text": "Oh this is interesting but may be a different strand to worry about, but it sounds like there is still a disconnect in the email address api vs user api for DSARs -- email address api still gets you an existing uid, e.g.\n`<https://api-staging.fool.com/email-addresses/v1/gha***@gmail.com>`  -&gt; ... `\"Uid\": 2069311732,\"AccountId\": \"5effa71a-e0b0-401a-82ba-599e0714d7d0\",`\nso the account ID is still associated with the original email, but only in email address api (e-cap) we maybe need to nuke that as well on DSAR, right? I am assuming that that UID got pulled for the email on the latest purchase",
           "thread_ts": "1780344571.560629",
           "userName": "donald.furnival"
         },
@@ -290,27 +357,51 @@
           "text": "I had to delete their Auth0 account first. I think that part was missed on their DSAR so reg api would `409` if you just tried to recreate it without deleting that auth0 one first",
           "thread_ts": "1780344571.560629",
           "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780601937.444889",
+          "user": "U0743LN5XAQ",
+          "text": "(Hasn't been run yet)",
+          "thread_ts": "1780344571.560629",
+          "userName": "jeremiah.anschau"
+        },
+        {
+          "ts": "1780601941.069709",
+          "user": "U0743LN5XAQ",
+          "text": "On my side anyway ",
+          "thread_ts": "1780344571.560629",
+          "userName": "jeremiah.anschau"
+        },
+        {
+          "ts": "1780602557.811669",
+          "user": "U02C82MRNHX",
+          "text": "I think they should be good, with just a password reset; their auth0 account is good now and admin and backoffice seem correct, and they are not blocked",
+          "thread_ts": "1780344571.560629",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780602579.606439",
+          "user": "U0743LN5XAQ",
+          "text": "Sweet! Thanks for the work here I appreciate you",
+          "thread_ts": "1780344571.560629",
+          "userName": "jeremiah.anschau"
         }
       ],
       "tags": [
-        "gdpr",
+        "gdpr-dsar",
         "auth0",
         "account-recovery"
       ],
       "confidence": "high",
       "id": "CK9GZ4KCL-1780344571.560629",
-      "scannedAt": "2026-06-04T18:56:42.033Z",
-      "verification": {
-        "verifiedBy": "Timothy Caish",
-        "verifiedAt": "2026-06-04T23:48:50.833Z"
-      }
+      "scannedAt": "2026-06-05T14:55:14.968Z"
     },
     {
       "channelId": "CK9GZ4KCL",
       "channelName": "identity-services-help",
       "threadTs": "1780336093.289099",
-      "problem": "A new member purchased Stock Advisor and received a confirmation email, but the registration did not complete — the account showed as 'Not Registered' in Admin and the user did not exist in Auth0. Password reset was unavailable and generating a reset link returned an 'unable to find user' error.",
-      "solution": "An admin manually registered the user in Auth0 via the Admin UI. The member was then directed to reset their password either via the 'Reset Password' link on the login page or via a generated link from the Admin UI.",
+      "problem": "A member purchased a subscription and received an order confirmation, but the account showed as 'Not Registered' in Admin. The password reset option was unavailable, generating an 'unable to find user' error. Investigation revealed the user did not exist in Auth0, meaning the registration process did not complete during purchase.",
+      "solution": "An engineer manually registered the user in Auth0/the identity system. The member was then able to reset their password via the reset password link on the login page, or a reset link could be generated through the Admin UI.",
       "rawMessages": [
         {
           "ts": "1780336093.289099",
@@ -370,21 +461,21 @@
       ],
       "confidence": "high",
       "id": "CK9GZ4KCL-1780336093.289099",
-      "scannedAt": "2026-06-04T18:56:46.051Z"
+      "scannedAt": "2026-06-05T14:55:18.981Z"
     },
     {
       "channelId": "CK9GZ4KCL",
       "channelName": "identity-services-help",
       "threadTs": "1780330649.901219",
-      "problem": "Admins were unable to generate password reset links for users via the Admin UI, receiving an error when attempting to send reset emails. Affected users also reported receiving 'link already expired' errors. The issue appeared intermittent and was linked to Auth0 connectivity problems.",
-      "solution": "The issue was intermittent due to Auth0 instability. Workarounds included: retrying the reset link generation multiple times, or manually searching the member in Legacy Admin and navigating to Auth0 from there. In at least one case, the underlying cause was a duplicate account where the email address needed to be liberated from the duplicate account and reassigned to the main account.",
+      "problem": "Admin UI password reset link generator is intermittently failing with a connection error, causing password reset links to either not generate or immediately appear as expired to members. The issue affects multiple users and is inconsistent — sometimes working, sometimes timing out.",
+      "solution": "Workaround is to retry the password reset link generation multiple times until it succeeds. As an alternative, manually searching the member in Legacy Admin and navigating to Auth0 from there may work. Members can also use the public-facing password reset flow on the login page. A duplicate account with the same email address may also contribute to the issue and should be resolved by liberating the email from the duplicate account. The root cause (intermittent connection/timeout errors with Auth0) was still under investigation.",
       "rawMessages": [
         {
           "ts": "1780330649.901219",
           "user": "W018APDN2CU",
-          "text": "Hey folks! Hoping to get some help here uid 2053129700\nemail   <mailto:beau.jul66202@gmail.com|beau.jul66202@gmail.com> is getting the below error when we try to reset the pw- We tried and got a _successful sent_ as well but then the member says she is only getting a \"this link is already expired\" error. This is the first time I am seeing this error- any help here is appreciated!",
+          "text": "Hey folks! Hoping to get some help here uid 2053129700\nemail   <mailto:bea***@gmail.com|bea***@gmail.com> is getting the below error when we try to reset the pw- We tried and got a _successful sent_ as well but then the member says she is only getting a \"this link is already expired\" error. This is the first time I am seeing this error- any help here is appreciated!",
           "thread_ts": "1780330649.901219",
-          "reply_count": 16,
+          "reply_count": 26,
           "userName": "sbhatti"
         },
         {
@@ -498,28 +589,98 @@
           "text": "oh interesting. possibly related but hard to tell for sure! going to look into it. Thanks for the extra context",
           "thread_ts": "1780330649.901219",
           "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780606245.226859",
+          "user": "W01ADQ799RN",
+          "text": "Hi there!  I have a member who reached out about this same issue.  They updated their password about 45 min ago, but didn't write it down and want to reset it again.  I just tried to send him a PW reset link, but got the same error that Nikera and Ta'Von mentioned.\n\n Howard Schlitt\nUID 2045063360\nEmail: <mailto:hsc***@gmail.com|hsc***@gmail.com>",
+          "thread_ts": "1780330649.901219",
+          "userName": "JMurph"
+        },
+        {
+          "ts": "1780606379.332539",
+          "user": "U02C82MRNHX",
+          "text": "this is an ongoing intermittent issue that we haven't solved yet. Is the user unable to do the public-facing password reset through the login page? If not, do you know if they are getting errors, or is it just not something they want to do?",
+          "thread_ts": "1780330649.901219",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780606422.553779",
+          "user": "W01ADQ799RN",
+          "text": "I am not sure if they attempted to reset from the login page.  I will ask them to do so!",
+          "thread_ts": "1780330649.901219",
+          "userName": "JMurph"
+        },
+        {
+          "ts": "1780606426.529529",
+          "user": "U02C82MRNHX",
+          "text": "And unfortunately at the moment the only thing we can do to create the link on our side is keep trying till it works... which is a not great answer... but that is all I can do from my side!",
+          "thread_ts": "1780330649.901219",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780606450.633199",
+          "user": "U02C82MRNHX",
+          "text": "sometimes it seems to work just fine and sometimes I get a lot of timeouts...",
+          "thread_ts": "1780330649.901219",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780606461.768079",
+          "user": "W01ADQ799RN",
+          "text": "I understand!  Thanks for helping us out with these and keeping us updated, Donald.  It's so greatly appreciated.",
+          "thread_ts": "1780330649.901219",
+          "userName": "JMurph"
+        },
+        {
+          "ts": "1780606477.812279",
+          "user": "U02C82MRNHX",
+          "text": "but if you are unable to get a link with a few tries, let me know and I can try too and might get one created quicker",
+          "thread_ts": "1780330649.901219",
+          "userName": "donald.furnival"
+        },
+        {
+          "ts": "1780606504.928239",
+          "user": "W01ADQ799RN",
+          "text": "Okie dokie.  I tried about 3-4 times within the last 10 min.  I'll give it another go and see what happens!",
+          "thread_ts": "1780330649.901219",
+          "userName": "JMurph"
+        },
+        {
+          "ts": "1780606770.394019",
+          "user": "W01ADQ799RN",
+          "text": "It worked that time!  Yay!  Thanks again.",
+          "thread_ts": "1780330649.901219",
+          "userName": "JMurph"
+        },
+        {
+          "ts": "1780606870.765819",
+          "user": "U02C82MRNHX",
+          "text": ":phew2: :shrug:",
+          "thread_ts": "1780330649.901219",
+          "userName": "donald.furnival"
         }
       ],
       "tags": [
         "auth0",
         "password-reset",
-        "identity-services"
+        "admin-ui"
       ],
       "confidence": "medium",
       "id": "CK9GZ4KCL-1780330649.901219",
-      "scannedAt": "2026-06-04T18:56:51.031Z"
+      "scannedAt": "2026-06-05T14:55:24.895Z"
     },
     {
       "channelId": "CK9GZ4KCL",
       "channelName": "identity-services-help",
       "threadTs": "1779995648.266199",
-      "problem": "Two members received an 'OOPS! There's a misconfiguration in your system or a service outage' error during login on Windows 11 desktop browsers, occurring after entering their password and being redirected away from auth.fool.com.",
-      "solution": "The issue was traced to both users inadvertently initiating a device passkey enrollment flow and not completing it. One user resolved it by closing and reopening the browser; the other successfully completed a password reset followed by a successful login. No broader outage was involved.",
+      "problem": "Two members on Windows 11 laptops received an 'OOPS! There's a misconfiguration in your system or a service outage' error during login at auth.fool.com, raising concern about a possible broader outage.",
+      "solution": "Investigation showed no actual outage. Both users appeared to have inadvertently initiated a device passkey enrollment flow and did not complete it, causing the error. One user resolved the issue by closing and reopening the browser; the other successfully completed a password reset and logged in shortly after. The incidents were coincidental user errors, not a systemic issue.",
       "rawMessages": [
         {
           "ts": "1779995648.266199",
           "user": "W017PRH8HL7",
-          "text": "Hey team! I've had two members within the past hour report an error message that included \"OOPS! There's a misconfiguration in your system or a service outage\" while trying to log in. Both were using desktop/laptops. Michael Hannau I managed to get logged in successfully after just closing the browser and starting fresh but Brian McKeown's talked to a few reps and still hasn't been successful. While it is likely user error in Brian McKeown's case as well, having two  separate members with the same error message could be a flag for a broader outage. If someone could take a look, we'd appreciate it! Both members were on laptop/desktop devices running Windows 11\nMichael Hannau (resolved, member has been able to log in)\nUID 665217224\n<tel:3059656530|305) 965-6530>\n<mailto:mike@hannau.com|mike@hannau.com>\nand\nBrian McKeown (log in not successful)\nUID 298084533\n<tel:8594333113|859-433-3113>\n<mailto:bm@russcap.com|bm@russcap.com>",
+          "text": "Hey team! I've had two members within the past hour report an error message that included \"OOPS! There's a misconfiguration in your system or a service outage\" while trying to log in. Both were using desktop/laptops. Michael Hannau I managed to get logged in successfully after just closing the browser and starting fresh but Brian McKeown's talked to a few reps and still hasn't been successful. While it is likely user error in Brian McKeown's case as well, having two  separate members with the same error message could be a flag for a broader outage. If someone could take a look, we'd appreciate it! Both members were on laptop/desktop devices running Windows 11\nMichael Hannau (resolved, member has been able to log in)\nUID 665217224\n<tel:3059656530|305) 965-6530>\n<mailto:mik***@hannau.com|mik***@hannau.com>\nand\nBrian McKeown (log in not successful)\nUID 298084533\n<tel:8594333113|859-433-3113>\n<mailto:bm***@russcap.com|bm***@russcap.com>",
           "thread_ts": "1779995648.266199",
           "reply_count": 6,
           "userName": "Izzy"
@@ -569,19 +730,19 @@
       ],
       "tags": [
         "authentication",
-        "passkey",
-        "login-error"
+        "passkey enrollment",
+        "login error"
       ],
       "confidence": "medium",
       "id": "CK9GZ4KCL-1779995648.266199",
-      "scannedAt": "2026-06-04T23:05:52.280Z"
+      "scannedAt": "2026-06-05T14:55:29.620Z"
     },
     {
       "channelId": "CK9GZ4KCL",
       "channelName": "identity-services-help",
       "threadTs": "1779916648.580589",
-      "problem": "User could not access a staging environment URL because their normal login credentials did not work on the staging site.",
-      "solution": "Staging is a separate account from production. The user needed to perform a password reset on the staging login page to gain access. Additionally, signing out of both Okta and the staging site before attempting login was suggested as a first step.",
+      "problem": "A user could not access a staging environment URL because their normal login credentials did not work on the staging site.",
+      "solution": "The staging environment uses a separate account from production. The user needed to perform a password reset on the staging login page. If login state issues persist, signing out of both Okta and the staging site before attempting login again is recommended.",
       "rawMessages": [
         {
           "ts": "1779916648.580589",
@@ -641,14 +802,14 @@
       ],
       "confidence": "high",
       "id": "CK9GZ4KCL-1779916648.580589",
-      "scannedAt": "2026-06-04T23:05:55.745Z"
+      "scannedAt": "2026-06-05T14:55:33.444Z"
     },
     {
       "channelId": "CK9GZ4KCL",
       "channelName": "identity-services-help",
       "threadTs": "1779823434.036299",
-      "problem": "A contractor needs initial access to community-staging.fool.com but the required CommunityStaging role was not yet available in the new Lumos request system.",
-      "solution": "Request the `CommunityStaging` role in the Lumos App Store under 'TMF Developer and Identity'. Then log out of both Okta and fool.com (via the staging logout and Okta signout URLs), log back in through staging.www.fool.com to sync roles, and navigate to community-staging.fool.com. Steps apply equally to FTEs and contractors.",
+      "problem": "A contractor needed initial access to community-staging.fool.com but the required CommunityStaging role had not yet been migrated to the new Lumos request system.",
+      "solution": "Once the CommunityStaging role was added to the Lumos App Store, the steps for any staff user or contractor to gain access are: (1) Request the `CommunityStaging` role in Lumos App Store under TMF Developer and Identity. (2) Log out of both Okta and fool.com via the staging logout and Okta signout URLs. (3) Log back in to Okta through staging.www.fool.com to sync roles. (4) Navigate to community-staging.fool.com. These steps apply equally to full-time employees and contractors.",
       "rawMessages": [
         {
           "ts": "1779823434.036299",
@@ -688,20 +849,20 @@
         }
       ],
       "tags": [
-        "access-control",
+        "access-management",
         "okta",
         "lumos"
       ],
       "confidence": "high",
       "id": "CK9GZ4KCL-1779823434.036299",
-      "scannedAt": "2026-06-04T23:06:00.092Z"
+      "scannedAt": "2026-06-05T14:55:38.563Z"
     },
     {
       "channelId": "CK9GZ4KCL",
       "channelName": "identity-services-help",
       "threadTs": "1779804358.208549",
-      "problem": "Staging regapi was returning 500 errors on GET users endpoint due to failing connections to the party DB, affecting commerce gateway testing.",
-      "solution": "The issue resolved itself after a database restore completed. The staging party DB was unavailable during a restore window (approximately 8AM–8:20AM EDT), after which connections resumed normally.",
+      "problem": "The staging registration API was returning 500 errors when testing new features in staging commerce gateway. The get users calls were failing due to the service not connecting to the party database.",
+      "solution": "The issue resolved itself after what appeared to be a database restore operation completed. The staging party database connection was restored and the service returned to normal operation around 8:20 AM EDT.",
       "rawMessages": [
         {
           "ts": "1779804358.208549",
@@ -778,50 +939,11 @@
       "tags": [
         "database",
         "staging",
-        "api-errors"
+        "api"
       ],
       "confidence": "high",
       "id": "CK9GZ4KCL-1779804358.208549",
-      "scannedAt": "2026-06-04T23:06:03.769Z"
-    },
-    {
-      "channelId": "CK9GZ4KCL",
-      "channelName": "identity-services-help",
-      "threadTs": "1780595959.768949",
-      "problem": "A member successfully logged in but received 'Oops! Something's happened!' error when trying to access articles or My Services, and the support agent wanted to rule out Auth0/backend issues given recent Auth0 problems.",
-      "solution": "Auth0/identity side was confirmed clear: logs showed successful login and premium services properly assigned to the user. The issue was determined to be a premium content access error unrelated to Auth0, and was escalated to a product tech channel for premium errors.",
-      "rawMessages": [
-        {
-          "ts": "1780595959.768949",
-          "user": "W017PRH8HL7",
-          "text": "Hey team! I have a member who was walked through clearing cache and cookies on his phone, got logged in successfully, but when trying to access articles or My Services he gets the error message \"Oops! Something's happened!\" Site usage tool's been acting a little wonky for me so having trouble getting the exact URLs the member was trying to visit. Admin shows the member is Registered and there's no Blocks I can see that would interrupt the account. No widespread issues occurring right now either. Due to the Auth0 issues earlier in the week, I wanted to check here first and see if there's anything on the back end that could be interrupting this member's access please:\n• Admin: <https://admin.fool.com/members/2045807311>\n• Back Office:  <https://commerce-gateway-backoffice.fool.com/usmf/customers/cust_01kpffj4d2eez9p1vs1yfr8jts>\n• Stripe: <https://dashboard.stripe.com/acct_1PpxIrCMHajUdFI8/customers/cus_UM9Lu3eXr1Oi7M>",
-          "thread_ts": "1780595959.768949",
-          "reply_count": 2,
-          "userName": "Izzy"
-        },
-        {
-          "ts": "1780596949.693209",
-          "user": "U09R4DC8FGF",
-          "text": "His account looks good from our end. Logs showing he's able to successfully login and has a bunch of services assigned to his user, so he can access premium. I'm not sure how to debug premium errors like that, so I'd imagine this would be a question for a different channel. Possibly <#C4FMLSU84>? I'm not sure if there is a slack channel for premium help.",
-          "thread_ts": "1780595959.768949",
-          "userName": "tcaish"
-        },
-        {
-          "ts": "1780603840.929409",
-          "user": "W017PRH8HL7",
-          "text": "Thanks Timothy! We have a product tech channel for premium errors as well so I'll pop this over there. Appreciate you taking a look and confirming all's well on the Auth0 end!",
-          "thread_ts": "1780595959.768949",
-          "userName": "Izzy"
-        }
-      ],
-      "tags": [
-        "auth0",
-        "premium-access",
-        "account-troubleshooting"
-      ],
-      "confidence": "medium",
-      "id": "CK9GZ4KCL-1780595959.768949",
-      "scannedAt": "2026-06-04T23:08:10.037Z"
+      "scannedAt": "2026-06-05T14:55:41.778Z"
     }
   ]
 }

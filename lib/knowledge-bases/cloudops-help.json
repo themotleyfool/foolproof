@@ -1179,7 +1179,7 @@
         {
           "ts": "1779886025.582809",
           "user": "W01836WG0JZ",
-          "text": "Seeing an `<mailto:git@github.com|git@github.com>: Permission denied (publickey).` error when trying to promote to prod this morning in Jenkins. <https://leroy.fool.com/job/apps/job/fool-iq-insights/job/fool-iq-insights-deploy/10492/console>",
+          "text": "Seeing an `<mailto:git***@github.com|git***@github.com>: Permission denied (publickey).` error when trying to promote to prod this morning in Jenkins. <https://leroy.fool.com/job/apps/job/fool-iq-insights/job/fool-iq-insights-deploy/10492/console>",
           "thread_ts": "1779886025.582809",
           "reply_count": 1,
           "userName": "adamghill"
