@@ -90,7 +90,7 @@ The app runs the React frontend (Vite) and Express backend concurrently. The fro
 
 ## Architecture
 
-- **Frontend:** React 19 + TypeScript + Vite + TanStack Query + Tailwind v4 (`src/`)
+- **Frontend:** React 19 + TypeScript + Vite + React Router + TanStack Query + Tailwind v4 (`src/`)
 - **Backend:** Express + TypeScript via `tsx` (`server/`)
 - **Knowledge base:** JSON files at `lib/knowledge-bases/{channel-name}.json`
 
