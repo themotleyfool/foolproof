@@ -150,7 +150,7 @@ export function EntryCard({
       )}
 
       <p
-        className="text-sm font-bold text-fg-strong leading-[1.4] mt-0 mb-[6px] line-clamp-3"
+        className="text-sm font-bold text-fg-strong leading-[1.4] mt-0 mb-[6px] line-clamp-2"
         style={{ marginRight: hasActions ? 32 : 0 }}
       >
         {entry.problem}
