@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
 import { parseAsInteger, parseAsString, useQueryState } from 'nuqs';
 import type { KnowledgeEntry } from '../../types';
-import { deleteEntry, fetchChannels, fetchEntries, patchEntry } from '../../utils/api';
+import { deleteEntry, fetchChannels, fetchEntries, patchEntry, refreshEntry } from '../../utils/api';
 import { usePageTitle } from '../../hooks/use-page-title';
 import { EntryCard } from '../entry-card';
 import { ConfirmModal } from '../modals/confirm-modal';
@@ -53,6 +53,7 @@ export function BrowsePage() {
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
   const [editingEntry, setEditingEntry] = useState<KnowledgeEntry | null>(null);
+  const [refreshingId, setRefreshingId] = useState<string | null>(null);
   const workspaceUrl = import.meta.env.VITE_SLACK_WORKSPACE_URL as string ?? '';
 
   // Channels list
@@ -123,6 +124,21 @@ export function BrowsePage() {
     onError: () => {
       setPendingDeleteId(null);
       setDeletingId(null);
+    },
+  });
+
+  // Refresh mutation — re-fetches the Slack thread and re-extracts knowledge via LLM
+  const refreshMutation = useMutation({
+    mutationFn: ({ id }: { id: string }) => {
+      setRefreshingId(id);
+      return refreshEntry(effectiveChannel, id);
+    },
+    onSuccess: () => {
+      setRefreshingId(null);
+      void queryClient.invalidateQueries({ queryKey: ['knowledge', 'entries', effectiveChannel] });
+    },
+    onError: () => {
+      setRefreshingId(null);
     },
   });
 
@@ -228,6 +244,8 @@ export function BrowsePage() {
     ? (entriesError instanceof Error ? entriesError.message : 'Failed to load entries')
     : verifyMutation.error
     ? (verifyMutation.error instanceof Error ? verifyMutation.error.message : 'Failed to save')
+    : refreshMutation.error
+    ? (refreshMutation.error instanceof Error ? refreshMutation.error.message : 'Failed to refresh entry')
     : null;
 
   if (channelsLoading) {
@@ -433,6 +451,8 @@ export function BrowsePage() {
               onClick={() => setViewingEntry(entry)}
               onEdit={setEditingEntry}
               onDelete={e => setPendingDeleteId(e.id)}
+              onRefresh={e => refreshMutation.mutate({ id: e.id })}
+              refreshing={refreshingId === entry.id}
               activeTag={activeTag}
               onTagClick={selectTag}
               workspaceUrl={workspaceUrl}

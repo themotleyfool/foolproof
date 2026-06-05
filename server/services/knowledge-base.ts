@@ -134,6 +134,40 @@ export function filterEntries(
 }
 
 /**
+ * Replaces the knowledge fields of an existing entry (problem, solution, rawMessages, tags,
+ * confidence) without touching its identity fields. Clears any prior verification stamp since
+ * the content has changed, and resets scannedAt to now. Applies PII masking to the new content.
+ * @param channelName - The Slack channel name identifying which knowledge base to update.
+ * @param id - The entry ID to update.
+ * @param patch - Updated knowledge fields extracted from the refreshed thread.
+ * @returns The updated entry if found, or null if the ID did not exist.
+ */
+export function updateEntry(
+  channelName: string,
+  id: string,
+  patch: Pick<KnowledgeEntry, 'problem' | 'solution' | 'rawMessages' | 'tags' | 'confidence'>
+): KnowledgeEntry | null {
+  const kb = load(channelName);
+  const idx = kb.entries.findIndex(e => e.id === id);
+  if (idx === -1) return null;
+  const existing = kb.entries[idx];
+  const updated: KnowledgeEntry = {
+    ...existing,
+    problem: patch.problem,
+    solution: patch.solution,
+    rawMessages: patch.rawMessages,
+    tags: patch.tags,
+    confidence: patch.confidence,
+    scannedAt: new Date().toISOString(),
+    verification: undefined,
+  };
+  kb.entries[idx] = maskEntry(updated);
+  kb.lastUpdated = new Date().toISOString();
+  save(channelName, kb);
+  return kb.entries[idx];
+}
+
+/**
  * Lists the names of all channels that have a knowledge base file on disk.
  * @returns Array of channel name strings, derived from JSON filenames in the knowledge-bases directory.
  */

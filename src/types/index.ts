@@ -64,6 +64,10 @@ export interface LookupResponse {
   relatedEntries: KnowledgeEntry[];
 }
 
+export interface RefreshEntryResponse {
+  entry: KnowledgeEntry;
+}
+
 export interface ApiError {
   error: string;
   details?: string;

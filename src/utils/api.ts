@@ -2,6 +2,7 @@ import type {
   KnowledgeEntry,
   LookupRequest,
   LookupResponse,
+  RefreshEntryResponse,
   ScanRequest,
   ScanResponse,
 } from '../types';
@@ -117,6 +118,20 @@ export async function lookupThread(body: LookupRequest): Promise<LookupResponse>
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
   });
+}
+
+/**
+ * Re-fetches the original Slack thread for an entry and re-extracts knowledge via LLM.
+ * Clears any prior verification stamp since the content may have changed.
+ * @param channel - The channel the entry belongs to.
+ * @param id - The entry ID to refresh.
+ * @returns The updated knowledge entry.
+ */
+export async function refreshEntry(channel: string, id: string): Promise<RefreshEntryResponse> {
+  return apiFetch<RefreshEntryResponse>(
+    `/api/knowledge/${channel}/${encodeURIComponent(id)}/refresh`,
+    { method: 'POST' }
+  );
 }
 
 /**
