@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { KnowledgeBase, KnowledgeEntry, EntryVerification } from '../../src/types/index.js';
+import { maskEntry } from './pii.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const KB_DIR = path.resolve(__dirname, '../../lib/knowledge-bases');
@@ -64,7 +65,7 @@ function save(channelName: string, kb: KnowledgeBase): void {
 export function addEntries(channelName: string, entries: KnowledgeEntry[]): number {
   const kb = load(channelName);
   const existingIds = new Set(kb.entries.map(e => e.id));
-  const fresh = entries.filter(e => !existingIds.has(e.id));
+  const fresh = entries.filter(e => !existingIds.has(e.id)).map(maskEntry);
   kb.entries.push(...fresh);
   kb.lastUpdated = new Date().toISOString();
   save(channelName, kb);

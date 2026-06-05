@@ -32,7 +32,8 @@ Otherwise respond with this JSON (no markdown fences):
 }
 
 Tags: lowercase, 1-3 words, technical domain (e.g. "docker", "oauth", "db-migrations").
-Confidence: high = solution confirmed resolved; medium = likely helped; low = speculative.`;
+Confidence: high = solution confirmed resolved; medium = likely helped; low = speculative.
+Privacy: do not include real names, email addresses, or internal user identifiers in the problem or solution. Refer to people by role only (e.g. "a user", "the admin", "a contractor").`;
 
 /**
  * Analyzes a Slack thread and extracts a problem/solution pair for the knowledge base.
